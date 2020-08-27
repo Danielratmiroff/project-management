@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <div class="layout">
-      <Menu />
-      <div class="screenContainer">
-        <Navbar />
-        <router-view />
+    <v-app>
+      <div class="layout">
+        <Menu />
+        <div class="screenContainer">
+          <Navbar />
+          <router-view />
+        </div>
         <!-- Home -->
       </div>
-    </div>
+    </v-app>
   </div>
 </template>
 
@@ -15,7 +17,6 @@
   import Vue from "vue";
   import Menu from "./components/Menu.vue";
   import Navbar from "./components/Navbar.vue";
-
   export default Vue.extend({
     name: "App",
     components: {

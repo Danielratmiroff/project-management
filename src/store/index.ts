@@ -1,33 +1,34 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import ToDoModel from "@/models/model";
+import TaskModel from "@/models/model";
 
 Vue.use(Vuex);
 
-export type State = { todos: object };
+export type State = { Tasks: object };
 
 export default new Vuex.Store({
   state: {
-    todos: Array<ToDoModel>(),
+    Tasks: Array<TaskModel>(),
+    categories: ["On Progress", "Ideas", "Backlog"],
   },
   mutations: {
-    addTodo(state, todo: ToDoModel) {
-      state.todos.push(todo);
+    addTask(state, Task: TaskModel) {
+      state.Tasks.push(Task);
     },
-    removeTodo(state, id: string) {
-      const list = state.todos;
-      const todo = list.filter((elm) => {
+    removeTask(state, id: string) {
+      const list = state.Tasks;
+      const Task = list.filter((elm) => {
         return elm.id !== id;
       });
-      state.todos = todo;
+      state.Tasks = Task;
     },
   },
   actions: {
-    addTodo({ commit }, todo: ToDoModel) {
-      commit("addTodo", todo);
+    addTask({ commit }, Task: TaskModel) {
+      commit("addTask", Task);
     },
-    removeTodo({ commit }, id: string) {
-      commit("removeTodo", id);
+    removeTask({ commit }, id: string) {
+      commit("removeTask", id);
     },
   },
   modules: {},

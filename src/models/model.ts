@@ -1,14 +1,16 @@
 import { uuid } from "vue-uuid";
 
-export default class ToDoModel {
+export default class TaskModel {
   id: string;
   name: string;
-  done: boolean;
   date: string;
+  category: string;
+  done: boolean;
 
   constructor() {
     this.id = uuid.v4();
     this.name = "";
+    this.category = "";
     this.done = false;
 
     const now = new Date();

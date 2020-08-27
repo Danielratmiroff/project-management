@@ -1,57 +1,64 @@
 <template>
   <div class="group">
-    <div class="container">
-      <div class="addTodo">
-        +
-      </div>
-      <input
-        type="text"
-        placeholder="Add your To Do"
-        v-model="todo.name"
-        @keyup.enter="addTodo(todo)"
-      />
+    <div
+      v-for="item in categories"
+      :key="item"
+      @drop="dragDrop"
+      @dragover="dragOver"
+      class="dropTarget"
+      style="padding: 5vw 0; background:lightblue;"
+    >
+      {{ item }}
     </div>
-    <div v-for="todo in todos" :key="todo.id">
-      <div class="status">
-        {{ todo.done }}
-      </div>
-      <div class="taskContainer">
-        <div>
-          {{ todo.name }}
-        </div>
-        <div class="date">
-          {{ todo.date }}
-        </div>
-        <p @click="removeTodo(todo.id)">×</p>
-      </div>
-      <br />
-    </div>
+    <Task
+      v-if="inCategory(item)"
+      v-for="(Task, idx) in Tasks"
+      :key="Task.id"
+      :id="idx"
+      :Task="Task"
+      @dragging="dragging"
+    />
   </div>
 </template>
 
 <script lang="ts">
   import Vue from "vue";
   import { mapState } from "vuex";
-  import ToDoModel from "@/models/model";
+  import Task from "@/components/Task.vue";
 
   export default Vue.extend({
     name: "Dashboard",
-    components: {},
+    components: {
+      Task,
+    },
     data() {
       return {
-        todo: new ToDoModel(),
+        draggingElm: "",
       };
     },
     computed: {
-      ...mapState(["todos"]),
+      ...mapState(["Tasks", "categories"]),
     },
     methods: {
-      addTodo(elm: string) {
-        this.$store.dispatch("addTodo", elm);
-        this.todo = new ToDoModel();
+      dragOver(event: any) {
+        event.preventDefault();
       },
-      removeTodo(elm: string) {
-        this.$store.dispatch("removeTodo", elm);
+
+      dragging(elm: any) {
+        this.draggingElm = elm;
+      },
+
+      dragDrop(event: any) {
+        event.preventDefault();
+        const elm = event.target;
+        if (elm.classList.contains("dropTarget")) {
+          elm.appendChild(this.draggingElm);
+        }
+      },
+
+      inCategory(item: any) {
+        console.log(item);
+        return true;
       },
     },
   });
@@ -63,7 +70,7 @@
     grid-template-columns: 1fr 1fr;
     margin: 2vw 0;
   }
-  .taskContainer {
+  .TaskContainer {
     display: grid;
     grid-template-columns: 6fr 2fr 2fr;
     background-color: white;
