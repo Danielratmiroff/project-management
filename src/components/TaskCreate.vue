@@ -10,13 +10,12 @@
           class="inputTask"
           type="text"
           placeholder="Add your To Do"
-          v-model="Task.name"
-          @keyup.enter="addTask(Task)"
+          v-model="currTask.name"
         />
 
         <v-divider></v-divider>
         <v-select
-          v-model="Task.category"
+          v-model="currTask.category"
           :items="categories"
           menu-props="auto"
           hide-details
@@ -25,9 +24,42 @@
         ></v-select>
 
         <v-divider></v-divider>
+        <!-- Refactor this please (unnecesary code) -->
+        <v-menu
+          ref="menu"
+          v-model="menu"
+          :close-on-content-click="false"
+          :return-value.sync="date"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="290px"
+        >
+          <template v-slot:activator="{ on, datePicker }">
+            <v-text-field
+              v-model="currTask.dueDate"
+              label="Picker in menu"
+              readonly
+              v-bind="datePicker"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="currTask.dueDate" no-title scrollable>
+            <v-spacer></v-spacer>
+            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="$refs.menu.save(date)"
+              >OK</v-btn
+            >
+          </v-date-picker>
+        </v-menu>
+        <v-divider></v-divider>
+
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="addTask(Task)">
+          <v-btn v-if="edit" color="primary" text @click="editTask()">
+            I accept
+          </v-btn>
+          <v-btn v-else color="primary" text @click="addTask()">
             I accept
           </v-btn>
         </v-card-actions>
@@ -45,12 +77,18 @@
     name: "TaskCreate",
     props: {
       open: Boolean,
+      task: TaskModel,
+      edit: { type: Boolean, default: false },
     },
     data() {
       return {
-        Task: new TaskModel(),
+        currTask: this.task ? this.task : new TaskModel(),
         openDialog: this.open,
         category: String,
+        datePicker: String,
+        date: new Date().toISOString().substr(0, 7),
+        menu: false,
+        modal: false,
       };
     },
 
@@ -59,10 +97,15 @@
     },
 
     watch: {
+      task: {
+        immediate: true,
+        handler() {
+          this.currTask = this.task ? this.task : new TaskModel();
+        },
+      },
       open: {
         immediate: true,
         handler() {
-          this.Task = new TaskModel();
           this.openDialog = this.open;
         },
       },
@@ -76,9 +119,14 @@
       },
     },
     methods: {
-      addTask(elm: string) {
+      addTask() {
         this.openDialog = false;
-        this.$store.dispatch("addTask", this.Task);
+        this.$store.dispatch("addTask", this.currTask);
+        this.currTask = new TaskModel();
+      },
+      editTask() {
+        this.openDialog = false;
+        this.currTask = new TaskModel();
       },
     },
   });

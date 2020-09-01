@@ -9,13 +9,17 @@
     <div class="status">
       {{ this.Task.done }}
     </div>
-    <div class="TaskContainer">
+    <div class="TaskContainer" @click="openEditDialog(Task)">
       <div>
         {{ this.Task.name }}
+      </div>
+      <div class="category">
+        {{ this.Task.category }}
       </div>
       <div class="date">
         {{ this.Task.date }}
       </div>
+      <div class="date">Due {{ this.Task.dueDate }}</div>
       <p @click="removeTask(Task.id)">×</p>
     </div>
     <br />
@@ -24,12 +28,13 @@
 
 <script lang="ts">
   import Vue from "vue";
+  import TaskModel from "@/models/model";
   import { mapState } from "vuex";
 
   export default Vue.extend({
     name: "Task",
     props: {
-      id: Number,
+      id: String,
       Task: Object,
     },
     data() {
@@ -47,6 +52,9 @@
       dragEnd(event: any) {
         event.target.classList.remove("dark");
       },
+      openEditDialog(task: TaskModel) {
+        this.$emit("openEdit", task);
+      },
     },
   });
 </script>
@@ -59,7 +67,7 @@
   }
   .TaskContainer {
     display: grid;
-    grid-template-columns: 6fr 2fr 2fr;
+    grid-template-columns: 4fr 2fr 2fr 2fr 2fr;
     background-color: white;
     padding: 1vw;
   }
