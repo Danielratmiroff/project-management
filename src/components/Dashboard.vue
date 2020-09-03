@@ -11,13 +11,14 @@
     >
       {{ item }}
       <Task
-        v-for="task in activeCategories[idx]"
+        v-for="task in categorisedTasks[idx]"
         :key="task.id"
         :id="task.id"
         :task="task"
         @dragging="dragging"
         @openEdit="Dialog(task)"
-      />
+      >
+      </Task>
     </div>
     <TaskCreate
       edit
@@ -51,7 +52,7 @@
       };
     },
     computed: {
-      ...mapState(["tasks", "categories"]),
+      ...mapState(["tasks", "categories", "categorisedTasks"]),
     },
     watch: {
       tasks: {
@@ -63,23 +64,7 @@
     },
     methods: {
       buildLists() {
-        const lists = this.categories.map((elm: string) => {
-          return this.categoryList(elm);
-        });
-        this.activeCategories = lists;
-      },
-
-      categoryList(elm: string) {
-        const list = this.tasks.reduce(
-          (acc: Array<TaskModel>, curr: TaskModel) => {
-            if (curr.category === elm) {
-              acc.push(curr);
-            }
-            return acc;
-          },
-          []
-        );
-        return list;
+          this.$store.dispatch("categorizeTasks");
       },
 
       dragOver(event: any) {
@@ -87,6 +72,7 @@
       },
 
       dragging(elm: any) {
+        // refactor this pls (reduce can be improved)
         this.draggingElm = elm;
         const matchTask = this.tasks.reduce(
           (acc: Array<TaskModel>, curr: TaskModel) => {
