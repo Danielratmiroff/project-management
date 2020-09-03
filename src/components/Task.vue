@@ -6,21 +6,21 @@
     @dragend="dragEnd"
     :id="this.id"
   >
-    <div class="status">
-      {{ this.Task.done }}
+    <div @click="handleStatus" class="status">
+      {{ this.status }}
     </div>
-    <div class="TaskContainer" @click="openEditDialog(Task)">
+    <div class="TaskContainer" @click="openEditDialog(task)">
       <div>
-        {{ this.Task.name }}
+        {{ this.task.name }}
       </div>
       <div class="category">
-        {{ this.Task.category }}
+        {{ this.task.category }}
       </div>
       <div class="date">
-        {{ this.Task.date }}
+        {{ this.task.date }}
       </div>
-      <div class="date">Due {{ this.Task.dueDate }}</div>
-      <p @click="removeTask(Task.id)">×</p>
+      <div class="date">Due {{ this.task.dueDate }}</div>
+      <p @click="removeTask(task.id)">×</p>
     </div>
     <br />
   </div>
@@ -35,15 +35,28 @@
     name: "Task",
     props: {
       id: String,
-      Task: Object,
+      task: Object,
     },
     data() {
-      return {};
+      return {
+        status: "",
+      };
     },
-    computed: {},
+    watch: {
+      status: {
+        immediate: true,
+        handler() {
+          this.status = this.task.done ? "Done" : "Undone";
+        },
+      },
+    },
     methods: {
       removeTask(elm: string) {
         this.$store.dispatch("removeTask", elm);
+      },
+      handleStatus() {
+        this.task.done = !this.task.done;
+        this.status = this.task.done ? "Done" : "Undone";
       },
       dragStart(event: any) {
         event.target.classList.add("dark");
@@ -60,11 +73,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin: 2vw 0;
-  }
   .TaskContainer {
     display: grid;
     grid-template-columns: 4fr 2fr 2fr 2fr 2fr;
@@ -80,6 +88,13 @@
     color: white;
   }
   .draggable {
-    cursor: move;
+    cursor: pointer;
+    &:active {
+      cursor: -webkit-grabbing;
+      cursor: -moz-grabbing;
+      cursor: -o-grabbing;
+      cursor: -ms-grabbing;
+      cursor: grabbing;
+    }
   }
 </style>

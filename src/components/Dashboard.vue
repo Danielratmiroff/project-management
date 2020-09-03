@@ -14,7 +14,7 @@
         v-for="task in activeCategories[idx]"
         :key="task.id"
         :id="task.id"
-        :Task="task"
+        :task="task"
         @dragging="dragging"
         @openEdit="Dialog(task)"
       />
@@ -25,7 +25,6 @@
       :open="openDialog"
       @closeDialog="Dialog"
     />
-    <!-- <TaskEdit :open="openEdit" :task="editTask" @closeDialog="Dialog" /> -->
   </div>
 </template>
 
@@ -111,6 +110,7 @@
         this.draggedElm.category = elm.id;
         elm.appendChild(this.draggingElm);
       },
+
       Dialog(task: TaskModel) {
         this.taskEdit = task;
         this.openDialog = !this.openDialog;
