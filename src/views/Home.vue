@@ -1,13 +1,13 @@
 <template>
   <div class="home">
     <div class="container">
-      <Search />
-      <Dashboard />
+      <Search @searchList="searchList" />
+      <Dashboard :allTasks="taskList" />
 
       <v-btn fixed dark fab bottom right color="cyan" @click="Dialog">
         +
       </v-btn>
-      <TaskCreate :open="openDialog" @closeDialog="Dialog" />
+      <TaskCreate task="" :open="openDialog" @closeDialog="Dialog" />
     </div>
   </div>
 </template>
@@ -17,6 +17,8 @@
   import Search from "@/components/Search.vue";
   import Dashboard from "@/components/Dashboard.vue";
   import TaskCreate from "@/components/TaskCreate.vue";
+  import TaskModel from "@/models/model";
+  import { mapState } from "vuex";
 
   export default Vue.extend({
     name: "Home",
@@ -28,11 +30,23 @@
     data() {
       return {
         openDialog: false,
+        taskList: [] as Array<[]>,
       };
     },
+    computed: {
+      ...mapState(["categorisedTasks", "categories"]),
+    },
+
+    created() {
+      this.taskList = this.categorisedTasks;
+    },
+
     methods: {
       Dialog() {
         this.openDialog = !this.openDialog;
+      },
+      searchList(list: Array<[]>) {
+        this.taskList = list;
       },
     },
   });

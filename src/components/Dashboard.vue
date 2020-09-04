@@ -11,7 +11,7 @@
     >
       {{ item }}
       <Task
-        v-for="task in categorisedTasks[idx]"
+        v-for="task in allTasks[idx]"
         :key="task.id"
         :id="task.id"
         :task="task"
@@ -42,11 +42,14 @@
       Task,
       TaskCreate,
     },
+    props: {
+      allTasks: Array,
+    },
+
     data() {
       return {
         draggingElm: [HTMLDivElement, null],
         draggedElm: new TaskModel(),
-        activeCategories: Array,
         taskEdit: new TaskModel(),
         openDialog: false,
       };
@@ -64,7 +67,7 @@
     },
     methods: {
       buildLists() {
-          this.$store.dispatch("categorizeTasks");
+        this.$store.dispatch("categorizeTasks");
       },
 
       dragOver(event: any) {

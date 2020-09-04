@@ -10,11 +10,12 @@ export default new Vuex.Store({
   state: {
     tasks: Array<TaskModel>(),
     categories: ["On Progress", "Ideas", "Backlog"],
-    categorisedTasks: Array<any>()
+    categorisedTasks: Array<any>(),
+    documents: Array<HTMLElement>(),
   },
   mutations: {
     addTask(state, task: TaskModel) {
-      state.tasks.push(task); 
+      state.tasks.push(task);
     },
     removeTask(state, id: string) {
       const list = state.tasks;
@@ -24,11 +25,11 @@ export default new Vuex.Store({
       state.tasks = task;
     },
     categorizeTasks(state) {
-        const lists = state.categories.map((elm: string) => {
-          return categoryList(elm);
-        });
+      const lists = state.categories.map((elm: string) => {
+        return categoryList(elm);
+      });
 
-        state.categorisedTasks = lists;
+      state.categorisedTasks = lists;
 
       function categoryList(elm: string) {
         const list = state.tasks.reduce(
@@ -42,7 +43,11 @@ export default new Vuex.Store({
         );
         return list;
       }
-    }
+    },
+    addDoc(state, doc) {
+      console.log(doc);
+      state.documents.push(doc);
+    },
   },
   actions: {
     addTask({ commit }, task: TaskModel) {
@@ -52,8 +57,11 @@ export default new Vuex.Store({
       commit("removeTask", id);
     },
     categorizeTasks({ commit }) {
-      commit ('categorizeTasks')
-    }
+      commit("categorizeTasks");
+    },
+    addDoc({ commit }, doc: HTMLElement) {
+      commit("addDoc", doc);
+    },
   },
   modules: {},
 });
