@@ -4,9 +4,12 @@
       <Search @searchList="searchList" />
       <Dashboard :allTasks="taskList" />
 
-      <v-btn fixed dark fab bottom right color="cyan" @click="Dialog">
+      <!-- <v-btn fixed dark fab bottom right color="cyan" @click="Dialog">
         +
-      </v-btn>
+      </v-btn> -->
+
+      <Fab @openTaskDialog="Dialog" />
+
       <TaskCreate task="" :open="openDialog" @closeDialog="Dialog" />
     </div>
   </div>
@@ -17,7 +20,8 @@
   import Search from "@/components/Search.vue";
   import Dashboard from "@/components/Dashboard.vue";
   import TaskCreate from "@/components/TaskCreate.vue";
-  import TaskModel from "@/models/model";
+  import TaskModel from "@/models/TaskModel";
+  import Fab from "@/components/Fab.vue";
   import { mapState } from "vuex";
 
   export default Vue.extend({
@@ -26,6 +30,7 @@
       Search,
       Dashboard,
       TaskCreate,
+      Fab,
     },
     data() {
       return {
@@ -39,6 +44,13 @@
 
     created() {
       this.taskList = this.categorisedTasks;
+      // we check if parameters have add-task to open the dialog on window load
+      this.$route.params.addtask
+        ? setTimeout(() => {
+            this.openDialog = !this.openDialog;
+            this.$route.params.addtask = "";
+          }, 200)
+        : null;
     },
 
     methods: {

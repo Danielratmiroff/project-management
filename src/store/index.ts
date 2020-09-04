@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import TaskModel from "@/models/model";
+import TaskModel from "@/models/TaskModel";
+import DocModel from "@/models/DocModel";
 
 Vue.use(Vuex);
 
@@ -11,7 +12,7 @@ export default new Vuex.Store({
     tasks: Array<TaskModel>(),
     categories: ["On Progress", "Ideas", "Backlog"],
     categorisedTasks: Array<any>(),
-    documents: Array<HTMLElement>(),
+    documents: Array<DocModel>(),
   },
   mutations: {
     addTask(state, task: TaskModel) {
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     },
     categorizeTasks(state) {
       const lists = state.categories.map((elm: string) => {
+        // run for every category on the list
         return categoryList(elm);
       });
 
@@ -35,6 +37,8 @@ export default new Vuex.Store({
         const list = state.tasks.reduce(
           (acc: Array<TaskModel>, curr: TaskModel) => {
             if (curr.category === elm) {
+              // if category in task matches current category beeing iterated on
+              // push to array
               acc.push(curr);
             }
             return acc;
@@ -44,9 +48,9 @@ export default new Vuex.Store({
         return list;
       }
     },
-    addDoc(state, doc) {
-      console.log(doc);
+    addDoc(state, doc: DocModel) {
       state.documents.push(doc);
+      console.log(state.documents);
     },
   },
   actions: {
@@ -59,7 +63,7 @@ export default new Vuex.Store({
     categorizeTasks({ commit }) {
       commit("categorizeTasks");
     },
-    addDoc({ commit }, doc: HTMLElement) {
+    addDoc({ commit }, doc: DocModel) {
       commit("addDoc", doc);
     },
   },

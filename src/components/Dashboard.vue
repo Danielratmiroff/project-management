@@ -34,7 +34,7 @@
   import { mapState } from "vuex";
   import Task from "@/components/Task.vue";
   import TaskCreate from "@/components/TaskCreate.vue";
-  import TaskModel from "@/models/model";
+  import TaskModel from "@/models/TaskModel";
 
   export default Vue.extend({
     name: "Dashboard",
@@ -76,9 +76,11 @@
 
       dragging(elm: any) {
         // refactor this pls (reduce can be improved)
+        // Receive dragging element emitted from child and we store it
         this.draggingElm = elm;
         const matchTask = this.tasks.reduce(
           (acc: Array<TaskModel>, curr: TaskModel) => {
+            // Iterate on Tasks list to find the TaskModel-Object that matches the dragging element id
             if (curr.id === elm.id) {
               return curr;
             } else {
@@ -87,6 +89,7 @@
           },
           {}
         );
+        // We store the whole object
         this.draggedElm = matchTask;
       },
 
@@ -96,6 +99,7 @@
         if (!elm.classList.contains("dropTarget")) {
           return;
         }
+        // We replace the dragging object's category with it's drop-container's category (Element id is equal its category's name)
         this.draggedElm.category = elm.id;
         elm.appendChild(this.draggingElm);
       },

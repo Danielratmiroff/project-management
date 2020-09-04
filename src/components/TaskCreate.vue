@@ -70,7 +70,7 @@
 
 <script lang="ts">
   import Vue from "vue";
-  import TaskModel from "@/models/model";
+  import TaskModel from "@/models/TaskModel";
   import { mapState } from "vuex";
 
   export default Vue.extend({

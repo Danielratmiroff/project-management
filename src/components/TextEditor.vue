@@ -1,5 +1,5 @@
 <template>
-  <div class="editor">
+  <div id="vm1" class="editor">
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">
         <button
@@ -125,81 +125,7 @@
 </template>
 
 <script>
-  import Icons from "@/components/Icons.vue";
-  import { Editor, EditorContent, EditorMenuBar } from "tiptap";
-  import {
-    Blockquote,
-    CodeBlock,
-    HardBreak,
-    Heading,
-    HorizontalRule,
-    OrderedList,
-    BulletList,
-    ListItem,
-    TodoItem,
-    TodoList,
-    Bold,
-    Code,
-    Italic,
-    Link,
-    Strike,
-    Underline,
-    History,
-  } from "tiptap-extensions";
-  export default {
-    components: {
-      EditorContent,
-      EditorMenuBar,
-      Icons,
-    },
-    data() {
-      return {
-        editor: new Editor({
-          extensions: [
-            new Blockquote(),
-            new BulletList(),
-            new CodeBlock(),
-            new HardBreak(),
-            new Heading({ levels: [1, 2, 3] }),
-            new HorizontalRule(),
-            new ListItem(),
-            new OrderedList(),
-            new TodoItem(),    
-            new TodoList(),
-            new Link(),
-            new Bold(),
-            new Code(),
-            new Italic(),
-            new Strike(),
-            new Underline(),
-            new History(),
-          ],
-          content: `
-          <h2>
-            Hi there,
-          </h2>
-          <p>
-            this is a very <em>basic</em> example of tiptap.
-          </p>
-          <pre><code>body { display: none; }</code></pre>
-          <ul>
-            <li>
-              A regular list
-            </li>
-            <li>
-              With regular items
-            </li>
-          </ul>
-          <blockquote>
-            It's amazing 👏
-            <br />
-            – mom
-          </blockquote>
-        `,
-
-          onInit: (e) => {
-          // editor is initialized
-          const newContent = `
+let newContent = `
           <h2>
             Hi there,
           </h2>
@@ -221,21 +147,81 @@
             – mom
           </blockquote>
         `
+
+import Vue from 'vue'
+  import Icons from "@/components/Icons.vue";
+  import { Editor, EditorContent, EditorMenuBar } from "tiptap";
+  import {
+    Blockquote,
+    CodeBlock,
+    HardBreak,
+    Heading,
+    HorizontalRule,
+    OrderedList,
+    BulletList,
+    ListItem,
+    TodoItem,
+    TodoList,
+    Bold,
+    Code,
+    Italic,
+    Link,
+    Strike,
+    Underline,
+    History,
+  } from "tiptap-extensions";
+   export default Vue.extend({
+     el:"#vm1",
+    components: {
+      EditorContent,
+      EditorMenuBar,
+      Icons,
+    },
+
+    data() {
+      return {
+        self : 'hey',
+        editor: new Editor({
+          extensions: [
+            new Blockquote(),
+            new BulletList(),
+            new CodeBlock(),
+            new HardBreak(),
+            new Heading({ levels: [1, 2, 3] }),
+            new HorizontalRule(),
+            new ListItem(),
+            new OrderedList(),
+            new TodoItem(),    
+            new TodoList(),
+            new Link(),
+            new Bold(),
+            new Code(),
+            new Italic(),
+            new Strike(),
+            new Underline(),
+            new History(),
+          ],
+          content: newContent,
+          onInit: () => {
+          // send to parent the starting content for DocModel object storage
           this.$emit('contentUpdate', newContent);
         },
 
           onUpdate: ({ getHTML }) => {
-            // get new content on update
-            const newContent = getHTML();
-            this.$emit('contentUpdate', newContent);
+            // get new content on update and send to parent for DocModel object storage
+            const updateContent = getHTML();
+            this.$emit('contentUpdate', updateContent);
           },
-
         }),
       };
+    },
+
+    created() {
+
     },
 
     beforeDestroy() {
       this.editor.destroy();
     },
-  };
+  });
 </script>
