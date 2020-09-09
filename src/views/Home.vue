@@ -1,16 +1,12 @@
 <template>
-  <div class="home">
-    <div class="container">
+  <div class="home relative">
+    <div class="container ">
       <Search @searchList="searchList" />
       <Dashboard :allTasks="taskList" />
 
-      <!-- <v-btn fixed dark fab bottom right color="cyan" @click="Dialog">
-        +
-      </v-btn> -->
+      <Fab @taskCreate="taskModalHandler" />
 
-      <Fab @openTaskDialog="Dialog" />
-
-      <TaskCreate task="" :open="openDialog" @closeDialog="Dialog" />
+      <TaskCreate v-if="taskModal" @closeModal="taskModalHandler" />
     </div>
   </div>
 </template>
@@ -34,7 +30,7 @@
     },
     data() {
       return {
-        openDialog: false,
+        taskModal: false,
         taskList: [] as Array<[]>,
       };
     },
@@ -44,18 +40,17 @@
 
     created() {
       this.taskList = this.categorisedTasks;
-      // we check if parameters have add-task to open the dialog on window load
-      this.$route.params.addtask
+      // check if open modal on window load
+      this.$route.params.taskCreate
         ? setTimeout(() => {
-            this.openDialog = !this.openDialog;
+            this.taskModalHandler();
             this.$route.params.addtask = "";
           }, 200)
         : null;
     },
-
     methods: {
-      Dialog() {
-        this.openDialog = !this.openDialog;
+      taskModalHandler() {
+        this.taskModal = !this.taskModal;
       },
       searchList(list: Array<[]>) {
         this.taskList = list;

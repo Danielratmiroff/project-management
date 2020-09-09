@@ -20,12 +20,6 @@
       >
       </Task>
     </div>
-    <TaskCreate
-      edit
-      :task="taskEdit"
-      :open="openDialog"
-      @closeDialog="Dialog"
-    />
   </div>
 </template>
 

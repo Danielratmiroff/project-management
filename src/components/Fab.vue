@@ -14,7 +14,7 @@
           <v-icon v-else>mdi-account-circle</v-icon>
         </v-btn>
       </template>
-      <v-btn fab dark small color="green" @click="openTaskDialog">
+      <v-btn fab dark small color="green" @click="openTaskModal">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
       <v-btn fab dark small color="indigo" @click="addDocument">
@@ -75,16 +75,17 @@
       },
     },
     methods: {
-      openTaskDialog() {
-        // we only add tasks when we're in home (tasks) page, so we check if we are not in "home"
+      openTaskModal() {
+        // check if we are not in "home"
         if (this.$route.path !== "/") {
           this.$router.push({
             name: `Home`,
-            params: { addtask: "openDialog" },
+            // store task create on parameters (emit doesn't work while loading the page)
+            params: { taskCreate: "create" },
           });
         } else {
-          // otherwise, open add-task dialog directly
-          this.$emit("openTaskDialog");
+          // otherwise, open task create modal directly
+          this.$emit("taskCreate");
         }
       },
       addDocument() {
