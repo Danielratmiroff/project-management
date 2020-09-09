@@ -37,8 +37,7 @@ export default new Vuex.Store({
         const list = state.tasks.reduce(
           (acc: Array<TaskModel>, curr: TaskModel) => {
             if (curr.category === elm) {
-              // if category in task matches current category beeing iterated on
-              // push to array
+              // push to array if task's category matches current category beeing iterated on
               acc.push(curr);
             }
             return acc;
@@ -50,7 +49,17 @@ export default new Vuex.Store({
     },
     addDoc(state, doc: DocModel) {
       state.documents.push(doc);
-      console.log(state.documents);
+    },
+    editDoc(state, doc: DocModel) {
+      const editedDoc = state.documents.reduce(
+        (acc: Array<DocModel>, curr: DocModel) => {
+          // return a new list without previous edited object
+          curr.id === doc.id ? null : acc.push(curr);
+          return acc;
+        },
+        []
+      );
+      state.documents = editedDoc;
     },
   },
   actions: {
@@ -65,6 +74,9 @@ export default new Vuex.Store({
     },
     addDoc({ commit }, doc: DocModel) {
       commit("addDoc", doc);
+    },
+    editDoc({ commit }, doc: DocModel) {
+      commit("editDoc", doc);
     },
   },
   modules: {},

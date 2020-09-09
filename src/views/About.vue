@@ -7,10 +7,15 @@
       </router-link>
     </div>
     <div class="container">
-      <div v-for="doc in this.documents" :key="doc.id" class="document">
+      <div
+        v-for="doc in this.documents"
+        :key="doc.id"
+        class="document"
+        @click="docEdit(doc.id)"
+      >
         {{ doc.title }}
         <br />
-        {{ doc.content.replace(/<[^>]*>/g, "") }}
+        {{ doc.content }}
       </div>
     </div>
     <Fab />
@@ -33,7 +38,14 @@
     computed: {
       ...mapState(["documents"]),
     },
-    methods: {},
+    methods: {
+      docEdit(doc: string) {
+        this.$router.push({
+          name: "DocCreate",
+          params: { docedit: doc },
+        });
+      },
+    },
   });
 </script>
 <style lang="scss" scoped>

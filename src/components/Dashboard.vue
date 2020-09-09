@@ -89,7 +89,6 @@
           },
           {}
         );
-        // We store the whole object
         this.draggedElm = matchTask;
       },
 
@@ -99,7 +98,8 @@
         if (!elm.classList.contains("dropTarget")) {
           return;
         }
-        // We replace the dragging object's category with it's drop-container's category (Element id is equal its category's name)
+        // We replace the dragging object's category with it's drop-container's category
+        // (Element id is equal its category's name)
         this.draggedElm.category = elm.id;
         elm.appendChild(this.draggingElm);
       },

@@ -9,13 +9,14 @@
       placeholder="Title here"
       required
     />
-    <EditorContent @contentUpdate="contentUpdate" />
+    <EditorContent @contentUpdate="contentUpdate" :docContent="docContent" />
   </div>
 </template>
 <script lang="ts">
   import Vue from "vue";
   import DocModel from "@/models/DocModel";
   import EditorContent from "@/components/TextEditor.vue";
+  import { mapState } from "vuex";
   export default Vue.extend({
     name: "DocCreate",
     components: {
@@ -25,22 +26,65 @@
       return {
         docContent: new DocModel(),
         docTitle: String,
+        docEditing: new DocModel(),
+        editModeParams: "" as string | null,
       };
     },
+    computed: {
+      ...mapState(["documents"]),
+    },
+
+    created() {
+      if (this.editModeActive()) {
+        const doc = this.handleEditDoc(this.editModeParams);
+        // Pass existing html to text editor
+        this.docContent.html = doc;
+      }
+    },
     methods: {
-      contentUpdate(item: string) {
+      contentUpdate(item: any) {
         //Text editor child emits the content on any update and we store it here
-        this.docContent.content = item;
+        this.docContent.html = item.html;
+        const content =
+          item.content.length > 50
+            ? item.content.slice(0, 50) + "..."
+            : item.content;
+        this.docContent.content = content;
       },
-      storeDoc() {
+      async storeDoc() {
         if (!this.docContent.title) {
           alert("Please add a title to your document 😀");
           const titleElm = document.getElementById("title");
           titleElm ? titleElm.focus() : null;
           return;
         }
-        this.$store.dispatch("addDoc", this.docContent);
+        if (this.editModeActive()) {
+          // we remove the current document being edited from documents list to avoid duplicates
+          await this.$store.dispatch("editDoc", this.docEditing);
+        }
+        // add new document
+        await this.$store.dispatch("addDoc", this.docContent);
         this.$router.push("about");
+      },
+      editModeActive() {
+        const params = this.$route.params.docedit;
+        this.editModeParams = params ? params : null;
+        return params ? true : false;
+      },
+      handleEditDoc(text: string | null) {
+        // Find the doc-object by the parameters
+        const doc = this.documents.reduce((acc: string, curr: DocModel) => {
+          if (curr.id === text) {
+            // store object which will be added later to doc list
+            this.docContent = { ...curr };
+            // store object being edited for later removal from the doc lists
+            this.docEditing = { ...curr };
+
+            return acc.concat(curr.html);
+          }
+          return acc;
+        }, "");
+        return doc;
       },
     },
   });
