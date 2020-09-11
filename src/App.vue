@@ -1,15 +1,13 @@
 <template>
   <div id="app">
-    <v-app>
-      <div class="layout">
-        <Menu />
-        <div class="screenContainer">
-          <Navbar />
-          <router-view />
-        </div>
-        <!-- Home -->
+    <div class="layout">
+      <Menu />
+      <div class="screenContainer">
+        <Navbar />
+        <router-view />
       </div>
-    </v-app>
+      <!-- Home -->
+    </div>
   </div>
 </template>
 

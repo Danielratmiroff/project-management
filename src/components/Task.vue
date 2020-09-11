@@ -9,7 +9,7 @@
     <div @click="handleStatus" class="status">
       {{ this.status }}
     </div>
-    <div class="TaskContainer" @click="openEditDialog(task)">
+    <div class="TaskContainer">
       <div>
         {{ this.task.name }}
       </div>
@@ -28,7 +28,6 @@
 
 <script lang="ts">
   import Vue from "vue";
-  import TaskModel from "@/models/TaskModel";
   import { mapState } from "vuex";
 
   export default Vue.extend({
@@ -64,9 +63,6 @@
       },
       dragEnd(event: any) {
         event.target.classList.remove("dark");
-      },
-      openEditDialog(task: TaskModel) {
-        this.$emit("openEdit", task);
       },
     },
   });

@@ -16,7 +16,7 @@
         :id="task.id"
         :task="task"
         @dragging="dragging"
-        @openEdit="Dialog(task)"
+        @click.native="taskEdit(task)"
       >
       </Task>
     </div>
@@ -44,8 +44,6 @@
       return {
         draggingElm: [HTMLDivElement, null],
         draggedElm: new TaskModel(),
-        taskEdit: new TaskModel(),
-        openDialog: false,
       };
     },
     computed: {
@@ -98,10 +96,8 @@
         elm.appendChild(this.draggingElm);
       },
 
-      Dialog(task: TaskModel) {
-        this.taskEdit = task;
-        this.openDialog = !this.openDialog;
-        this.buildLists();
+      taskEdit(task: TaskModel) {
+        this.$emit("taskEdit", task);
       },
     },
   });

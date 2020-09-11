@@ -2,11 +2,17 @@
   <div class="home relative">
     <div class="container ">
       <Search @searchList="searchList" />
-      <Dashboard :allTasks="taskList" />
 
-      <Fab @taskCreate="taskModalHandler" />
+      <Dashboard @taskEdit="taskManage" :allTasks="taskList" />
 
-      <TaskCreate v-if="taskModal" @closeModal="taskModalHandler" />
+      <Fab @taskCreate="taskManage" />
+
+      <TaskCreate
+        v-if="taskModal"
+        :isEditMode="this.isEditMode"
+        :task="task"
+        @closeModal="taskModalHandler"
+      />
     </div>
   </div>
 </template>
@@ -31,6 +37,8 @@
     data() {
       return {
         taskModal: false,
+        task: new TaskModel(),
+        isEditMode: false,
         taskList: [] as Array<[]>,
       };
     },
@@ -49,6 +57,17 @@
         : null;
     },
     methods: {
+      taskManage(item?: TaskModel) {
+        if (item) {
+          // if we receive a parameter when calling this function, we are editing an existing task.
+          this.task = { ...item };
+          this.isEditMode = true;
+        } else {
+          this.task = new TaskModel();
+          this.isEditMode = false;
+        }
+        this.taskModalHandler();
+      },
       taskModalHandler() {
         this.taskModal = !this.taskModal;
       },

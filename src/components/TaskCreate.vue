@@ -1,8 +1,10 @@
 <template>
-  <div class="absolute inset-0 w-full h-screen bg-dark-600">
-    <div class="w-1/2 m-auto mt-12 bg-white rounded-lg">
+  <div
+    class="absolute inset-0 w-full h-screen bg-dark-100 flex justify-center items-center"
+  >
+    <div class="w-1/2 m-auto  bg-white rounded-lg shadow-xl">
       <div
-        class="bg-blue-900 text-dark-900 h-12 flex relative items-center justify-center text-xl"
+        class="bg-blue-900 text-dark-900 h-12 rounded-t-lg flex relative items-center justify-center text-xl"
       >
         Task
         <div
@@ -22,25 +24,12 @@
         />
         <div class="mt-2 h-1 border-t-2 border-blue-900" />
 
-        <!-- <v-select
-            v-model="currTask.category"
-            :items="categories"
-            menu-props="auto"
-            hide-details
-            label="Select a category"
-            single-line
-            class="w-full p-2 text-dark-900"
-          ></v-select> -->
-
+        <v-select v-model="currTask.category" :options="categories"></v-select>
         <vc-date-picker
           :popover="{ placement: 'top', visibility: 'click' }"
-          v-model="selectedDate"
+          v-model="currTask.dueDate"
         />
-
-        <button v-if="edit" color="primary" text @click="editTask()">
-          I accept
-        </button>
-        <button v-else color="primary" text @click="addTask()">
+        <button color="primary" @click="saveTask">
           I accept
         </button>
       </div>
@@ -56,13 +45,14 @@
   export default Vue.extend({
     name: "TaskCreate",
     props: {
-      task: TaskModel,
-      edit: { type: Boolean, default: false },
+      task: {},
+      isEditMode: Boolean,
     },
     data() {
       return {
-        currTask: this.task ? this.task : new TaskModel(),
-        selectedDate: "",
+        currTask: this.task,
+        selectedDate: new Date(),
+        selectedCategory: "" as string,
       };
     },
 
@@ -70,24 +60,22 @@
       ...mapState(["categories"]),
     },
 
-    watch: {
-      task: {
-        immediate: true,
-        handler() {
-          this.currTask = this.task ? this.task : new TaskModel();
-        },
-      },
+    created() {
+      console.log(this.isEditMode);
     },
+
     methods: {
       closeModal() {
         this.$emit("closeModal");
+        this.$destroy();
       },
-      addTask() {
-        this.$store.dispatch("addTask", this.currTask);
-        this.currTask = new TaskModel();
-      },
-      editTask() {
-        this.currTask = new TaskModel();
+      saveTask() {
+        if (this.isEditMode) {
+          this.$store.dispatch("editTask", this.currTask);
+        } else {
+          this.$store.dispatch("saveTask", this.currTask);
+        }
+        this.closeModal();
       },
     },
   });

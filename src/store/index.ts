@@ -15,8 +15,25 @@ export default new Vuex.Store({
     documents: Array<DocModel>(),
   },
   mutations: {
-    addTask(state, task: TaskModel) {
+    saveTask(state, task: TaskModel) {
       state.tasks.push(task);
+    },
+    editTask(state, task: TaskModel) {
+      const list = state.tasks.reduce(
+        (acc: Array<TaskModel>, curr: TaskModel) => {
+          if (curr.id === task.id) {
+            // find the existing object with the passed id and update its values
+            const { id, ...content } = task;
+            const updatedTask = { ...curr, ...content };
+            acc.push(updatedTask);
+          } else {
+            acc.push(curr);
+          }
+          return acc;
+        },
+        []
+      );
+      state.tasks = list;
     },
     removeTask(state, id: string) {
       const list = state.tasks;
@@ -63,8 +80,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    addTask({ commit }, task: TaskModel) {
-      commit("addTask", task);
+    saveTask({ commit }, task: TaskModel) {
+      commit("saveTask", task);
+    },
+    editTask({ commit }, task: TaskModel) {
+      commit("editTask", task);
     },
     removeTask({ commit }, id: string) {
       commit("removeTask", id);
