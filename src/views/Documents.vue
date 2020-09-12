@@ -26,14 +26,9 @@
   import Fab from "@/components/Fab.vue";
   import { mapState } from "vuex";
   export default Vue.extend({
-    name: "About",
+    name: "Documents",
     components: {
       Fab,
-    },
-    data() {
-      return {
-        docCreate: false,
-      };
     },
     computed: {
       ...mapState(["documents"]),

@@ -1,4 +1,5 @@
 import { uuid } from "vue-uuid";
+import { dateFormater } from "@/components/helpers/date-formarter";
 
 export default class TaskModel {
   id: string;
@@ -12,10 +13,10 @@ export default class TaskModel {
     this.id = uuid.v4();
     this.name = "";
     this.category = "";
-    this.dueDate = "";
     this.done = false;
 
     const now = new Date();
-    this.date = now.toLocaleDateString("de-DE");
+    this.dueDate = dateFormater(now, "US");
+    this.date = dateFormater(now, "US");
   }
 }

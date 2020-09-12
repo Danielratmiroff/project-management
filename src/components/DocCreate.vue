@@ -9,7 +9,11 @@
       placeholder="Title here"
       required
     />
-    <EditorContent @contentUpdate="contentUpdate" :docContent="docContent" />
+    <EditorContent
+      :isEditMode="this.editModeActive"
+      :docContent="docContent"
+      @contentUpdate="contentUpdate"
+    />
   </div>
 </template>
 <script lang="ts">
@@ -42,15 +46,6 @@
       }
     },
     methods: {
-      contentUpdate(item: any) {
-        //Text editor child emits the content on any update and we store it here
-        this.docContent.html = item.html;
-        const content =
-          item.content.length > 50
-            ? item.content.slice(0, 50) + "..."
-            : item.content;
-        this.docContent.content = content;
-      },
       async storeDoc() {
         if (!this.docContent.title) {
           alert("Please add a title to your document 😀");
@@ -64,27 +59,36 @@
         }
         // add new document
         await this.$store.dispatch("addDoc", this.docContent);
-        this.$router.push("about");
+        this.$router.push("Documents");
       },
       editModeActive() {
         const params = this.$route.params.docedit;
         this.editModeParams = params ? params : null;
         return params ? true : false;
       },
-      handleEditDoc(text: string | null) {
+      handleEditDoc(paramsId: string | null) {
         // Find the doc-object by the parameters
         const doc = this.documents.reduce((acc: string, curr: DocModel) => {
-          if (curr.id === text) {
+          if (curr.id === paramsId) {
             // store object which will be added later to doc list
             this.docContent = { ...curr };
             // store object being edited for later removal from the doc lists
             this.docEditing = { ...curr };
-
+            // acc builds opening content string
             return acc.concat(curr.html);
           }
           return acc;
         }, "");
         return doc;
+      },
+      contentUpdate(item: any) {
+        //Text editor child emits the content on any update and we store it here
+        this.docContent.html = item.html;
+        const content =
+          item.content.length > 50
+            ? item.content.slice(0, 50) + "..."
+            : item.content;
+        this.docContent.content = content;
       },
     },
   });

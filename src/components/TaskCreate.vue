@@ -8,8 +8,8 @@
       >
         Task
         <div
-          class="absolute right-0 mr-4 px-2 text-white border-white border-2"
-          style="border-radius:50% 50%"
+          class="absolute right-0 mr-4 w-8 h-8 flex justify-center items-center bg-white text-blue-900 cursor-pointer hover:bg-gray-100"
+          style="border-radius:50%;"
           @click="closeModal"
         >
           ×
@@ -40,12 +40,13 @@
 <script lang="ts">
   import Vue from "vue";
   import TaskModel from "@/models/TaskModel";
+
   import { mapState } from "vuex";
 
   export default Vue.extend({
     name: "TaskCreate",
     props: {
-      task: {},
+      task: TaskModel,
       isEditMode: Boolean,
     },
     data() {
@@ -55,15 +56,9 @@
         selectedCategory: "" as string,
       };
     },
-
     computed: {
       ...mapState(["categories"]),
     },
-
-    created() {
-      console.log(this.isEditMode);
-    },
-
     methods: {
       closeModal() {
         this.$emit("closeModal");

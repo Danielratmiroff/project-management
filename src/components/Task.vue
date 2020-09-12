@@ -19,7 +19,9 @@
       <div class="date">
         {{ this.task.date }}
       </div>
-      <div class="date">Due {{ this.task.dueDate }}</div>
+      <div class="date">
+        {{ this.dueDateFormated }}
+      </div>
       <p @click="removeTask(task.id)">×</p>
     </div>
     <br />
@@ -29,17 +31,23 @@
 <script lang="ts">
   import Vue from "vue";
   import { mapState } from "vuex";
+  import { dateFormater } from "@/components/helpers/date-formarter";
+  import TaskModel from "@/models/TaskModel";
 
   export default Vue.extend({
     name: "Task",
     props: {
       id: String,
-      task: Object,
+      task: TaskModel,
     },
     data() {
       return {
         status: "",
+        dueDateFormated: "" as string | undefined,
       };
+    },
+    mounted() {
+      this.dueDateFormated = dateFormater(this.task.dueDate, "US");
     },
     watch: {
       status: {
