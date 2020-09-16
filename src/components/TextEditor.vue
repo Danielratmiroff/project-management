@@ -151,8 +151,7 @@ import Vue from 'vue'
    export default Vue.extend({
 
      props:{
-       docContent: Object,
-       isEditMode: Boolean
+       docContent: Object
      },
 
     components: {

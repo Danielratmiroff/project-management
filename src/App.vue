@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <div class="layout">
-      <Menu />
+      <Menu :currPage="currPage" />
       <div class="screenContainer">
-        <Navbar />
+        <Navbar :currPage="currPage" />
+        <!-- Home -->
         <router-view />
       </div>
-      <!-- Home -->
     </div>
   </div>
 </template>
@@ -21,14 +21,51 @@
       Menu,
       Navbar,
     },
+    data() {
+      return {
+        currPage: "" as string | void,
+      };
+    },
+    watch: {
+      "$route.path": {
+        immediate: true,
+        handler() {
+          this.currPage = this.getPage();
+        },
+      },
+    },
+    methods: {
+      getPage(): string | void {
+        const path = this.$route.path;
+        const pathSwitch = {
+          "/": "Dashboard",
+          "/documents": "Documents",
+          "/calendar": "Calendar",
+        };
+
+        if (hasKey(pathSwitch, path)) {
+          return pathSwitch[path];
+        } // else can be added here in case its found an unexpected URL
+
+        // typescript's way to make sure the object key is valid
+        function hasKey<O>(obj: O, key: keyof any): key is keyof O {
+          return key in obj;
+        }
+      },
+    },
   });
 </script>
 
-<style lang="scss">
+<style lang="css">
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+  @layer components {
+    * {
+      @apply transition duration-300 ease-in-out;
+    }
   }
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -40,8 +77,12 @@
   }
   .layout {
     display: grid;
-    grid-template-columns: 1fr 9fr;
-    height: 100vh;
+    grid-template-columns: auto 1fr 0px;
+    grid-template-areas: none;
+    grid-auto-flow: initial;
+    grid-auto-rows: initial;
+    grid-auto-columns: initial;
+    height: 100%;
   }
   .screenContainer {
     width: 100%;

@@ -4,9 +4,9 @@ import { dateFormater } from "@/components/helpers/date-formarter";
 export default class TaskModel {
   id: string;
   name: string;
-  date: string;
+  date: string | Date;
   category: string;
-  dueDate: string;
+  dueDate: string | Date;
   done: boolean;
 
   constructor() {
@@ -16,7 +16,7 @@ export default class TaskModel {
     this.done = false;
 
     const now = new Date();
-    this.dueDate = dateFormater(now, "US");
-    this.date = dateFormater(now, "US");
+    this.dueDate = now;
+    this.date = now;
   }
 }

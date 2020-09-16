@@ -1,8 +1,16 @@
 <template>
-  <div class="navigation">
-    <router-link to="/">Home</router-link>
-    <router-link to="/documents">Documents</router-link>
-    <router-link to="/calendar">Calendar</router-link>
+  <div class="navMenu">
+    <span class="text-gray-300">
+      <i v-show="currPage === 'Documents'" class="far fa-file-alt  fa-lg"></i>
+      <i
+        v-show="currPage === 'Calendar'"
+        class="far fa-calendar-check  fa-lg"
+      ></i>
+      <i v-show="currPage === 'Dashboard'" class="fas fa-tasks"></i>
+    </span>
+    <p class="text-lg font-bold ml-4 text-dark-900">
+      {{ currPage }}
+    </p>
   </div>
 </template>
 
@@ -11,14 +19,21 @@
 
   export default Vue.extend({
     name: "Navbar",
+    props: {
+      currPage: String,
+    },
   });
 </script>
 
-<style lang="scss" scoped>
-  .navigation {
-    background-color: grey;
-    > a {
-      margin: 0 2vw;
+<style lang="css" scoped>
+  @layer components {
+    .navMenu {
+      height: 55px;
+      @apply px-2 flex items-center pl-8;
+    }
+    .menu-btn {
+      @apply mt-6 p-2 w-full rounded-md
+      transition duration-300 ease-in-out;
     }
   }
 </style>

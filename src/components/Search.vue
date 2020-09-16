@@ -1,8 +1,29 @@
 <template>
   <div>
-    <label>
-      <input placeholder="Search" v-model="searchTask" />
-    </label>
+    <div
+      v-on:keyup.enter="this.sendList(this.categorisedTasks)"
+      class="searchInput"
+      style="background-color:white;
+            "
+    >
+      <input
+        type="search"
+        placeholder="Search"
+        v-model="searchTask"
+        class="pl-3 focus:outline-none text-sm w-full mr-3
+                sm:mr-6 md:mr-8
+                "
+      />
+
+      <div
+        @click="this.sendList(this.categorisedTasks)"
+        class="searchBtn sm:-ml-4;"
+      >
+        <span class="w-6 p-1">
+          <i class="fas fa-search"></i>
+        </span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,8 +73,8 @@
 
       categorisedTasks: {
         handler() {
-          this.searchTask = "";
           this.sendList(this.categorisedTasks);
+          this.searchTask = "";
         },
       },
     },
@@ -66,4 +87,22 @@
   });
 </script>
 
-<style scoped></style>
+<style lang="css" scoped>
+  @layer components {
+    .searchInput {
+      @apply h-8 w-1/3 rounded-md border border-gray-200 flex justify-between;
+    }
+    .searchInput:hover {
+      @apply shadow-md;
+    }
+    .searchInput:active {
+      @apply shadow-md;
+    }
+    .searchBtn {
+      @apply bg-gray-200 h-full flex justify-center w-12;
+    }
+    .searchBtn:hover {
+      @apply cursor-pointer;
+    }
+  }
+</style>

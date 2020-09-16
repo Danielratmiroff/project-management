@@ -1,8 +1,27 @@
 <template>
-  <div class="menu">
-    <router-link to="/">Home</router-link>
-    <router-link to="/documents">Documents</router-link>
-    <router-link to="/calendar">Calendar</router-link>
+  <div class="menu flex flex-col justify-start items-center mt-2">
+    <img src="../assets/logo.svg" class="mx-auto" width="32" height="32" />
+    <router-link
+      :class="currPage === 'Dashboard' ? 'menu-active' : 'menu-icon'"
+      class="menu-btn"
+      to="/"
+    >
+      <i class="fas fa-home fa-lg"></i>
+    </router-link>
+    <router-link
+      :class="currPage === 'Documents' ? 'menu-active' : 'menu-icon'"
+      class="menu-btn "
+      to="/documents"
+    >
+      <i class="far fa-file-alt  fa-lg"></i>
+    </router-link>
+    <router-link
+      :class="currPage === 'Calendar' ? 'menu-active' : 'menu-icon'"
+      class="menu-btn "
+      to="/calendar"
+    >
+      <i class="far fa-calendar-check  fa-lg"></i>
+    </router-link>
   </div>
 </template>
 
@@ -11,14 +30,29 @@
 
   export default Vue.extend({
     name: "Menu",
+    props: {
+      currPage: String,
+    },
   });
 </script>
 
-<style lang="scss" scoped>
-  .menu {
-    > a {
-      display: block;
-      margin: 2vw 0;
+<style lang="css" scoped>
+  @layer components {
+    .menu {
+      width: 55px;
+      @apply px-2 shadow-lg h-full;
+    }
+    .menu-btn {
+      @apply mt-6 p-2 w-full rounded-md;
+    }
+    .menu-icon {
+      @apply text-dark-900;
+    }
+    .menu-icon:hover {
+      @apply bg-gray-200 shadow-md;
+    }
+    .menu-active {
+      @apply bg-blue-900 text-white shadow-md;
     }
   }
 </style>

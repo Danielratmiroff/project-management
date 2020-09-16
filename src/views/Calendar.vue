@@ -1,83 +1,124 @@
 <template>
-  <div></div>
+  <div>
+    <TaskCreate
+      style="z-index:99"
+      v-if="taskModal"
+      :isEditMode="this.isEditMode"
+      :enableDueDatePick="false"
+      :task="task"
+      @closeModal="taskModalHandler"
+    />
+    <FullCalendar :options="calendarOptions" />
+  </div>
 </template>
+
 <script lang="ts">
   import Vue from "vue";
-  import Fab from "@/components/Fab.vue";
+  import FullCalendar from "@fullcalendar/vue";
+  import dayGridPlugin from "@fullcalendar/daygrid";
+  import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
+  import { mapState } from "vuex";
+  import TaskCreate from "@/components/TaskCreate.vue";
+  import TaskModel from "@/models/TaskModel";
+
+  // calendar needs static event to initialise correctly
+  const events = [{ title: "initialise event", start: new Date("2020/09/13") }];
+
   export default Vue.extend({
     name: "Calendar",
     components: {
-      Fab,
+      FullCalendar,
+      TaskCreate,
     },
-    data: () => ({
-      type: "month",
-      types: ["month", "week", "day", "4day"],
-      mode: "stack",
-      modes: ["stack", "column"],
-      weekday: [0, 1, 2, 3, 4, 5, 6],
-      weekdays: [
-        { text: "Sun - Sat", value: [0, 1, 2, 3, 4, 5, 6] },
-        { text: "Mon - Sun", value: [1, 2, 3, 4, 5, 6, 0] },
-        { text: "Mon - Fri", value: [1, 2, 3, 4, 5] },
-        { text: "Mon, Wed, Fri", value: [1, 3, 5] },
-      ],
-      value: "",
-      events: [],
-      colors: [
-        "blue",
-        "indigo",
-        "deep-purple",
-        "cyan",
-        "green",
-        "orange",
-        "grey darken-1",
-      ],
-      names: [
-        "Meeting",
-        "Holiday",
-        "PTO",
-        "Travel",
-        "Event",
-        "Birthday",
-        "Conference",
-        "Party",
-      ],
-    }),
+    data() {
+      return {
+        taskModal: false,
+        isEditMode: false,
+        task: new TaskModel(),
+        calendarTasks: [] as Array<object>,
+        calendarOptions: {
+          plugins: [dayGridPlugin, interactionPlugin],
+          initialView: "dayGridMonth",
+          events: events,
+          selectable: true,
+          dayMaxEvents: true,
+          editable: true,
+          eventDidMount: this.eventToolTip,
+          // eventMouseEnter: this.eventHover,
+          // eventDrop: this.eventDrop,
+          eventClick: this.eventClick,
+          headerToolbar: {
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,dayGridWeek",
+          },
+          select: this.handleDateClick,
+        },
+      };
+    },
+    computed: {
+      ...mapState(["tasks"]),
+    },
+    watch: {
+      tasks: {
+        immediate: true,
+        handler() {
+          this.loadTasks();
+        },
+      },
+    },
     methods: {
-      getEvents({ start, end }) {
-        const events = [];
+      loadTasks() {
+        const tasks = this.tasks.map((elm: TaskModel) => {
+          return {
+            id: elm.id,
+            title: elm.name,
+            start: elm.date,
+            end: elm.dueDate,
+            allDay: true,
+          };
+        });
+        this.calendarOptions.events = tasks;
+      },
+      handleDateClick(e: any) {
+        this.task.date = e.start;
 
-        const min = new Date(`${start.date}T00:00:00`);
-        const max = new Date(`${end.date}T23:59:59`);
-        const days = (max.getTime() - min.getTime()) / 86400000;
-        const eventCount = this.rnd(days, days + 20);
-
-        for (let i = 0; i < eventCount; i++) {
-          const allDay = this.rnd(0, 3) === 0;
-          const firstTimestamp = this.rnd(min.getTime(), max.getTime());
-          const first = new Date(firstTimestamp - (firstTimestamp % 900000));
-          const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
-          const second = new Date(first.getTime() + secondTimestamp);
-
-          events.push({
-            name: this.names[this.rnd(0, this.names.length - 1)],
-            start: first,
-            end: second,
-            color: this.colors[this.rnd(0, this.colors.length - 1)],
-            timed: !allDay,
-          });
+        // Compare if task its due to the same day
+        const date = getLastDayDigit(e.startStr);
+        const dueDate = getLastDayDigit(e.endStr);
+        const diffInDates = dueDate - date;
+        // if single click on an specific date
+        if (diffInDates === 1) {
+          // set due date to starting date
+          this.task.dueDate = e.start;
+        } else {
+          // else multiple dates are selected, set last date as due date
+          this.task.dueDate = e.end;
         }
+        this.taskModal = true;
 
-        this.events = events;
+        function getLastDayDigit(date: string): number {
+          return parseInt(date.slice(date.length - 1));
+        }
       },
-      getEventColor(event) {
-        return event.color;
+      eventClick(e: any) {
+        const id: string = e.event._def.publicId;
+        const fetchTask = this.tasks.find((elm: TaskModel) => elm.id === id);
+        this.task = fetchTask;
+        this.isEditMode = true;
+        this.taskModal = true;
       },
-      rnd(a, b) {
-        return Math.floor((b - a + 1) * Math.random()) + a;
+      taskModalHandler() {
+        this.taskModal = !this.taskModal;
+        this.isEditMode = false;
+        // maybe this could be improved
+        this.task = new TaskModel();
       },
     },
   });
 </script>
-
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .unClickeable {
+    pointer-events: none;
+  }
+</style>

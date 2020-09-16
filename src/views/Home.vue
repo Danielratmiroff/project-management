@@ -1,14 +1,15 @@
 <template>
   <div class="home relative">
-    <div class="container ">
-      <Search @searchList="searchList" />
+    <div class="container">
+      <Search class="searchBar" @searchList="searchList" />
 
-      <Dashboard @taskEdit="taskManage" :allTasks="taskList" />
+      <Dashboard @taskEdit="taskHandler" :allTasks="taskList" />
 
-      <Fab @taskCreate="taskManage" />
+      <Fab @taskCreate="taskHandler" />
 
       <TaskCreate
         v-if="taskModal"
+        :enableDueDatePick="true"
         :isEditMode="this.isEditMode"
         :task="task"
         @closeModal="taskModalHandler"
@@ -57,7 +58,7 @@
         : null;
     },
     methods: {
-      taskManage(item?: TaskModel) {
+      taskHandler(item?: TaskModel) {
         if (item) {
           // if we receive a parameter when calling this function, we are editing an existing task.
           this.task = { ...item };
@@ -78,16 +79,16 @@
   });
 </script>
 
-<style lang="scss" scoped>
-  .home {
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    background-color: ghostwhite;
-  }
-  .container {
-    width: 80%;
-    margin: 0 auto;
-    background-color: whitesmoke;
+<style lang="css" scoped>
+  @layer components {
+    .home {
+      @apply w-full h-full m-auto bg-gray-100 px-8 py-8;
+    }
+    .container {
+      @apply w-full bg-gray-100;
+    }
+    .searchBar {
+      @apply text-left flex items-center mb-4;
+    }
   }
 </style>

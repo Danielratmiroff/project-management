@@ -7,9 +7,10 @@
       @drop="dragDrop"
       @dragover="dragOver"
       class="dropTarget"
-      style="padding: 5vw 0; background:lightblue;"
     >
-      {{ item }}
+      <p class="category">
+        {{ item }}
+      </p>
       <Task
         v-for="task in allTasks[idx]"
         :key="task.id"
@@ -17,6 +18,7 @@
         :task="task"
         @dragging="dragging"
         @click.native="taskEdit(task)"
+        class="task"
       >
       </Task>
     </div>
@@ -103,21 +105,19 @@
   });
 </script>
 
-<style lang="scss" scoped>
-  .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin: 2vw 0;
-  }
-  .TaskContainer {
-    display: grid;
-    grid-template-columns: 6fr 2fr 2fr;
-    background-color: white;
-    padding: 1vw;
-  }
-  .status {
-    width: 20%;
-    background-color: blueviolet;
-    color: white;
+<style lang="css" scoped>
+  @layer components {
+    .group {
+      @apply grid grid-cols-1 row-gap-8;
+    }
+    .dropTarget {
+      @apply w-full h-full px-8 py-4 border rounded-md;
+    }
+    .category {
+      @apply text-left text-lg text-dark-600 font-bold;
+    }
+    .task {
+      @apply py-4;
+    }
   }
 </style>

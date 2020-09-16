@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import TaskModel from "@/models/TaskModel";
 import DocModel from "@/models/DocModel";
-
+import { uuid } from "vue-uuid";
 Vue.use(Vuex);
 
 export type State = { tasks: object };
@@ -19,10 +19,12 @@ export default new Vuex.Store({
       state.tasks.push(task);
     },
     editTask(state, task: TaskModel) {
+      // refactor this. This function duplicated with editDoc function. create a unique one
       const list = state.tasks.reduce(
         (acc: Array<TaskModel>, curr: TaskModel) => {
+          // find the existing object with the passed id
           if (curr.id === task.id) {
-            // find the existing object with the passed id and update its values
+            // update all values expect its id
             const { id, ...content } = task;
             const updatedTask = { ...curr, ...content };
             acc.push(updatedTask);
@@ -49,7 +51,6 @@ export default new Vuex.Store({
       });
 
       state.categorisedTasks = lists;
-
       function categoryList(elm: string) {
         const list = state.tasks.reduce(
           (acc: Array<TaskModel>, curr: TaskModel) => {
@@ -64,14 +65,23 @@ export default new Vuex.Store({
         return list;
       }
     },
-    addDoc(state, doc: DocModel) {
+
+    saveDoc(state, doc: DocModel) {
       state.documents.push(doc);
     },
+
     editDoc(state, doc: DocModel) {
       const editedDoc = state.documents.reduce(
         (acc: Array<DocModel>, curr: DocModel) => {
-          // return a new list without previous edited object
-          curr.id === doc.id ? null : acc.push(curr);
+          // find the existing object with the passed id
+          if (curr.id === doc.id) {
+            // update all values expect its id
+            const { id, ...content } = doc;
+            const updatedDoc = { ...curr, ...content };
+            acc.push(updatedDoc);
+          } else {
+            acc.push(curr);
+          }
           return acc;
         },
         []
@@ -92,8 +102,8 @@ export default new Vuex.Store({
     categorizeTasks({ commit }) {
       commit("categorizeTasks");
     },
-    addDoc({ commit }, doc: DocModel) {
-      commit("addDoc", doc);
+    saveDoc({ commit }, doc: DocModel) {
+      commit("saveDoc", doc);
     },
     editDoc({ commit }, doc: DocModel) {
       commit("editDoc", doc);

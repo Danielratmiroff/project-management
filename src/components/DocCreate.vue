@@ -1,6 +1,6 @@
 <template>
   <div class="fullscreen">
-    <button @click="storeDoc">Save</button>
+    <button @click="saveDoc">Save</button>
     <input
       id="title"
       class="title"
@@ -9,11 +9,7 @@
       placeholder="Title here"
       required
     />
-    <EditorContent
-      :isEditMode="this.editModeActive"
-      :docContent="docContent"
-      @contentUpdate="contentUpdate"
-    />
+    <EditorContent :docContent="docContent" @contentUpdate="contentUpdate" />
   </div>
 </template>
 <script lang="ts">
@@ -46,21 +42,6 @@
       }
     },
     methods: {
-      async storeDoc() {
-        if (!this.docContent.title) {
-          alert("Please add a title to your document 😀");
-          const titleElm = document.getElementById("title");
-          titleElm ? titleElm.focus() : null;
-          return;
-        }
-        if (this.editModeActive()) {
-          // we remove the current document being edited from documents list to avoid duplicates
-          await this.$store.dispatch("editDoc", this.docEditing);
-        }
-        // add new document
-        await this.$store.dispatch("addDoc", this.docContent);
-        this.$router.push("Documents");
-      },
       editModeActive() {
         const params = this.$route.params.docedit;
         this.editModeParams = params ? params : null;
@@ -72,8 +53,6 @@
           if (curr.id === paramsId) {
             // store object which will be added later to doc list
             this.docContent = { ...curr };
-            // store object being edited for later removal from the doc lists
-            this.docEditing = { ...curr };
             // acc builds opening content string
             return acc.concat(curr.html);
           }
@@ -81,14 +60,28 @@
         }, "");
         return doc;
       },
+      saveDoc() {
+        if (!this.docContent.title) {
+          alert("Please add a title to your document 😀");
+          const titleElm = document.getElementById("title")!;
+          titleElm.focus();
+          return;
+        }
+        if (this.editModeActive()) {
+          this.$store.dispatch("editDoc", this.docContent);
+        } else {
+          this.$store.dispatch("saveDoc", this.docContent);
+        }
+        this.$router.push("Documents");
+      },
       contentUpdate(item: any) {
         //Text editor child emits the content on any update and we store it here
-        this.docContent.html = item.html;
         const content =
           item.content.length > 50
             ? item.content.slice(0, 50) + "..."
             : item.content;
         this.docContent.content = content;
+        this.docContent.html = item.html;
       },
     },
   });

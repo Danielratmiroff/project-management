@@ -4,6 +4,7 @@ export default class DocModel {
   id: string;
   title: string;
   html: string;
+  // always maintain content as last key
   content: string;
 
   constructor() {

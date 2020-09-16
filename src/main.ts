@@ -9,10 +9,7 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 Vue.config.productionTip = false;
 Vue.component("v-select", vSelect);
-Vue.use(VCalendar, {
-  componentPrefix: "vc", // Use <vc-calendar /> instead of <v-calendar />
-  // ...other defaults
-});
+Vue.use(VCalendar);
 new Vue({
   router,
   store,

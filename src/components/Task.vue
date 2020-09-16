@@ -9,17 +9,17 @@
     <div @click="handleStatus" class="status">
       {{ this.status }}
     </div>
-    <div class="TaskContainer">
-      <div>
+    <div class="taskContainer">
+      <div class="title">
         {{ this.task.name }}
       </div>
       <div class="category">
         {{ this.task.category }}
       </div>
       <div class="date">
-        {{ this.task.date }}
+        {{ this.dateFormated }}
       </div>
-      <div class="date">
+      <div class="due-date">
         {{ this.dueDateFormated }}
       </div>
       <p @click="removeTask(task.id)">×</p>
@@ -43,11 +43,13 @@
     data() {
       return {
         status: "",
-        dueDateFormated: "" as string | undefined,
+        dateFormated: "" as string,
+        dueDateFormated: "" as string,
       };
     },
     mounted() {
-      this.dueDateFormated = dateFormater(this.task.dueDate, "US");
+      this.dateFormated = dateFormater(this.task.date, "US")!;
+      this.dueDateFormated = dateFormater(this.task.dueDate, "US")!;
     },
     watch: {
       status: {
@@ -76,29 +78,38 @@
   });
 </script>
 
-<style lang="scss" scoped>
-  .TaskContainer {
-    display: grid;
-    grid-template-columns: 4fr 2fr 2fr 2fr 2fr;
-    background-color: white;
-    padding: 1vw;
-  }
-  .dark {
-    opacity: 0.5;
-  }
-  .status {
-    width: 20%;
-    background-color: blueviolet;
-    color: white;
-  }
-  .draggable {
-    cursor: pointer;
-    &:active {
-      cursor: -webkit-grabbing;
-      cursor: -moz-grabbing;
-      cursor: -o-grabbing;
-      cursor: -ms-grabbing;
-      cursor: grabbing;
+<style lang="css" scoped>
+  @layer components {
+    .draggable {
+      @apply cursor-pointer;
     }
+    .title {
+      @apply text-left pl-4 self-start;
+    }
+    .category {
+      @apply bg-blue-900 h-full text-white justify-center;
+    }
+    .status {
+      @apply w-1/6 bg-red-900 text-white rounded-t-md justify-center;
+    }
+    .dark {
+      opacity: 0.5;
+    }
+    .taskContainer {
+      @apply grid bg-white shadow-md rounded-md rounded-tl-none h-16 items-center;
+      grid-template-columns: 4fr 2fr 2fr 2fr 2fr;
+    }
+    .date {
+      @apply justify-center;
+    }
+    .due-date {
+      @apply justify-center;
+    }
+  }
+  .taskContainer > div {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    padding: 1.2rem;
   }
 </style>
