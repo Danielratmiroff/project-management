@@ -2,40 +2,59 @@
   <div class="backplane">
     <div class="popup-container">
       <div class="popup-title">
-        Task
-        <div class="popup-close" @click="closeModal">
-          ×
+        <span class="popup-title-icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        Create a task
+        <div class="popup-close transition-smooth" @click="closeModal">
+          <i class="fas fa-times fa-md"></i>
         </div>
       </div>
-      <div class="px-4 py-6">
-        <p v-if="!errors.name" class="required-text">
-          * Title is required
-        </p>
-        <input
-          class="input-name"
-          type="text"
-          placeholder="Add your To Do"
-          v-model="currTask.name"
-        />
-        <div class="input-error" />
-        <p v-if="!errors.category" class="required-text">
-          * Category is required
-        </p>
-        <v-select
-          class="input-category"
-          v-model="currTask.category"
-          :options="categories"
-        ></v-select>
-        <v-date-picker
-          v-if="enableDueDatePick"
-          :popover="{ placement: 'top', visibility: 'click' }"
-          v-model="currTask.dueDate"
-        />
-        <div class="flex justify-end">
-          <button v-if="isEditMode" @click="removeTask" class="w-1/2">
+      <div class="p-8 pb-6">
+        <div class="popup-field">
+          <p v-if="!errors.name" class="required-text">
+            * Name is required
+          </p>
+          <label class=""> Task name</label>
+          <input
+            id="title"
+            class="input-name"
+            type="text"
+            placeholder="Add task's name here"
+            v-model="currTask.name"
+          />
+        </div>
+        <div class="popup-field">
+          <label class="">Add a category</label>
+          <p v-if="!errors.category" class="required-text">
+            * Category is required
+          </p>
+          <v-select
+            class="input-category"
+            v-model="currTask.category"
+            :options="categories"
+          ></v-select>
+        </div>
+        <div class="popup-field">
+          <label class="">Add a due date</label>
+          <v-date-picker
+            v-if="enableDueDatePick"
+            :popover="{ placement: 'top', visibility: 'click' }"
+            v-model="currTask.dueDate"
+          />
+        </div>
+        <div
+          class="flex mt-8"
+          :class="isEditMode ? 'justify-between' : 'justify-end'"
+        >
+          <button
+            v-if="isEditMode"
+            @click="removeTask"
+            class="btn-secondary w-1/4"
+          >
             Delete
           </button>
-          <button @click="storeTask" class="w-1/2">
+          <button @click="storeTask" class="btn-main w-1/4">
             {{ this.createText() }}
           </button>
         </div>
@@ -76,6 +95,10 @@
     computed: {
       ...mapState(["categories"]),
     },
+    mounted() {
+      const title = document.getElementById("title")!;
+      title.focus();
+    },
     methods: {
       closeModal() {
         this.$emit("closeModal");
@@ -112,38 +135,40 @@
 <style lang="css" scoped>
   @layer components {
     .required-text {
-      @apply text-left text-red-900;
+      @apply text-left text-red-900 mb-2;
     }
     .backplane {
-      @apply absolute inset-0 w-full h-screen bg-dark-100 flex justify-center items-center;
+      @apply absolute inset-0 w-full h-screen bg-dark-opacity flex justify-start items-start;
     }
     .popup-container {
-      @apply w-1/2 m-auto  bg-white rounded-lg shadow-xl;
+      @apply w-1/2 mx-auto mt-16 bg-white rounded-lg shadow-xl translate-y-16;
+    }
+    .popup-field {
+      @apply my-6;
+    }
+    .popup-field:first-of-type {
+      @apply mt-0;
+    }
+    .popup-title-icon {
+      @apply text-gray-500 mr-2 text-sm;
     }
     .popup-title {
-      @apply bg-blue-900 text-dark-900 h-12 rounded-t-lg flex relative items-center justify-center text-xl;
+      @apply bg-gray-200 text-dark-900 font-bold rounded-t-lg flex relative items-center justify-start py-4 px-8 text-lg;
     }
     .popup-close {
-      @apply absolute right-0 mr-4 w-8 h-8 flex rounded-full justify-center items-center bg-white text-blue-900 cursor-pointer;
+      @apply absolute right-0 mr-8 text-gray-600 cursor-pointer;
     }
     .popup-close:hover {
-      @apply bg-gray-100;
+      @apply text-gray-900;
     }
     .input-name {
-      @apply w-full p-2 text-dark-900;
-    }
-    .input-error {
-      @apply mt-2 h-1 border-t-2 border-blue-900;
-    }
-    .input-category {
-      @apply;
+      @apply w-full p-2 text-dark-900 border border-gray-400 rounded-md;
     }
     .input-due-date {
-      @apply w-full p-2 text-dark-900;
+      @apply w-full  text-dark-900;
     }
-  }
-  .inputTask {
-    width: 100%;
-    padding: 0 3vw;
+    label {
+      @apply text-gray-600;
+    }
   }
 </style>

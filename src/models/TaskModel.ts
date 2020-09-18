@@ -12,7 +12,7 @@ export default class TaskModel {
   constructor() {
     this.id = uuid.v4();
     this.name = "";
-    this.category = "";
+    this.category = "Ideas";
     this.done = false;
 
     const now = new Date();

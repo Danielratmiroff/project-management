@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <div class="layout">
-      <Menu :currPage="currPage" />
-      <div class="screenContainer">
-        <Navbar :currPage="currPage" />
-        <!-- Home -->
+    <Menu :currPage="currPage" />
+    <div class="screen-container">
+      <Navbar :currPage="currPage" />
+      <!-- Home -->
+      <div class="view">
         <router-view />
       </div>
     </div>
@@ -36,11 +36,12 @@
     },
     methods: {
       getPage(): string | void {
-        const path = this.$route.path;
+        const path = this.$route.path.toLowerCase();
         const pathSwitch = {
           "/": "Dashboard",
           "/documents": "Documents",
           "/calendar": "Calendar",
+          "/doc-create": "Create a document",
         };
 
         if (hasKey(pathSwitch, path)) {
@@ -57,35 +58,57 @@
 </script>
 
 <style lang="css">
+  :root {
+    --gray-normal: #718096;
+    --gray-light: #edf2f7;
+    --main-dark: #131e43;
+  }
+
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    outline: none;
   }
+
   @layer components {
-    * {
+    .view {
+      @apply w-full h-full m-auto bg-gray-100 px-8 py-8 relative;
+    }
+    .transition-smooth {
       @apply transition duration-300 ease-in-out;
     }
+    .btn-main {
+      @apply transition-smooth p-2 text-lg bg-blue-900 text-white flex items-center justify-center rounded-md;
+    }
+    .btn-main:hover {
+      @apply shadow-lg bg-blue-300;
+    }
+    .btn-secondary {
+      @apply transition-smooth p-2 border text-lg text-dark-900 flex items-center justify-center rounded-md;
+    }
+    .btn-secondary:hover {
+      @apply shadow-lg bg-orange-900 text-white border-orange-900;
+    }
   }
+
+  /* Kept this as standard css for maximum control */
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    text-align: center;
-    color: #2c3e50;
-  }
-  .layout {
     display: grid;
-    grid-template-columns: auto 1fr 0px;
+    grid-template-columns: 55px 1fr;
     grid-template-areas: none;
     grid-auto-flow: initial;
     grid-auto-rows: initial;
     grid-auto-columns: initial;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
   }
-  .screenContainer {
-    width: 100%;
-    height: 100%;
+  .screen-container {
+    display: grid;
+    grid-template-rows: 55px 1fr;
   }
 </style>

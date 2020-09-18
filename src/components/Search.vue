@@ -2,7 +2,7 @@
   <div>
     <div
       v-on:keyup.enter="this.sendList(this.categorisedTasks)"
-      class="searchInput"
+      class="searchInput transition-smooth"
       style="background-color:white;
             "
     >

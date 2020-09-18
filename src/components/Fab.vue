@@ -5,20 +5,20 @@
     >
       <span
         @click="createDocument"
-        class="fab-btn fab-btn-secondary bg-orange-600 hover:bg-orange-400 hover:shadow-md"
+        class="transition-smooth fab-btn fab-btn-secondary bg-orange-600 hover:bg-orange-400 hover:shadow-md"
         :class="toggleIcons ? 'taskAnimationIn' : 'taskAnimationOut'"
       >
         <i class="fas fa-file-alt"></i>
       </span>
       <span
         @click="openTaskCreateModal"
-        class="fab-btn fab-btn-secondary bg-blue-600 hover:bg-blue-400 hover:shadow-md "
+        class="transition-smooth fab-btn fab-btn-secondary bg-dark-800 hover:bg-blue-200 hover:shadow-md "
         :class="toggleIcons ? 'taskAnimationIn' : 'taskAnimationOut'"
       >
         <i class="fas fa-list-ul "></i>
       </span>
       <button
-        class="fab-btn fab-btn-primary"
+        class="transition-smooth fab-btn fab-btn-primary"
         style=""
         @click="toggleIcons = !toggleIcons"
       >
@@ -66,14 +66,13 @@
 <style lang="css" scoped>
   @layer components {
     .fab-btn {
-      @apply text-white flex items-center justify-center m-auto cursor-pointer rounded-full 
-      transition duration-300 ease-in-out;
+      @apply text-white flex items-center justify-center m-auto cursor-pointer rounded-full;
     }
     .fab-btn:focus {
       @apply outline-none;
     }
     .fab-btn-primary {
-      @apply h-20 w-20 bg-blue-800;
+      @apply h-20 w-20 bg-blue-500;
     }
     .fab-btn-primary:hover {
       @apply bg-dark-900 shadow-lg;

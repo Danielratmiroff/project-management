@@ -1,15 +1,25 @@
 <template>
   <div class="fullscreen">
-    <button @click="saveDoc">Save</button>
-    <input
-      id="title"
-      class="title"
-      v-model="docContent.title"
-      type="text"
-      placeholder="Title here"
-      required
-    />
-    <EditorContent :docContent="docContent" @contentUpdate="contentUpdate" />
+    <div class="dc-container">
+      <div class="dc-head">
+        <!-- refacor : is this id needed? -->
+        <input
+          id="title"
+          class="dc-title"
+          v-model="docContent.title"
+          type="text"
+          placeholder="Title here"
+          required
+        />
+        <button @click="saveDoc" class="btn-main">Save</button>
+      </div>
+      <div class="dc-editor">
+        <EditorContent
+          :docContent="docContent"
+          @contentUpdate="contentUpdate"
+        />
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -72,7 +82,7 @@
         } else {
           this.$store.dispatch("saveDoc", this.docContent);
         }
-        this.$router.push("Documents");
+        this.$router.push("documents");
       },
       contentUpdate(item: any) {
         //Text editor child emits the content on any update and we store it here
@@ -86,22 +96,31 @@
     },
   });
 </script>
-<style lang="scss" scoped>
-  .fullscreen {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    margin: 0 auto;
-    background-color: ghostwhite;
-  }
-  .title {
-    width: 100%;
-    display: block;
-    margin: 2vw auto;
-    text-align: center;
+<style lang="css" scoped>
+  @layer components {
+    .fullscreen {
+      @apply absolute inset-0 p-8 w-full h-full bg-dark-opacity;
+    }
+    .dc-container {
+      @apply p-4 px-12 h-full items-start shadow-lg rounded-lg bg-white grid col-gap-16 relative row-gap-4;
+      grid-template-rows: 55px 1fr;
+    }
+    .dc-head {
+      @apply bg-white grid col-gap-16;
+      grid-template-columns: 8fr 1fr;
+      grid-template-rows: 55px 8fr;
+    }
+    .dc-editor {
+      @apply py-2;
+    }
+    .dc-title {
+      @apply w-full;
+    }
+    .dc-title::placeholder {
+      @apply text-gray-500 font-bold text-2xl;
+    }
+    .dc-editor {
+      @apply bg-white p-0 h-full relative;
+    }
   }
 </style>

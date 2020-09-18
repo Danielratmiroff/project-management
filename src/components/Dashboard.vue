@@ -4,12 +4,15 @@
       v-for="(item, idx) in categories"
       :key="item"
       :id="item"
-      @drop="dragDrop"
-      @dragover="dragOver"
+      @drop.prevent="dragDrop"
+      @dragover.prevent
       class="dropTarget"
     >
       <p class="category">
         {{ item }}
+        <span @click="taskCreate" class="add-task transition-smooth">
+          + New Task
+        </span>
       </p>
       <Task
         v-for="task in allTasks[idx]"
@@ -64,8 +67,8 @@
         this.$store.dispatch("categorizeTasks");
       },
 
-      dragOver(event: any) {
-        event.preventDefault();
+      taskCreate() {
+        this.$emit("taskCreate");
       },
 
       dragging(elm: any) {
@@ -87,7 +90,6 @@
       },
 
       dragDrop(event: any) {
-        event.preventDefault();
         const elm = event.target;
         if (!elm.classList.contains("dropTarget")) {
           return;
@@ -118,6 +120,12 @@
     }
     .task {
       @apply py-4;
+    }
+    .add-task {
+      @apply ml-2 p-1 px-2 text-sm rounded-md text-gray-400 font-normal cursor-pointer;
+    }
+    .add-task:hover {
+      @apply bg-gray-400 text-white shadow-md;
     }
   }
 </style>

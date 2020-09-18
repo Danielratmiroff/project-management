@@ -1,20 +1,22 @@
 <template>
-  <div class="home relative">
-    <div class="container">
-      <Search class="searchBar" @searchList="searchList" />
+  <div class="home-container">
+    <Search class="searchBar" @searchList="searchList" />
 
-      <Dashboard @taskEdit="taskHandler" :allTasks="taskList" />
+    <Dashboard
+      @taskCreate="taskHandler"
+      @taskEdit="taskHandler"
+      :allTasks="taskList"
+    />
 
-      <Fab @taskCreate="taskHandler" />
+    <Fab @taskCreate="taskHandler" />
 
-      <TaskCreate
-        v-if="taskModal"
-        :enableDueDatePick="true"
-        :isEditMode="this.isEditMode"
-        :task="task"
-        @closeModal="taskModalHandler"
-      />
-    </div>
+    <TaskCreate
+      v-if="taskModal"
+      :enableDueDatePick="true"
+      :isEditMode="this.isEditMode"
+      :task="task"
+      @closeModal="taskModalHandler"
+    />
   </div>
 </template>
 
@@ -81,10 +83,7 @@
 
 <style lang="css" scoped>
   @layer components {
-    .home {
-      @apply w-full h-full m-auto bg-gray-100 px-8 py-8;
-    }
-    .container {
+    .home-container {
       @apply w-full bg-gray-100;
     }
     .searchBar {

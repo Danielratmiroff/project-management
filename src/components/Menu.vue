@@ -3,21 +3,21 @@
     <img src="../assets/logo.svg" class="mx-auto" width="32" height="32" />
     <router-link
       :class="currPage === 'Dashboard' ? 'menu-active' : 'menu-icon'"
-      class="menu-btn"
+      class="menu-btn transition-smooth"
       to="/"
     >
       <i class="fas fa-home fa-lg"></i>
     </router-link>
     <router-link
       :class="currPage === 'Documents' ? 'menu-active' : 'menu-icon'"
-      class="menu-btn "
+      class="menu-btn transition-smooth"
       to="/documents"
     >
       <i class="far fa-file-alt  fa-lg"></i>
     </router-link>
     <router-link
       :class="currPage === 'Calendar' ? 'menu-active' : 'menu-icon'"
-      class="menu-btn "
+      class="menu-btn transition-smooth"
       to="/calendar"
     >
       <i class="far fa-calendar-check  fa-lg"></i>
@@ -39,11 +39,10 @@
 <style lang="css" scoped>
   @layer components {
     .menu {
-      width: 55px;
-      @apply px-2 shadow-lg h-full;
+      @apply px-2 shadow-lg;
     }
     .menu-btn {
-      @apply mt-6 p-2 w-full rounded-md;
+      @apply mt-6 p-2 w-full rounded-md text-center;
     }
     .menu-icon {
       @apply text-dark-900;

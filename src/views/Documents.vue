@@ -1,23 +1,36 @@
 <template>
-  <div class="about">
-    <div class="navigation">
-      <h1>Documents</h1>
-      <router-link to="/doc-create" class="createDocument">
-        Create New
-      </router-link>
-    </div>
-    <div class="container">
+  <div class="wrapper">
+    <div class="doc-container">
       <div
         v-for="doc in this.documents"
         :key="doc.id"
         class="document"
         @click="docEdit(doc.id)"
       >
-        {{ doc.title }}
-        <br />
-        {{ doc.content }}
+        <div class="doc-content">
+          <p class="doc-title">
+            <span class="text-blue-900 mr-2">
+              <i class="fas fa-bookmark"></i>
+            </span>
+            {{ doc.title }}
+          </p>
+          <p class="doc-text">
+            {{ doc.content }}
+          </p>
+        </div>
+        <div class="doc-details">
+          <span class="doc-delete">
+            <i class="far fa-trash-alt"></i>
+          </span>
+          <p class="doc-date">
+            date
+          </p>
+        </div>
       </div>
     </div>
+    <router-link to="/doc-create" class="btn-main doc-create transition">
+      Create New
+    </router-link>
     <Fab />
   </div>
 </template>
@@ -43,32 +56,41 @@
     },
   });
 </script>
-<style lang="scss" scoped>
-  .container {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: auto;
-    row-gap: 2vw;
-    column-gap: 2vw;
-    margin: 0 auto;
-    background-color: ghostwhite;
-  }
-  .navigation {
-    display: grid;
-    align-items: center;
-    grid-template-columns: 8fr 2fr;
-  }
-
-  .createDocument {
-    padding: 1vw;
-    background-color: blue;
-    color: white;
-  }
-  .document {
-    width: 100%;
-    margin: 1vw;
-    background-color: whitesmoke;
+<style lang="css" scoped>
+  @layer components {
+    .wrapper {
+      @apply w-full h-full grid row-gap-4 col-gap-16;
+      grid-template-columns: 8fr 1fr;
+    }
+    .doc-create {
+      max-height: 55px;
+    }
+    .doc-container {
+      @apply grid row-gap-8 col-gap-8 grid-cols-4;
+      grid-auto-rows: min-content;
+    }
+    .document {
+      @apply w-full bg-white rounded-md shadow-md;
+      grid-template-rows: 1fr 32px;
+    }
+    .document:hover {
+      @apply cursor-pointer;
+    }
+    .doc-content {
+      @apply p-8;
+    }
+    .doc-title {
+      @apply text-lg font-semibold text-dark-900;
+    }
+    .doc-text {
+      @apply text-dark-900 mt-4;
+    }
+    .doc-details {
+      @apply flex items-center py-4 px-8 bg-gray-100 justify-between;
+      border-top: 1px solid var(--gray-light);
+    }
+    .doc-delete {
+      @apply text-gray-700;
+    }
   }
 </style>

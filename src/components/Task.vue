@@ -6,23 +6,38 @@
     @dragend="dragEnd"
     :id="this.id"
   >
-    <div @click="handleStatus" class="status">
-      {{ this.status }}
-    </div>
-    <div class="taskContainer">
-      <div class="title">
-        {{ this.task.name }}
+    <div class="task-wrapper">
+      <div class="task-grid task-labels">
+        <div @click="handleStatus" class="task-status">
+          {{ this.status }}
+        </div>
+        <div>
+          CATEGORY
+        </div>
+        <div>
+          CREATED
+        </div>
+        <div>
+          DUE DATE
+        </div>
       </div>
-      <div class="category">
-        {{ this.task.category }}
+      <div class="task-grid task-container transition-smooth">
+        <div class="task-title">
+          {{ this.task.name }}
+        </div>
+        <div class="task-category">
+          {{ this.task.category }}
+        </div>
+        <div class="task-date">
+          {{ this.dateFormated }}
+        </div>
+        <div class="task-due-date">
+          {{ this.dueDateFormated }}
+        </div>
+        <p class="task-close" @click="removeTask(task.id)">
+          <i class="fas fa-times"></i>
+        </p>
       </div>
-      <div class="date">
-        {{ this.dateFormated }}
-      </div>
-      <div class="due-date">
-        {{ this.dueDateFormated }}
-      </div>
-      <p @click="removeTask(task.id)">×</p>
     </div>
     <br />
   </div>
@@ -83,33 +98,45 @@
     .draggable {
       @apply cursor-pointer;
     }
-    .title {
-      @apply text-left pl-4 self-start;
+    .task-grid {
+      @apply grid items-center;
+      grid-template-columns: minmax(50%, 300px) repeat(3, 1.5fr) 0.5fr;
     }
-    .category {
+    .task-labels > div {
+      @apply text-center text-xs text-gray-500 font-semibold;
+    }
+    .task-container {
+      @apply bg-white shadow-md rounded-md rounded-tl-none;
+    }
+    .task-container:hover {
+      @apply shadow-lg;
+    }
+    .task-container > div {
+      @apply text-left flex items-center p-4 break-all;
+    }
+    .task-title {
+      @apply text-left text-dark-900;
+    }
+    .task-category {
       @apply bg-blue-900 h-full text-white justify-center;
     }
-    .status {
-      @apply w-1/6 bg-red-900 text-white rounded-t-md justify-center;
+    .task-status {
+      @apply w-1/3 py-1 bg-red-900 text-sm text-white rounded-t-md text-center font-bold !important;
     }
-    .dark {
+    .task-dark {
       opacity: 0.5;
     }
-    .taskContainer {
-      @apply grid bg-white shadow-md rounded-md rounded-tl-none h-16 items-center;
-      grid-template-columns: 4fr 2fr 2fr 2fr 2fr;
+    .task-date {
+      @apply justify-center text-dark-900;
     }
-    .date {
-      @apply justify-center;
+    .task-due-date {
+      @apply justify-center text-dark-900;
     }
-    .due-date {
-      @apply justify-center;
+    .task-close {
+      @apply text-right mr-8 text-gray-600;
     }
-  }
-  .taskContainer > div {
-    text-align: left;
-    display: flex;
-    align-items: center;
-    padding: 1.2rem;
+    .task-close:hover {
+      @apply text-gray-900;
+    }
   }
 </style>
