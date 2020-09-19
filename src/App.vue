@@ -4,7 +4,7 @@
     <div class="screen-container">
       <Navbar :currPage="currPage" />
       <!-- Home -->
-      <div class="view">
+      <div class="view" ref="view">
         <router-view />
       </div>
     </div>

@@ -1,11 +1,8 @@
 <template>
-  <div
-    class="draggable"
-    draggable="true"
+  <div :id="this.id">
+    <!-- draggable="true"
     @dragstart="dragStart"
-    @dragend="dragEnd"
-    :id="this.id"
-  >
+    @dragend="dragEnd" -->
     <div class="task-wrapper">
       <div class="task-grid task-labels">
         <div @click="handleStatus" class="task-status">
@@ -81,13 +78,6 @@
       handleStatus() {
         this.task.done = !this.task.done;
         this.status = this.task.done ? "Done" : "Undone";
-      },
-      dragStart(event: any) {
-        event.target.classList.add("dark");
-        this.$emit("dragging", event.target);
-      },
-      dragEnd(event: any) {
-        event.target.classList.remove("dark");
       },
     },
   });
