@@ -8,7 +8,7 @@
       @dragover.prevent
       class="dropTarget"
     >
-      <p class="category">
+      <p class="category ">
         {{ item }}
         <span @click="taskCreate" class="add-task transition-smooth">
           + New Task
@@ -91,6 +91,7 @@
 
       dragDrop(event: any) {
         const elm = event.target;
+        console.log(elm);
         if (!elm.classList.contains("dropTarget")) {
           return;
         }
@@ -119,7 +120,7 @@
       @apply text-left text-lg text-dark-600 font-bold;
     }
     .task {
-      @apply py-4;
+      @apply my-4;
     }
     .add-task {
       @apply ml-2 p-1 px-2 text-sm rounded-md text-gray-400 font-normal cursor-pointer;
