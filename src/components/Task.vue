@@ -85,9 +85,6 @@
 
 <style lang="css" scoped>
   @layer components {
-    .draggable {
-      @apply cursor-pointer;
-    }
     .task-grid {
       @apply grid items-center;
       grid-template-columns: minmax(50%, 300px) repeat(3, 1.5fr) 0.5fr;
