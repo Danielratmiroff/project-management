@@ -1,6 +1,6 @@
 <template>
-  <div class="backplane">
-    <div class="popup-container">
+  <div class="backplane" @click.self="closeModal" @keyup.esc="closeModal">
+    <div class="popup-container" @keyup.enter="storeTask">
       <div class="popup-title">
         <span class="popup-title-icon">
           <i class="fas fa-plus"></i>
@@ -138,7 +138,7 @@
       @apply text-left text-red-900 mb-2;
     }
     .backplane {
-      @apply absolute inset-0 w-full h-screen bg-dark-opacity flex justify-start items-start;
+      @apply absolute inset-0 w-full h-full bg-dark-opacity flex justify-start items-start;
     }
     .popup-container {
       @apply w-1/2 mx-auto mt-16 bg-white rounded-lg shadow-xl translate-y-16;

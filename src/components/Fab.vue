@@ -4,6 +4,7 @@
       class="grid grid-cols-1 text-center justify-center row-gap-4 mb-4 mr-4"
     >
       <span
+        v-show="toggleIcons"
         @click="createDocument"
         class="transition-smooth fab-btn fab-btn-secondary bg-orange-600 hover:bg-orange-400 hover:shadow-md"
         :class="toggleIcons ? 'taskAnimationIn' : 'taskAnimationOut'"
@@ -11,6 +12,7 @@
         <i class="fas fa-file-alt"></i>
       </span>
       <span
+        v-show="toggleIcons"
         @click="openTaskCreateModal"
         class="transition-smooth fab-btn fab-btn-secondary bg-dark-800 hover:bg-blue-200 hover:shadow-md "
         :class="toggleIcons ? 'taskAnimationIn' : 'taskAnimationOut'"

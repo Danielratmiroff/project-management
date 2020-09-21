@@ -1,42 +1,33 @@
 <template>
   <div :id="this.id">
-    <!-- draggable="true"
-    @dragstart="dragStart"
-    @dragend="dragEnd" -->
-    <div class="task-wrapper">
-      <div class="task-grid task-labels">
-        <div @click="handleStatus" class="task-status">
-          {{ this.status }}
-        </div>
-        <div>
-          CATEGORY
-        </div>
-        <div>
-          CREATED
-        </div>
-        <div>
-          DUE DATE
-        </div>
+    <div class="task-grid task-labels">
+      <div @click="handleStatus" class="task-status">
+        {{ this.status }}
       </div>
-      <div class="task-grid task-container transition-smooth">
-        <div class="task-title">
-          {{ this.task.name }}
-        </div>
-        <div class="task-category">
-          {{ this.task.category }}
-        </div>
-        <div class="task-date">
-          {{ this.dateFormated }}
-        </div>
-        <div class="task-due-date">
-          {{ this.dueDateFormated }}
-        </div>
-        <p class="task-close" @click="removeTask(task.id)">
-          <i class="fas fa-times"></i>
-        </p>
+      <div>
+        CATEGORY
+      </div>
+      <div>
+        CREATED
+      </div>
+      <div>
+        DUE DATE
       </div>
     </div>
-    <br />
+    <div class="task-grid task-container transition-smooth">
+      <div class="task-title">
+        {{ this.task.name }}
+      </div>
+      <div class="task-category">
+        {{ this.task.category }}
+      </div>
+      <div class="task-date">
+        {{ this.dateFormated }}
+      </div>
+      <div class="task-due-date">
+        {{ this.dueDateFormated }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -87,7 +78,7 @@
   @layer components {
     .task-grid {
       @apply grid items-center;
-      grid-template-columns: minmax(50%, 300px) repeat(3, 1.5fr) 0.5fr;
+      grid-template-columns: minmax(50%, 300px) repeat(3, 2fr);
     }
     .task-labels > div {
       @apply text-center text-xs text-gray-500 font-semibold;

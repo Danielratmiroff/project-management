@@ -19,12 +19,9 @@
         :task="task"
         :ref="task.id"
         @mousedown.native="taskMouseDown($event, task.id)"
-        @mousemove.native="taskMouseMove($event, task.id)"
-        @mouseup.native="taskMouseUp"
         @dragstart="false"
         class="task"
-      >
-      </Task>
+      />
     </div>
   </div>
 </template>
@@ -50,7 +47,6 @@
       return {
         isMouseDown: false,
         isDragging: false,
-        draggingNode: HTMLDivElement,
       };
     },
     computed: {
@@ -75,9 +71,7 @@
       taskMouseDown(e: any, id: string) {
         // need to make index typescript function global
         const element: any = this.$refs[id][0];
-        this.draggingNode = element;
         const elNode: HTMLDivElement = element.$el;
-
         // const elId: HTMLDivElement = this.$refs.task[0].$el;
         const elNodeRelativeY = e.clientY - elNode.getBoundingClientRect().top;
         const elNodeRelativeX = e.clientX - elNode.getBoundingClientRect().left;
@@ -87,39 +81,28 @@
 
         // Create a clone to smooth transition
         const clone = elNode.cloneNode(true) as HTMLDivElement;
-        clone.style.opacity = "0.3";
+
         // Append clone to imitate dragging elm
         const elParent = elNode.parentElement as HTMLDivElement;
-        elParent.append(clone);
 
-        // Dragging elm floats on top of body
-        elNode.classList.add("dragActive");
-        document.body.append(elNode);
-
-        // Follow click movement
-        this.taskMoveTo(
-          e.pageX,
-          e.pageY,
-          elNode,
-          elNodeRelativeX,
-          elNodeRelativeY
-        );
-
+        // Move move function
         const onMouseMove = (e: any) => {
-          // Follow the cursor
-          this.taskMoveTo(
-            e.pageX,
-            e.pageY,
-            elNode,
-            elNodeRelativeX,
-            elNodeRelativeY
-          );
-
-          // Dragging to active
           this.isDragging = true;
 
+          // Append clone as a placeholder node
+          clone.style.opacity = "0.3";
+          elParent.append(clone);
+
+          // Dragging node floats on top of body
+          elNode.classList.add("dragActive");
+          document.body.append(elNode);
+
+          // Node follows the cursor
+          elNode.style.left = e.pageX - elNodeRelativeX + "px";
+          elNode.style.top = e.pageY - elNodeRelativeY + "px";
+
           elNode.hidden = true;
-          // Get elements below absolute item being dragged
+          // Get elements below cursor's position
           let elemBelow = document.elementFromPoint(e.clientX, e.clientY);
           elNode.hidden = false;
 
@@ -130,55 +113,34 @@
             dropZone = elemBelow.closest(".dropZone");
           }
         };
-
-        // Trigger first following and add listener
-        this.taskMoveTo(
-          e.pageX,
-          e.pageY,
-          elNode,
-          elNodeRelativeX,
-          elNodeRelativeY
-        );
-
+        // Listen to the cursor's movement
         document.addEventListener("mousemove", onMouseMove);
 
         // Finalise event and remove listeners
         elNode.onmouseup = () => {
           const taskInstance = { ...element.task };
-          if (this.isDragging) {
-            if (dropZone) {
-              dropZone.append(elNode);
-              this.updateTaskCategory(dropZone.id, taskInstance);
-            } else {
-              elParent.append(elNode);
-            }
-            document.removeEventListener("mousemove", onMouseMove);
-            elNode.onmouseup = null;
-            elNode.classList.remove("dragActive");
-            elParent.removeChild(clone);
-          } else {
-            this.isDragging = false;
-            console.log("hey");
+          // Remove listeners on document
+          document.removeEventListener("mousemove", onMouseMove);
+
+          if (!this.isDragging) {
+            // If its single click, open edit mode
             this.taskEdit(taskInstance);
+            return;
+          } else if (dropZone) {
+            // If dragging & dropzone, append node and update category
+            dropZone.append(elNode);
+            this.updateTaskCategory(dropZone.id, taskInstance);
+          } else {
+            // Else return to parent
+            elParent.append(elNode);
           }
+
+          // Reset document to previous state
+          elNode.onmouseup = null;
+          elNode.classList.remove("dragActive");
+          elParent.removeChild(clone);
+          this.isDragging = false;
         };
-      },
-
-      taskMouseMove() {},
-
-      taskMouseUp() {
-        // console.log("hey");
-      },
-
-      taskMoveTo(
-        pageX: number,
-        pageY: number,
-        node: HTMLDivElement,
-        nodeLocationX: number,
-        nodeLocationY: number
-      ) {
-        node.style.left = pageX - nodeLocationX + "px";
-        node.style.top = pageY - nodeLocationY + "px";
       },
 
       taskEdit(task: TaskModel) {
@@ -198,6 +160,7 @@
   @layer components {
     .group {
       @apply grid grid-cols-1 row-gap-8;
+      grid-template-rows: repeat(3, minmax(125px, max-content));
     }
     .dropZone {
       @apply w-full h-full px-8 py-4 border rounded-md;
@@ -206,7 +169,7 @@
       @apply text-left text-lg text-dark-600 font-bold;
     }
     .task {
-      @apply my-4;
+      @apply my-6;
     }
     .task:hover {
       @apply cursor-pointer;

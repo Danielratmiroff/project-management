@@ -84,7 +84,7 @@
 <style lang="css" scoped>
   @layer components {
     .home-container {
-      @apply w-full bg-gray-100;
+      @apply w-full bg-gray-100 h-full;
     }
     .searchBar {
       @apply text-left flex items-center mb-4;
