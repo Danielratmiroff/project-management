@@ -73,7 +73,6 @@
           this.task = new TaskModel();
           this.isEditMode = false;
         }
-        console.log(this.task);
         this.taskModalHandler();
       },
       taskModalHandler() {

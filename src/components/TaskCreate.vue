@@ -73,7 +73,7 @@
             Delete
           </button>
           <button @click="storeTask" class="btn-main w-1/4">
-            {{ this.createText() }}
+            {{ createText }}
           </button>
         </div>
       </div>
@@ -114,6 +114,9 @@
     },
     computed: {
       ...mapState(["categories", "kinds"]),
+      createText(): string {
+        return this.isEditMode ? "Save" : "Create";
+      },
     },
     mounted() {
       const title = document.getElementById("title")!;
@@ -153,9 +156,6 @@
       removeTask() {
         this.$store.dispatch("removeTask", this.currTask.id);
         this.closeModal();
-      },
-      createText() {
-        return this.isEditMode ? "Save" : "Create";
       },
       isTask() {
         return this.currTask.kind == "Task" ? true : false;

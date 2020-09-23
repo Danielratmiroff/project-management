@@ -86,7 +86,7 @@
         this.calendarOptions.events = tasks;
       },
       handleDateClick(e: any) {
-        // Default kind when in calendar is Meeting
+        // Default when creating from calendar
         this.task.kind = "Meeting";
         // Clicked date in calendar
         this.task.date = e.start;

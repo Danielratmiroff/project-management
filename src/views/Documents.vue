@@ -43,16 +43,11 @@
     components: {
       Fab,
     },
-    data() {
-      return {
-        date: "" as string,
-      };
-    },
     computed: {
       ...mapState(["documents"]),
-    },
-    mounted() {
-      this.date = dateFormater(this.documents.date, "US")!;
+      date(): string {
+        return dateFormater(this.documents.date, "US")!;
+      },
     },
     methods: {
       docEdit(doc: string) {

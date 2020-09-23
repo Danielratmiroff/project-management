@@ -22,10 +22,10 @@
         {{ this.task.category }}
       </div>
       <div class="task-date">
-        {{ this.dateFormated }}
+        {{ date }}
       </div>
       <div class="task-due-date">
-        {{ this.dueDateFormated }}
+        {{ dueDate }}
       </div>
     </div>
   </div>
@@ -46,24 +46,21 @@
     data() {
       return {
         status: "",
-        dateFormated: "" as string,
-        dueDateFormated: "" as string,
       };
     },
-    mounted() {
-      this.dateFormated = dateFormater(this.task.date, "US")!;
+    computed: {
+      dueDate(): string {
+        return dateFormater(this.task.dueDate, "US")!;
+      },
+      date(): string {
+        return dateFormater(this.task.date, "US")!;
+      },
     },
     watch: {
       status: {
         immediate: true,
         handler() {
           this.status = this.task.done ? "Done" : "Undone";
-        },
-      },
-      "task.dueDate": {
-        immediate: true,
-        handler() {
-          this.dueDateFormated = dateFormater(this.task.dueDate, "US")!;
         },
       },
     },

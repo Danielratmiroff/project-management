@@ -1,5 +1,8 @@
 <template>
   <div class="group">
+    <div v-for="item in meetings" :key="item">
+      {{ item }}
+    </div>
     <div
       v-for="(item, idx) in categories"
       :key="item"
@@ -51,6 +54,12 @@
     },
     computed: {
       ...mapState(["tasks", "categories", "categorisedTasks"]),
+      meetings(): [] {
+        const kinds = this.tasks.filter((elm: TaskModel) => {
+          return elm.kind == "Meeting";
+        });
+        return kinds;
+      },
     },
     watch: {
       tasks: {
