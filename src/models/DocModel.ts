@@ -1,16 +1,10 @@
 import { uuid } from "vue-uuid";
 
 export default class DocModel {
-  id: string;
-  title: string;
-  html: string;
-  // always maintain content as last key
-  content: string;
-
-  constructor() {
-    this.id = uuid.v4();
-    this.title = "";
-    this.html = `
+  constructor(
+    readonly id: string = uuid.v4(),
+    public title: string = "",
+    public html: string = `
     <h2>
       Hi there,
     </h2>
@@ -31,7 +25,14 @@ export default class DocModel {
       <br />
       – mom
     </blockquote>
-  `;
-    this.content = "Hi there, this is a very basic example of tiptap.";
+  `,
+    readonly date: string | Date = new Date(),
+    public content: string = "Hi there, this is a very basic example of tiptap."
+  ) {
+    this.id = id;
+    this.title = title;
+    this.date = date;
+    this.html = html;
+    this.content = content;
   }
 }

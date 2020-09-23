@@ -9,7 +9,7 @@
       <p class="category">
         {{ item }}
         <span @click="taskCreate" class="add-task transition-smooth">
-          + New Task
+          + Add new
         </span>
       </p>
       <Task
@@ -18,7 +18,7 @@
         :id="task.id"
         :task="task"
         :ref="task.id"
-        @mousedown.native="taskMouseDown($event, task.id)"
+        @mousedown.left.native="taskMouseDown($event, task.id)"
         @dragstart="false"
         class="task"
       />
@@ -175,14 +175,15 @@
       @apply cursor-pointer;
     }
     .add-task {
-      @apply ml-2 p-1 px-2 text-sm rounded-md text-gray-400 font-normal cursor-pointer;
+      @apply ml-2 p-1 px-2 text-sm rounded-md text-gray-500 font-normal cursor-pointer;
     }
     .add-task:hover {
       @apply bg-gray-400 text-white shadow-md;
     }
     .dragActive {
-      @apply absolute w-10/12;
+      @apply absolute w-10/12 shadow-lg;
       z-index: 999;
+      transform: rotate(3deg);
       cursor: grabbing !important;
       cursor: -moz-grabbing !important;
       cursor: -webkit-grabbing !important;

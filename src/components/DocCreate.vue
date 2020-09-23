@@ -8,7 +8,7 @@
           class="dc-title"
           v-model="docContent.title"
           type="text"
-          placeholder="Title here"
+          placeholder="Your title here"
           required
         />
         <button @click="saveDoc" class="btn-main">Save</button>
@@ -116,8 +116,11 @@
     .dc-title {
       @apply w-full;
     }
+    .dc-title {
+      @apply text-dark-700 font-bold text-2xl;
+    }
     .dc-title::placeholder {
-      @apply text-gray-500 font-bold text-2xl;
+      @apply text-gray-500;
     }
     .dc-editor {
       @apply bg-white p-0 h-full relative;

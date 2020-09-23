@@ -1,11 +1,14 @@
 <template>
   <div class="backplane" @click.self="closeModal" @keyup.esc="closeModal">
     <div class="popup-container" @keyup.enter="storeTask">
-      <div class="popup-title">
+      <div
+        class="popup-title transition-smooth"
+        :class="isTask() ? 'bg-orange-200' : 'bg-blue-200'"
+      >
         <span class="popup-title-icon">
           <i class="fas fa-plus"></i>
         </span>
-        Create a task
+        Create a {{ this.currTask.kind }}
         <div class="popup-close transition-smooth" @click="closeModal">
           <i class="fas fa-times fa-md"></i>
         </div>
@@ -13,35 +16,50 @@
       <div class="p-8 pb-6">
         <div class="popup-field">
           <p v-if="!errors.name" class="required-text">
-            * Name is required
+            * Title name is required
           </p>
-          <label class=""> Task name</label>
+          <label class="">Title name</label>
           <input
             id="title"
             class="input-name"
             type="text"
-            placeholder="Add task's name here"
+            placeholder="Add title here"
             v-model="currTask.name"
           />
         </div>
+
         <div class="popup-field">
-          <label class="">Add a category</label>
-          <p v-if="!errors.category" class="required-text">
-            * Category is required
+          <label class="">Kind</label>
+          <p v-if="!errors.kind" class="required-text">
+            * A kind is required
           </p>
           <v-select
             class="input-category"
-            v-model="currTask.category"
-            :options="categories"
-          ></v-select>
-        </div>
-        <div class="popup-field">
-          <label class="">Add a due date</label>
-          <v-date-picker
-            v-if="enableDueDatePick"
-            :popover="{ placement: 'top', visibility: 'click' }"
-            v-model="currTask.dueDate"
+            v-model="currTask.kind"
+            :options="kinds"
           />
+        </div>
+
+        <div v-if="isTask()">
+          <div class="popup-field">
+            <label class="">Add a category</label>
+            <p v-if="!errors.category" class="required-text">
+              * Category is required
+            </p>
+            <v-select
+              class="input-category"
+              v-model="currTask.category"
+              :options="categories"
+            />
+          </div>
+
+          <div v-if="enableDueDatePick" class="popup-field">
+            <label class="">Add a due date</label>
+            <v-date-picker
+              :popover="{ placement: 'top', visibility: 'click' }"
+              v-model="currTask.dueDate"
+            />
+          </div>
         </div>
         <div
           class="flex mt-8"
@@ -72,6 +90,7 @@
   interface error {
     name: boolean;
     category: boolean;
+    kind: boolean;
   }
 
   export default Vue.extend({
@@ -89,15 +108,24 @@
         errors: {
           name: true,
           category: true,
+          kind: true,
         } as error,
       };
     },
     computed: {
-      ...mapState(["categories"]),
+      ...mapState(["categories", "kinds"]),
     },
     mounted() {
       const title = document.getElementById("title")!;
       title.focus();
+      this.isTask();
+    },
+    watch: {
+      "currTask.kind": {
+        handler() {
+          this.isTask();
+        },
+      },
     },
     methods: {
       closeModal() {
@@ -117,7 +145,8 @@
       missingRequired() {
         this.errors.name = !this.currTask.name ? false : true;
         this.errors.category = !this.currTask.category ? false : true;
-        if (!this.errors.name || !this.errors.category) {
+        this.errors.kind = !this.currTask.kind ? false : true;
+        if (!this.errors.name || !this.errors.category || !this.errors.kind) {
           return true;
         }
       },
@@ -127,6 +156,9 @@
       },
       createText() {
         return this.isEditMode ? "Save" : "Create";
+      },
+      isTask() {
+        return this.currTask.kind == "Task" ? true : false;
       },
     },
   });
@@ -153,7 +185,7 @@
       @apply text-gray-500 mr-2 text-sm;
     }
     .popup-title {
-      @apply bg-gray-200 text-dark-900 font-bold rounded-t-lg flex relative items-center justify-start py-4 px-8 text-lg;
+      @apply text-dark-900 font-bold rounded-t-lg flex relative items-center justify-start py-4 px-8 text-lg;
     }
     .popup-close {
       @apply absolute right-0 mr-8 text-gray-600 cursor-pointer;

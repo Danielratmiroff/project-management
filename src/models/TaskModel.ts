@@ -1,22 +1,21 @@
 import { uuid } from "vue-uuid";
-import { dateFormater } from "@/components/helpers/date-formarter";
 
 export default class TaskModel {
-  id: string;
-  name: string;
-  date: string | Date;
-  category: string;
-  dueDate: string | Date;
-  done: boolean;
-
-  constructor() {
-    this.id = uuid.v4();
-    this.name = "";
-    this.category = "Ideas";
-    this.done = false;
-
-    const now = new Date();
-    this.dueDate = now;
-    this.date = now;
+  constructor(
+    readonly id: string = uuid.v4(),
+    public name: string = "",
+    public category: string = "Ideas",
+    public kind: string = "Task",
+    public done: boolean = false,
+    public date: Date | string = new Date(),
+    public dueDate: Date | string = new Date()
+  ) {
+    this.id = id;
+    this.name = name;
+    this.category = category;
+    this.kind = kind;
+    this.done = done;
+    this.date = date;
+    this.dueDate = dueDate;
   }
 }

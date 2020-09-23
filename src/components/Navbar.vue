@@ -10,7 +10,7 @@
         v-show="currPage === 'Create a document'"
         class="fas fa-file-signature fa-lg"
       ></i>
-      <i v-show="currPage === 'Dashboard'" class="fas fa-tasks"></i>
+      <i v-show="currPage === 'Dashboard'" class="fas fa-list"></i>
     </span>
     <p class="nav-text">
       {{ currPage }}

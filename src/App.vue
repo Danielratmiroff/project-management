@@ -26,6 +26,9 @@
         currPage: "" as string | void,
       };
     },
+    beforeCreate() {
+      this.$store.commit("initialiseStore");
+    },
     watch: {
       "$route.path": {
         immediate: true,
@@ -85,7 +88,7 @@
       @apply shadow-lg bg-blue-300;
     }
     .btn-secondary {
-      @apply transition-smooth p-2 border text-lg text-dark-900 flex items-center justify-center rounded-md;
+      @apply transition-smooth p-2 text-lg text-red-900 flex items-center justify-center rounded-md;
     }
     .btn-secondary:hover {
       @apply shadow-lg bg-orange-900 text-white border-orange-900;

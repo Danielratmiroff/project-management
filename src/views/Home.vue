@@ -1,7 +1,11 @@
 <template>
   <div class="home-container">
-    <Search class="searchBar" @searchList="searchList" />
-
+    <div class="flex w-full items-center mb-4">
+      <Search class="search-bar" @searchList="searchList" />
+      <span @click="removeAll" class="delete transition-smooth">
+        <i class="far fa-trash-alt"></i>
+      </span>
+    </div>
     <Dashboard
       @taskCreate="taskHandler"
       @taskEdit="taskHandler"
@@ -69,6 +73,7 @@
           this.task = new TaskModel();
           this.isEditMode = false;
         }
+        console.log(this.task);
         this.taskModalHandler();
       },
       taskModalHandler() {
@@ -76,6 +81,11 @@
       },
       searchList(list: Array<[]>) {
         this.taskList = list;
+      },
+      removeAll() {
+        if (confirm("Do you want to delete your local tasks?")) {
+          localStorage.removeItem("tasks");
+        }
       },
     },
   });
@@ -86,8 +96,12 @@
     .home-container {
       @apply w-full bg-gray-100 h-full;
     }
-    .searchBar {
-      @apply text-left flex items-center mb-4;
+    .search-bar {
+      @apply text-left flex items-center mr-6;
+      min-width: 33%;
+    }
+    .delete:hover {
+      @apply text-red-900 cursor-pointer;
     }
   }
 </style>

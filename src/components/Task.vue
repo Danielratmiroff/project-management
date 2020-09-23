@@ -52,13 +52,18 @@
     },
     mounted() {
       this.dateFormated = dateFormater(this.task.date, "US")!;
-      this.dueDateFormated = dateFormater(this.task.dueDate, "US")!;
     },
     watch: {
       status: {
         immediate: true,
         handler() {
           this.status = this.task.done ? "Done" : "Undone";
+        },
+      },
+      "task.dueDate": {
+        immediate: true,
+        handler() {
+          this.dueDateFormated = dateFormater(this.task.dueDate, "US")!;
         },
       },
     },

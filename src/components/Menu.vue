@@ -6,7 +6,7 @@
       class="menu-btn transition-smooth"
       to="/"
     >
-      <i class="fas fa-home fa-lg"></i>
+      <i class="fas fa-list fa-lg"></i>
     </router-link>
     <router-link
       :class="currPage === 'Documents' ? 'menu-active' : 'menu-icon'"

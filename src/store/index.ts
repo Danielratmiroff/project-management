@@ -2,7 +2,6 @@ import Vue from "vue";
 import Vuex from "vuex";
 import TaskModel from "@/models/TaskModel";
 import DocModel from "@/models/DocModel";
-import { uuid } from "vue-uuid";
 Vue.use(Vuex);
 
 export type State = { tasks: object };
@@ -11,10 +10,46 @@ export default new Vuex.Store({
   state: {
     tasks: Array<TaskModel>(),
     categories: ["On Progress", "Ideas", "Backlog"],
+    kinds: ["Meeting", "Task"],
     categorisedTasks: Array<any>(),
     documents: Array<DocModel>(),
   },
   mutations: {
+    initialiseStore(state) {
+      //Load tasks
+      if (localStorage.getItem("tasks")) {
+        const localTasks = JSON.parse(localStorage.getItem("tasks")!);
+        const taskInstances = localTasks.map((elm: TaskModel) => {
+          return new TaskModel(
+            elm.id,
+            elm.name,
+            elm.category,
+            elm.kind,
+            elm.done,
+            new Date(elm.date),
+            new Date(elm.dueDate)
+          );
+        });
+        state.tasks = taskInstances;
+      }
+      //Load documents
+      if (localStorage.getItem("documents")) {
+        const localDocs = JSON.parse(localStorage.getItem("documents")!);
+        const documentInstances = localDocs.map((elm: DocModel) => {
+          return new DocModel(
+            elm.id,
+            elm.title,
+            elm.html,
+            new Date(elm.date),
+            elm.content
+          );
+        });
+        state.documents = documentInstances;
+      }
+    },
+    storeTasks(state) {
+      localStorage.setItem("tasks", JSON.stringify(state.tasks));
+    },
     saveTask(state, task: TaskModel) {
       state.tasks.push(task);
     },
@@ -65,7 +100,9 @@ export default new Vuex.Store({
         return list;
       }
     },
-
+    storeDocs(state) {
+      localStorage.setItem("documents", JSON.stringify(state.documents));
+    },
     saveDoc(state, doc: DocModel) {
       state.documents.push(doc);
     },
@@ -88,26 +125,41 @@ export default new Vuex.Store({
       );
       state.documents = editedDoc;
     },
+    removeDoc(state, id: string) {
+      const list = state.documents;
+      const docs = list.filter((elm) => {
+        return elm.id !== id;
+      });
+      state.documents = docs;
+    },
   },
   actions: {
     saveTask({ commit }, task: TaskModel) {
       commit("saveTask", task);
+      commit("storeTasks");
     },
     editTask({ commit }, task: TaskModel) {
       commit("editTask", task);
+      commit("storeTasks");
     },
     removeTask({ commit }, id: string) {
       commit("removeTask", id);
+      commit("storeTasks");
     },
     categorizeTasks({ commit }) {
       commit("categorizeTasks");
     },
     saveDoc({ commit }, doc: DocModel) {
       commit("saveDoc", doc);
+      commit("storeDocs");
     },
     editDoc({ commit }, doc: DocModel) {
       commit("editDoc", doc);
+      commit("storeDocs");
+    },
+    removeDoc({ commit }, docId: string) {
+      commit("removeDoc", docId);
+      commit("storeDocs");
     },
   },
-  modules: {},
 });

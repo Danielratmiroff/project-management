@@ -160,6 +160,7 @@
     // Editor's container minus header
     const remainHeight = editorHeight - 80;
     content.style.height = remainHeight + "px";
+    content.style.wordBreak = "break-all";
   }
 
   import Vue from "vue";

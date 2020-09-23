@@ -90,7 +90,7 @@
 <style lang="css" scoped>
   @layer components {
     .searchInput {
-      @apply h-8 w-1/3 rounded-md border border-gray-200 flex justify-between;
+      @apply h-8 rounded-md border w-full border-gray-200 flex justify-between;
     }
     .searchInput:hover {
       @apply shadow-md;

@@ -4,10 +4,9 @@
       <div
         v-for="doc in this.documents"
         :key="doc.id"
-        class="document"
-        @click="docEdit(doc.id)"
+        class="document transition-smooth"
       >
-        <div class="doc-content">
+        <div @click="docEdit(doc.id)" class="doc-content">
           <p class="doc-title">
             <span class="text-blue-900 mr-2">
               <i class="fas fa-bookmark"></i>
@@ -19,11 +18,11 @@
           </p>
         </div>
         <div class="doc-details">
-          <span class="doc-delete">
+          <span @click="docRemove(doc.id)" class="doc-delete transition-smooth">
             <i class="far fa-trash-alt"></i>
           </span>
           <p class="doc-date">
-            date
+            {{ date }}
           </p>
         </div>
       </div>
@@ -38,13 +37,22 @@
   import Vue from "vue";
   import Fab from "@/components/Fab.vue";
   import { mapState } from "vuex";
+  import { dateFormater } from "@/components/helpers/date-formarter";
   export default Vue.extend({
     name: "Documents",
     components: {
       Fab,
     },
+    data() {
+      return {
+        date: "" as string,
+      };
+    },
     computed: {
       ...mapState(["documents"]),
+    },
+    mounted() {
+      this.date = dateFormater(this.documents.date, "US")!;
     },
     methods: {
       docEdit(doc: string) {
@@ -52,6 +60,9 @@
           name: "DocCreate",
           params: { docedit: doc },
         });
+      },
+      docRemove(id: string) {
+        this.$store.dispatch("removeDoc", id);
       },
     },
   });
@@ -74,7 +85,7 @@
       grid-template-rows: 1fr 32px;
     }
     .document:hover {
-      @apply cursor-pointer;
+      @apply cursor-pointer shadow-lg;
     }
     .doc-content {
       @apply p-8;
@@ -83,14 +94,21 @@
       @apply text-lg font-semibold text-dark-900;
     }
     .doc-text {
-      @apply text-dark-900 mt-4;
+      @apply text-dark-900 mt-4 h-12;
     }
     .doc-details {
       @apply flex items-center py-4 px-8 bg-gray-100 justify-between;
       border-top: 1px solid var(--gray-light);
     }
-    .doc-delete {
+    .doc-delete,
+    .doc-date {
       @apply text-gray-700;
+    }
+    .doc-date {
+      @apply text-sm;
+    }
+    .doc-delete:hover {
+      @apply text-red-900;
     }
   }
 </style>

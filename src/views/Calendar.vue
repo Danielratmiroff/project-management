@@ -8,7 +8,7 @@
       :task="task"
       @closeModal="taskModalHandler"
     />
-    <FullCalendar :options="calendarOptions" />
+    <FullCalendar class="calendar-container" :options="calendarOptions" />
   </div>
 </template>
 
@@ -43,14 +43,17 @@
           selectable: true,
           dayMaxEvents: true,
           editable: true,
+          height: 800,
+          backgroundColor: "#000",
+          eventDrop: this.eventDrop,
           eventDidMount: this.eventToolTip,
           // eventMouseEnter: this.eventHover,
           // eventDrop: this.eventDrop,
           eventClick: this.eventClick,
           headerToolbar: {
-            left: "prev,next today",
+            right: "prev,next today",
             center: "title",
-            right: "dayGridMonth,dayGridWeek",
+            left: "dayGridMonth,dayGridWeek",
           },
           select: this.handleDateClick,
         },
@@ -70,22 +73,26 @@
     methods: {
       loadTasks() {
         const tasks = this.tasks.map((elm: TaskModel) => {
+          const color = elm.kind === "Task" ? "#ecc94b" : "#4299e1";
           return {
             id: elm.id,
             title: elm.name,
             start: elm.date,
             end: elm.dueDate,
+            color: color,
             allDay: true,
           };
         });
         this.calendarOptions.events = tasks;
       },
       handleDateClick(e: any) {
+        // Default kind when in calendar is Meeting
+        this.task.kind = "Meeting";
+        // Clicked date in calendar
         this.task.date = e.start;
-
         // Compare if task its due to the same day
-        const date = getLastDayDigit(e.startStr);
-        const dueDate = getLastDayDigit(e.endStr);
+        const date = getLastDayDigit(e.start);
+        const dueDate = getLastDayDigit(e.end);
         const diffInDates = dueDate - date;
         // if single click on an specific date
         if (diffInDates === 1) {
@@ -98,7 +105,7 @@
         this.taskModal = true;
 
         function getLastDayDigit(date: string): number {
-          return parseInt(date.slice(date.length - 1));
+          return parseInt(date.toString().slice(date.length - 1));
         }
       },
       eventClick(e: any) {
@@ -107,6 +114,17 @@
         this.task = fetchTask;
         this.isEditMode = true;
         this.taskModal = true;
+      },
+      eventDrop(info: any) {
+        const id: string = info.event.id;
+        const findTask = this.tasks.find((elm: TaskModel) => elm.id === id);
+        const updatedTask = {
+          ...findTask,
+          date: info.event.start,
+          dueDate: info.event.end,
+        };
+        this.task = updatedTask;
+        this.$store.dispatch("editTask", updatedTask);
       },
       taskModalHandler() {
         this.taskModal = !this.taskModal;
@@ -117,8 +135,13 @@
     },
   });
 </script>
-<style lang="scss" scoped>
-  .unClickeable {
-    pointer-events: none;
+<style lang="css" scoped>
+  @layer components {
+    .calendar-container {
+      @apply;
+    }
+    .calendar-item {
+      @apply bg-yellow-600;
+    }
   }
 </style>
