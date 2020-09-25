@@ -1,30 +1,60 @@
 <template>
-  <div class="group">
-    <div v-for="item in meetings" :key="item">
-      {{ item }}
+  <div>
+    <div class="head-container">
+      <div class="meetings-wrapper">
+        <p class="category text-blue-600">
+          Meetings
+        </p>
+        <div class="meetings-container">
+          <Meeting
+            :meeting="item"
+            v-for="item in filterKinds(tasks, 'Meeting')"
+            :key="item.id"
+            @click.native="goToCalendar"
+          />
+          <span
+            v-if="meetingsText"
+            content="Add some on the calendar view 📆"
+            v-tippy="{ placement: 'top', arrow: true }"
+            class="text-sm text-gray-500 ml-4 cursor-default"
+          >
+            {{ meetingsText }}
+          </span>
+        </div>
+      </div>
+      <div class="search-container">
+        <div class="flex w-full items-center">
+          <span @click="removeAll" class="delete transition-smooth">
+            <i class="far fa-trash-alt"></i>
+          </span>
+          <Search class="search-bar" @searchList="searchList" />
+        </div>
+      </div>
     </div>
-    <div
-      v-for="(item, idx) in categories"
-      :key="item"
-      :id="item"
-      class="dropZone"
-    >
-      <p class="category">
-        {{ item }}
-        <span @click="taskCreate" class="add-task transition-smooth">
-          + Add new
-        </span>
-      </p>
-      <Task
-        v-for="task in allTasks[idx]"
-        :key="task.id"
-        :id="task.id"
-        :task="task"
-        :ref="task.id"
-        @mousedown.left.native="taskMouseDown($event, task.id)"
-        @dragstart="false"
-        class="task"
-      />
+    <div class="group">
+      <div
+        v-for="(item, idx) in categories"
+        :key="item"
+        :id="item"
+        class="container-tasks dropZone"
+      >
+        <p class="category text-dark-600">
+          {{ item }}
+          <span @click="taskCreate" class="add-task transition-smooth">
+            + Add task
+          </span>
+        </p>
+        <Task
+          v-for="task in filterKinds(taskList[idx], 'Task')"
+          :key="task.id"
+          :id="task.id"
+          :task="task"
+          :ref="task.id"
+          @mousedown.left.native="taskMouseDown($event, task.id)"
+          @dragstart="false"
+          class="task"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -33,32 +63,33 @@
   import Vue from "vue";
   import { mapState } from "vuex";
   import Task from "@/components/Task.vue";
+  import Meeting from "@/components/Meeting.vue";
   import TaskCreate from "@/components/TaskCreate.vue";
   import TaskModel from "@/models/TaskModel";
+  import Search from "@/components/Search.vue";
 
   export default Vue.extend({
     name: "Dashboard",
     components: {
       Task,
       TaskCreate,
+      Meeting,
+      Search,
     },
-    props: {
-      allTasks: Array,
-    },
-
     data() {
       return {
         isMouseDown: false,
         isDragging: false,
+        taskList: [] as Array<[]>,
       };
     },
     computed: {
       ...mapState(["tasks", "categories", "categorisedTasks"]),
-      meetings(): [] {
-        const kinds = this.tasks.filter((elm: TaskModel) => {
-          return elm.kind == "Meeting";
-        });
-        return kinds;
+      meetingsText(): string | null {
+        const totalMeetings = this.filterKinds(this.tasks, "Meeting");
+        return totalMeetings.length
+          ? null
+          : "You have no meetings for now... lucky you! 😋";
       },
     },
     watch: {
@@ -69,9 +100,23 @@
         },
       },
     },
+    created() {
+      this.taskList = this.categorisedTasks;
+    },
     methods: {
       buildLists() {
         this.$store.dispatch("categorizeTasks");
+      },
+      removeAll() {
+        if (confirm("Do you want to delete your local tasks?")) {
+          localStorage.removeItem("tasks");
+        }
+      },
+      filterKinds(list: Array<TaskModel>, kind: string) {
+        const kinds = list.filter((elm: TaskModel) => {
+          return elm.kind == kind;
+        });
+        return kinds;
       },
 
       taskCreate() {
@@ -156,6 +201,14 @@
         this.$emit("taskEdit", task);
       },
 
+      goToCalendar() {
+        this.$router.push("Calendar");
+      },
+
+      searchList(list: Array<[]>) {
+        this.taskList = list;
+      },
+
       updateTaskCategory(newCategory: string, task: TaskModel) {
         const updateTask = { ...task };
         updateTask.category = newCategory;
@@ -167,15 +220,28 @@
 
 <style lang="css" scoped>
   @layer components {
+    .head-container {
+      @apply flex justify-between;
+    }
+    .search-container {
+      @apply flex w-1/4 items-end;
+    }
     .group {
-      @apply grid grid-cols-1 row-gap-8;
+      @apply grid my-8 grid-cols-1 row-gap-8;
       grid-template-rows: repeat(3, minmax(125px, max-content));
     }
-    .dropZone {
+    .meetings-wrapper {
+      @apply py-4 px-8 rounded-md bg-blue-100;
+      max-width: 80%;
+    }
+    .meetings-container {
+      @apply grid grid-cols-3 row-gap-4 col-gap-6 mt-4;
+    }
+    .container-tasks {
       @apply w-full h-full px-8 py-4 border rounded-md;
     }
     .category {
-      @apply text-left text-lg text-dark-600 font-bold;
+      @apply text-left text-lg font-bold;
     }
     .task {
       @apply my-6;
@@ -204,6 +270,9 @@
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
+    }
+    .search-bar {
+      @apply text-left flex items-center ml-6 w-full;
     }
   }
 </style>

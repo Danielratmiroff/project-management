@@ -74,7 +74,7 @@ export default new Vuex.Store({
     },
     removeTask(state, id: string) {
       const list = state.tasks;
-      const task = list.filter((elm) => {
+      const task = list.filter((elm: TaskModel) => {
         return elm.id !== id;
       });
       state.tasks = task;

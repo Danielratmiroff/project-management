@@ -65,6 +65,7 @@
     --gray-normal: #718096;
     --gray-light: #edf2f7;
     --main-dark: #131e43;
+    --main-blue: #99e1e5;
   }
 
   * {
@@ -109,6 +110,7 @@
     grid-auto-columns: initial;
     width: 100vw;
     height: 100vh;
+    overflow-x: hidden;
   }
   .screen-container {
     display: grid;

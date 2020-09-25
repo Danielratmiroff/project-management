@@ -1,28 +1,16 @@
 <template>
   <div>
-    <div
-      v-on:keyup.enter="this.sendList(this.categorisedTasks)"
-      class="searchInput transition-smooth"
-      style="background-color:white;
-            "
-    >
+    <div class="searchInput transition-smooth" style="background-color:white;">
       <input
         type="search"
         placeholder="Search"
         v-model="searchTask"
         class="pl-3 focus:outline-none text-sm w-full mr-3
-                sm:mr-6 md:mr-8
-                "
+                sm:mr-6 md:mr-8"
       />
-
-      <div
-        @click="this.sendList(this.categorisedTasks)"
-        class="searchBtn sm:-ml-4;"
-      >
-        <span class="w-6 p-1">
-          <i class="fas fa-search"></i>
-        </span>
-      </div>
+      <span class="w-6 p-1 mr-2">
+        <i class="fas fa-search"></i>
+      </span>
     </div>
   </div>
 </template>
@@ -31,6 +19,7 @@
   import Vue from "vue";
   import { mapState } from "vuex";
   import TaskModel from "@/models/TaskModel";
+  import { filter } from "vue/types/umd";
 
   export default Vue.extend({
     name: "Search",
@@ -42,36 +31,25 @@
     computed: {
       ...mapState(["categorisedTasks"]),
     },
-
     watch: {
       searchTask: {
         handler() {
-          const totalTasks = this.categorisedTasks;
-          const filteredTasks = totalTasks.map(
-            (categoriesArr: Array<[TaskModel] | null>) => {
+          const filteredTasks = this.categorisedTasks.map(
+            (categoriesArr: Array<[TaskModel]>) => {
               // we try to find task in each category
               return findTask(categoriesArr, this.searchTask);
             }
           );
-
           function findTask(arr: Array<any>, find: string) {
-            const filtered = arr.reduce(
-              (acc: Array<TaskModel | null>, curr: TaskModel) => {
-                // find task on current category array
-                if (curr.name.includes(find)) {
-                  acc.push(curr);
-                }
-                return acc;
-              },
-              []
-            );
-            return filtered;
+            return arr.filter((elm: TaskModel) => {
+              return elm.name.match(find);
+            });
           }
           this.sendList(filteredTasks);
         },
       },
-
       categorisedTasks: {
+        // Watch for changes (added or deleted tasks) and update the list
         handler() {
           this.sendList(this.categorisedTasks);
           this.searchTask = "";

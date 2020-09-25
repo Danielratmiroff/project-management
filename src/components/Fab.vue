@@ -3,15 +3,25 @@
     <div
       class="grid grid-cols-1 text-center justify-center row-gap-4 mb-4 mr-4"
     >
-      <span
+      <router-link
+        to="doc-create"
+        content="Create document"
+        v-tippy="{
+          placement: 'left',
+          arrow: true,
+        }"
         v-show="toggleIcons"
-        @click="createDocument"
         class="transition-smooth fab-btn fab-btn-secondary bg-orange-600 hover:bg-orange-400 hover:shadow-md"
         :class="toggleIcons ? 'taskAnimationIn' : 'taskAnimationOut'"
       >
         <i class="fas fa-file-alt"></i>
-      </span>
+      </router-link>
       <span
+        content="Add new task"
+        v-tippy="{
+          placement: 'left',
+          arrow: true,
+        }"
         v-show="toggleIcons"
         @click="openTaskCreateModal"
         class="transition-smooth fab-btn fab-btn-secondary bg-dark-800 hover:bg-blue-200 hover:shadow-md "
@@ -20,6 +30,14 @@
         <i class="fas fa-list-ul "></i>
       </span>
       <button
+        content="Get on your wave here 🏄🏻‍♂️"
+        v-tippy="{
+          placement: 'left',
+          arrow: true,
+          theme: 'light',
+          showOnInit: true,
+          delay: [1000, 0],
+        }"
         class="transition-smooth fab-btn fab-btn-primary"
         style=""
         @click="toggleIcons = !toggleIcons"
@@ -57,9 +75,6 @@
           // otherwise, open task create modal directly
           this.$emit("taskCreate");
         }
-      },
-      createDocument() {
-        this.$router.push({ name: "DocCreate" });
       },
     },
   });

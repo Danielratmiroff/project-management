@@ -1,16 +1,6 @@
 <template>
   <div class="home-container">
-    <div class="flex w-full items-center mb-4">
-      <Search class="search-bar" @searchList="searchList" />
-      <span @click="removeAll" class="delete transition-smooth">
-        <i class="far fa-trash-alt"></i>
-      </span>
-    </div>
-    <Dashboard
-      @taskCreate="taskHandler"
-      @taskEdit="taskHandler"
-      :allTasks="taskList"
-    />
+    <Dashboard @taskCreate="taskHandler" @taskEdit="taskHandler" />
 
     <Fab @taskCreate="taskHandler" />
 
@@ -26,7 +16,6 @@
 
 <script lang="ts">
   import Vue from "vue";
-  import Search from "@/components/Search.vue";
   import Dashboard from "@/components/Dashboard.vue";
   import TaskCreate from "@/components/TaskCreate.vue";
   import TaskModel from "@/models/TaskModel";
@@ -36,7 +25,6 @@
   export default Vue.extend({
     name: "Home",
     components: {
-      Search,
       Dashboard,
       TaskCreate,
       Fab,
@@ -46,7 +34,6 @@
         taskModal: false,
         task: new TaskModel(),
         isEditMode: false,
-        taskList: [] as Array<[]>,
       };
     },
     computed: {
@@ -54,7 +41,6 @@
     },
 
     created() {
-      this.taskList = this.categorisedTasks;
       // check if open modal on window load
       this.$route.params.taskCreate
         ? setTimeout(() => {
@@ -78,14 +64,6 @@
       taskModalHandler() {
         this.taskModal = !this.taskModal;
       },
-      searchList(list: Array<[]>) {
-        this.taskList = list;
-      },
-      removeAll() {
-        if (confirm("Do you want to delete your local tasks?")) {
-          localStorage.removeItem("tasks");
-        }
-      },
     },
   });
 </script>
@@ -95,10 +73,7 @@
     .home-container {
       @apply w-full bg-gray-100 h-full;
     }
-    .search-bar {
-      @apply text-left flex items-center mr-6;
-      min-width: 33%;
-    }
+
     .delete:hover {
       @apply text-red-900 cursor-pointer;
     }

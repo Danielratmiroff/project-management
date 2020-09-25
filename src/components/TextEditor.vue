@@ -258,7 +258,7 @@
     height: 40px;
     display: flex;
     align-items: center;
-    border: 1px solid (var(--gray-light));
+    border: 1px solid var(--gray-light);
   }
   .editor-button {
     border-radius: 8px;
@@ -266,7 +266,7 @@
     height: 32px;
     margin: 0 0.25rem;
     &:hover {
-      background-color: (var(--gray-light));
+      background-color: var(--gray-light);
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
         0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
@@ -276,9 +276,9 @@
     font-size: 0.85rem;
   }
   .is-active {
-    background-color: (var(--gray-light));
+    background-color: var(--gray-light);
     > span {
-      color: (var(--main-dark)) !important;
+      color: var(--main-dark) !important;
     }
   }
   .editor {

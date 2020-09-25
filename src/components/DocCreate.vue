@@ -86,10 +86,7 @@
       },
       contentUpdate(item: any) {
         //Text editor child emits the content on any update and we store it here
-        const content =
-          item.content.length > 50
-            ? item.content.slice(0, 50) + "..."
-            : item.content;
+        const content = item.content.slice(0, 50) + "...";
         this.docContent.content = content;
         this.docContent.html = item.html;
       },

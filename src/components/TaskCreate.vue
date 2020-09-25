@@ -96,13 +96,13 @@
   export default Vue.extend({
     name: "TaskCreate",
     props: {
-      task: TaskModel,
+      task: Object,
       isEditMode: Boolean,
       enableDueDatePick: Boolean,
     },
     data() {
       return {
-        currTask: this.task,
+        currTask: this.task as TaskModel,
         selectedDate: new Date(),
         selectedCategory: "" as string,
         errors: {

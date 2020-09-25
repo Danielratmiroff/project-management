@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="doc-container">
       <div
-        v-for="doc in this.documents"
+        v-for="doc in documents"
         :key="doc.id"
         class="document transition-smooth"
       >

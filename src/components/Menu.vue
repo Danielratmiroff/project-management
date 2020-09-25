@@ -2,6 +2,8 @@
   <div class="menu flex flex-col justify-start items-center mt-2">
     <img src="../assets/logo.svg" class="mx-auto" width="32" height="32" />
     <router-link
+      content="Tasks"
+      v-tippy="{ placement: 'right', arrow: true }"
       :class="currPage === 'Dashboard' ? 'menu-active' : 'menu-icon'"
       class="menu-btn transition-smooth"
       to="/"
@@ -9,6 +11,8 @@
       <i class="fas fa-list fa-lg"></i>
     </router-link>
     <router-link
+      content="Documents"
+      v-tippy="{ placement: 'right', arrow: true }"
       :class="currPage === 'Documents' ? 'menu-active' : 'menu-icon'"
       class="menu-btn transition-smooth"
       to="/documents"
@@ -16,6 +20,8 @@
       <i class="far fa-file-alt  fa-lg"></i>
     </router-link>
     <router-link
+      content="Calendar"
+      v-tippy="{ placement: 'right', arrow: true }"
       :class="currPage === 'Calendar' ? 'menu-active' : 'menu-icon'"
       class="menu-btn transition-smooth"
       to="/calendar"

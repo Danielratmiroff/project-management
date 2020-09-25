@@ -110,14 +110,14 @@
       },
       eventClick(e: any) {
         const id: string = e.event._def.publicId;
-        const fetchTask = this.tasks.find((elm: TaskModel) => elm.id === id);
+        const fetchTask = this.findTask(id);
         this.task = fetchTask;
         this.isEditMode = true;
         this.taskModal = true;
       },
       eventDrop(info: any) {
         const id: string = info.event.id;
-        const findTask = this.tasks.find((elm: TaskModel) => elm.id === id);
+        const findTask = this.findTask(id);
         const updatedTask = {
           ...findTask,
           date: info.event.start,
@@ -125,6 +125,9 @@
         };
         this.task = updatedTask;
         this.$store.dispatch("editTask", updatedTask);
+      },
+      findTask(id: string) {
+        return this.tasks.find((elm: TaskModel) => elm.id === id);
       },
       taskModalHandler() {
         this.taskModal = !this.taskModal;
