@@ -6,28 +6,22 @@ export default class DocModel {
     public title: string = "",
     public html: string = `
     <h2>
-      Hi there,
+      Hi there 👏
     </h2>
     <p>
-      this is a very <em>basic</em> example of tiptap.
+      this is a very <em><b>basic</b></em> example of a document.
     </p>
-    <pre><code>body { display: none; }</code></pre>
-    <ul>
-      <li>
-        A regular list
-      </li>
-      <li>
-        With regular items
-      </li>
-    </ul>
+    <pre><code>Feel free to save your favorite lines of code here 
+or even say something in german such as... Hans get ze Flammenwerfer! 🔥
+    </code></pre>
     <blockquote>
-      It's amazing 👏
+      Have a lot of fun! 
       <br />
-      – mom
+      – Dan
     </blockquote>
   `,
     readonly date: string | Date = new Date(),
-    public content: string = "Hi there, this is a very basic example of tiptap."
+    public content: string = "Hi there 👏 this is a very basic example of a document."
   ) {
     this.id = id;
     this.title = title;

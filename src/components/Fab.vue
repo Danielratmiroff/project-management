@@ -1,7 +1,7 @@
 <template>
   <div class="fixed bottom-0 right-0 flex items-center justify-center">
     <div
-      class="grid grid-cols-1 text-center justify-center row-gap-4 mb-4 mr-4"
+      class="grid grid-cols-1 text-center justify-center row-gap-4 mb-6 mr-6"
     >
       <router-link
         to="doc-create"

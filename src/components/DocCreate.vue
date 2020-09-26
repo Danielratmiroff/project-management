@@ -23,6 +23,10 @@
   </div>
 </template>
 <script lang="ts">
+  type editorObject = {
+    content: string;
+    html: string;
+  };
   import Vue from "vue";
   import DocModel from "@/models/DocModel";
   import EditorContent from "@/components/TextEditor.vue";
@@ -84,8 +88,8 @@
         }
         this.$router.push("documents");
       },
-      contentUpdate(item: any) {
-        //Text editor child emits the content on any update and we store it here
+      contentUpdate(item: editorObject) {
+        //Text editor child emits the content on update and we store it here
         const content = item.content.slice(0, 50) + "...";
         this.docContent.content = content;
         this.docContent.html = item.html;

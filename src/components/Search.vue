@@ -35,12 +35,12 @@
       searchTask: {
         handler() {
           const filteredTasks = this.categorisedTasks.map(
-            (categoriesArr: Array<[TaskModel]>) => {
+            (categoriesArr: Array<TaskModel>) => {
               // we try to find task in each category
               return findTask(categoriesArr, this.searchTask);
             }
           );
-          function findTask(arr: Array<any>, find: string) {
+          function findTask(arr: Array<TaskModel>, find: string) {
             return arr.filter((elm: TaskModel) => {
               return elm.name.match(find);
             });

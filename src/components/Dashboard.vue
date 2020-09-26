@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <div class="group">
+    <div class="group no-select">
       <div
         v-for="(item, idx) in categories"
         :key="item"
@@ -108,8 +108,10 @@
         this.$store.dispatch("categorizeTasks");
       },
       removeAll() {
-        if (confirm("Do you want to delete your local tasks?")) {
+        if (confirm("Do you want to delete all your local tasks?")) {
           localStorage.removeItem("tasks");
+          location.reload();
+          return false;
         }
       },
       filterKinds(list: Array<TaskModel>, kind: string) {
@@ -122,14 +124,17 @@
       taskCreate() {
         this.$emit("taskCreate");
       },
+
       taskMouseDown(e: any, id: string) {
         // need to make index typescript function global
-        const element: any = this.$refs[id][0];
+        const ref = this.$refs[id] as Vue;
+        const element = ref[0];
+
         const elNode: HTMLDivElement = element.$el;
         // const elId: HTMLDivElement = this.$refs.task[0].$el;
         const elNodeRelativeY = e.clientY - elNode.getBoundingClientRect().top;
         const elNodeRelativeX = e.clientX - elNode.getBoundingClientRect().left;
-
+        const elNodeRelativeWidth = elNode.getBoundingClientRect().width;
         // Store dropzone to remove listeners onmouseup
         let dropZone: HTMLDivElement | null;
 
@@ -138,6 +143,8 @@
 
         // Append clone to imitate dragging elm
         const elParent = elNode.parentElement as HTMLDivElement;
+
+        elNode.style.width = elNodeRelativeWidth.toString() + "px";
 
         // Move move function
         const onMouseMove = (e: any) => {
@@ -154,7 +161,6 @@
           // Node follows the cursor
           elNode.style.left = e.pageX - elNodeRelativeX + "px";
           elNode.style.top = e.pageY - elNodeRelativeY + "px";
-
           elNode.hidden = true;
           // Get elements below cursor's position
           let elemBelow = document.elementFromPoint(e.clientX, e.clientY);
@@ -238,13 +244,10 @@
       @apply grid grid-cols-3 row-gap-4 col-gap-6 mt-4;
     }
     .container-tasks {
-      @apply w-full h-full px-8 py-4 border rounded-md;
+      @apply w-full h-full px-8 py-6 border rounded-md grid grid-cols-1 row-gap-6;
     }
     .category {
       @apply text-left text-lg font-bold;
-    }
-    .task {
-      @apply my-6;
     }
     .task:hover {
       @apply cursor-pointer;
@@ -256,14 +259,13 @@
       @apply bg-gray-400 text-white shadow-md;
     }
     .dragActive {
-      @apply absolute w-10/12 shadow-lg;
+      @apply absolute shadow-lg;
       z-index: 999;
-      transform: rotate(3deg);
       cursor: grabbing !important;
       cursor: -moz-grabbing !important;
       cursor: -webkit-grabbing !important;
     }
-    .disableTextSelection {
+    .no-select {
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       -khtml-user-select: none;
@@ -273,6 +275,12 @@
     }
     .search-bar {
       @apply text-left flex items-center ml-6 w-full;
+    }
+    .delete {
+      @apply text-gray-700;
+    }
+    .delete:hover {
+      @apply text-red-900 cursor-pointer;
     }
   }
 </style>

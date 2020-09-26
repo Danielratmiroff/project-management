@@ -6,7 +6,8 @@ export default class TaskModel {
     public name: string = "",
     public category: string = "Ideas",
     public kind: string = "Task",
-    public done: boolean = false,
+    public content: string = "",
+    public priority: string | null = "Normal",
     public date: Date | string = new Date(),
     public dueDate: Date | string = new Date()
   ) {
@@ -14,7 +15,8 @@ export default class TaskModel {
     this.name = name;
     this.category = category;
     this.kind = kind;
-    this.done = done;
+    this.content = content;
+    this.priority = priority;
     this.date = date;
     this.dueDate = dueDate;
   }

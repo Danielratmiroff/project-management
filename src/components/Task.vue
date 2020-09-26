@@ -1,8 +1,14 @@
 <template>
   <div :id="this.id">
     <div class="task-grid task-labels">
-      <div @click="handleStatus" class="task-status">
-        {{ this.status }}
+      <div>
+        <p v-if="task.priority === 'High'" class="task-status bg-orange-400">
+          <i class="far fa-star"></i>
+          {{ task.priority }}
+        </p>
+        <p v-else class="task-status bg-blue-300">
+          {{ task.priority }}
+        </p>
       </div>
       <div>
         CATEGORY
@@ -16,10 +22,10 @@
     </div>
     <div class="task-grid task-container transition-smooth">
       <div class="task-title">
-        {{ this.task.name }}
+        {{ task.name }}
       </div>
       <div class="task-category">
-        {{ this.task.category }}
+        {{ task.category }}
       </div>
       <div class="task-date">
         {{ date }}
@@ -41,7 +47,7 @@
     name: "Task",
     props: {
       id: String,
-      task: TaskModel,
+      task: Object,
     },
     data() {
       return {
@@ -101,7 +107,7 @@
       @apply bg-blue-900 h-full text-white justify-center;
     }
     .task-status {
-      @apply w-1/3 py-1 bg-red-900 text-sm text-white rounded-t-md text-center font-bold !important;
+      @apply w-1/4 text-sm text-white rounded-t-md text-center !important;
     }
     .task-dark {
       opacity: 0.5;

@@ -22,9 +22,6 @@
     props: {
       meeting: TaskModel,
     },
-    data() {
-      return {};
-    },
     computed: {
       date(): string {
         return dateFormater(this.meeting.date, "US")!;
@@ -45,13 +42,11 @@
 
 <style lang="css" scoped>
   @layer components {
-    .meeting-container {
-    }
     .meetings {
       @apply flex items-center;
     }
     .meeting-date {
-      @apply ml-4 text-gray-600 text-sm;
+      @apply ml-2 text-gray-600 text-sm;
     }
     .meetings:hover {
       @apply cursor-pointer text-blue-400;

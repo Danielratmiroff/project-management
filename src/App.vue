@@ -13,8 +13,12 @@
 
 <script lang="ts">
   import Vue from "vue";
+  import { mapState } from "vuex";
   import Menu from "./components/Menu.vue";
   import Navbar from "./components/Navbar.vue";
+  import { uuid } from "vue-uuid";
+  import DocModel from "./models/DocModel";
+  import TaskModel from "./models/TaskModel";
   export default Vue.extend({
     name: "App",
     components: {
@@ -28,6 +32,26 @@
     },
     beforeCreate() {
       this.$store.commit("initialiseStore");
+    },
+    created() {
+      if (!this.tasks.length) {
+        const newTask = new TaskModel(
+          uuid.v4(),
+          "Create your first meeting",
+          "On Progress",
+          "Task",
+          "You very first task is to explore the calendar view & create a meeting 😃",
+          "High"
+        );
+        this.$store.commit("saveTask", newTask);
+      }
+      if (!this.documents.length) {
+        const newDoc = new DocModel(uuid.v4(), "Your very first document");
+        this.$store.commit("saveDoc", newDoc);
+      }
+    },
+    computed: {
+      ...mapState(["tasks", "documents"]),
     },
     watch: {
       "$route.path": {
@@ -74,10 +98,12 @@
     box-sizing: border-box;
     outline: none;
   }
-
+  body {
+    position: relative;
+  }
   @layer components {
     .view {
-      @apply w-full h-full m-auto bg-gray-100 px-8 py-8 relative;
+      @apply w-full h-full m-auto bg-gray-100 px-8 py-8 relative overflow-hidden;
     }
     .transition-smooth {
       @apply transition duration-300 ease-in-out;

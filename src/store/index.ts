@@ -9,7 +9,7 @@ export type State = { tasks: object };
 export default new Vuex.Store({
   state: {
     tasks: Array<TaskModel>(),
-    categories: ["On Progress", "Ideas", "Backlog"],
+    categories: ["On Progress", "Ideas", "Backlog", "Done"],
     kinds: ["Meeting", "Task"],
     categorisedTasks: Array<any>(),
     documents: Array<DocModel>(),
@@ -25,7 +25,8 @@ export default new Vuex.Store({
             elm.name,
             elm.category,
             elm.kind,
-            elm.done,
+            elm.content,
+            elm.priority,
             new Date(elm.date),
             new Date(elm.dueDate)
           );
