@@ -101,9 +101,10 @@
   body {
     position: relative;
   }
+
   @layer components {
     .view {
-      @apply w-full h-full m-auto bg-gray-100 px-8 py-8 relative overflow-hidden;
+      @apply w-full h-full m-auto bg-gray-100 px-4 py-4 relative overflow-hidden;
     }
     .transition-smooth {
       @apply transition duration-300 ease-in-out;
@@ -119,6 +120,11 @@
     }
     .btn-secondary:hover {
       @apply shadow-lg bg-orange-900 text-white border-orange-900;
+    }
+  }
+  @screen md {
+    .view {
+      @apply px-8 py-8;
     }
   }
 

@@ -13,7 +13,7 @@
       <div>
         CATEGORY
       </div>
-      <div>
+      <div class="task-date-label">
         CREATED
       </div>
       <div>
@@ -86,10 +86,7 @@
   @layer components {
     .task-grid {
       @apply grid items-center;
-      grid-template-columns: minmax(50%, 300px) repeat(3, 2fr);
-    }
-    .task-labels > div {
-      @apply text-center text-xs text-gray-500 font-semibold;
+      grid-template-columns: 1fr;
     }
     .task-container {
       @apply bg-white shadow-md rounded-md rounded-tl-none;
@@ -97,23 +94,29 @@
     .task-container:hover {
       @apply shadow-lg;
     }
+    .task-labels > div:not(:first-of-type) {
+      @apply hidden;
+    }
     .task-container > div {
-      @apply text-left flex items-center p-4 break-all;
+      @apply justify-center flex items-center text-center p-4 break-words;
     }
     .task-title {
-      @apply text-left text-dark-900;
+      @apply text-dark-900;
     }
     .task-category {
       @apply bg-blue-900 h-full text-white justify-center;
     }
     .task-status {
-      @apply w-1/4 text-sm text-white rounded-t-md text-center !important;
+      @apply w-full text-sm text-white rounded-t-md text-center;
     }
     .task-dark {
       opacity: 0.5;
     }
     .task-date {
-      @apply justify-center text-dark-900;
+      @apply hidden !important;
+    }
+    .task-date-label {
+      @apply hidden;
     }
     .task-due-date {
       @apply justify-center text-dark-900;
@@ -123,6 +126,37 @@
     }
     .task-close:hover {
       @apply text-gray-900;
+    }
+  }
+  @screen sm {
+    .task-labels > div {
+      @apply text-center text-xs text-gray-500 font-semibold;
+    }
+    .task-grid {
+      grid-template-columns: 2fr repeat(2, 1fr);
+    }
+    .task-title {
+      @apply justify-self-start text-left;
+    }
+    .task-status {
+      @apply w-1/2;
+    }
+    .task-labels > div:not(.task-date-label) {
+      @apply block;
+    }
+    .task-date {
+      @apply flex justify-center text-dark-900;
+    }
+  }
+  @screen md {
+    .task-grid {
+      grid-template-columns: minmax(50%, 300px) repeat(3, 2fr);
+    }
+    .task-date {
+      @apply block !important;
+    }
+    .task-date-label {
+      @apply block !important;
     }
   }
 </style>

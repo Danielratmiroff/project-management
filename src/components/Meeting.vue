@@ -1,9 +1,10 @@
 <template>
   <div>
     <div class="meetings transition-smooth">
-      <p class="meeting-title">
+      <div class="meeting-title">
+        <div class="meetings-dot" />
         {{ meetingName }}
-      </p>
+      </div>
       <p class="meeting-date">
         {{ date }}
       </p>
@@ -43,22 +44,25 @@
 <style lang="css" scoped>
   @layer components {
     .meetings {
-      @apply flex items-center;
+      @apply flex flex-col;
     }
     .meeting-date {
-      @apply ml-2 text-gray-600 text-sm;
+      @apply ml-2 text-gray-500 text-sm;
+    }
+    .meeting-title {
+      @apply flex items-center;
     }
     .meetings:hover {
       @apply cursor-pointer text-blue-400;
     }
+    .meetings-dot {
+      border-radius: 50%;
+      background-color: #63b3ed;
+      height: 8px;
+      width: 8px;
+      margin-right: 0.5rem;
+    }
   }
-
-  .meetings::before {
-    content: "";
-    border-radius: 50%;
-    background-color: #63b3ed;
-    height: 8px;
-    width: 8px;
-    margin-right: 0.5rem;
+  @screen lg {
   }
 </style>

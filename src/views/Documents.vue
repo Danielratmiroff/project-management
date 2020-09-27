@@ -66,18 +66,18 @@
   @layer components {
     .wrapper {
       @apply w-full h-full grid row-gap-4 col-gap-16;
-      grid-template-columns: 8fr 1fr;
+      grid-template-columns: 1fr;
     }
     .doc-create {
+      @apply text-center;
       max-height: 55px;
     }
     .doc-container {
-      @apply grid row-gap-8 col-gap-8 grid-cols-4;
+      @apply grid row-gap-8 col-gap-8 grid-cols-1;
       grid-auto-rows: min-content;
     }
     .document {
-      @apply w-full bg-white rounded-md shadow-md;
-      grid-template-rows: 1fr 32px;
+      @apply flex flex-col justify-between w-full bg-white rounded-md  shadow-md;
     }
     .document:hover {
       @apply cursor-pointer shadow-lg;
@@ -104,6 +104,24 @@
     }
     .doc-delete:hover {
       @apply text-red-900;
+    }
+  }
+  @screen md {
+    .wrapper {
+      @apply col-gap-6;
+      grid-template-columns: 5fr 1fr;
+    }
+    .doc-container {
+      @apply grid-cols-2;
+    }
+  }
+  @screen lg {
+    .wrapper {
+      @apply w-full h-full grid row-gap-4 col-gap-8;
+      grid-template-columns: 8fr 1fr;
+    }
+    .doc-container {
+      @apply grid-cols-3;
     }
   }
 </style>

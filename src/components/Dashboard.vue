@@ -16,14 +16,14 @@
             v-if="meetingsText"
             content="Add some on the calendar view 📆"
             v-tippy="{ placement: 'top', arrow: true }"
-            class="text-sm text-gray-500 ml-4 cursor-default"
+            class="text-sm text-gray-500 cursor-default"
           >
             {{ meetingsText }}
           </span>
         </div>
       </div>
       <div class="search-container">
-        <div class="flex w-full items-center">
+        <div class="flex w-full items-center justify-end">
           <span @click="removeAll" class="delete transition-smooth">
             <i class="far fa-trash-alt"></i>
           </span>
@@ -227,30 +227,29 @@
 <style lang="css" scoped>
   @layer components {
     .head-container {
-      @apply flex justify-between;
+      @apply flex flex-col justify-between mb-4;
+    }
+    .meetings-wrapper {
+      @apply mb-4 py-4 px-8 rounded-md bg-blue-100 w-full;
     }
     .search-container {
-      @apply flex w-1/4 items-end;
+      @apply flex items-end;
+    }
+    .meetings-container {
+      @apply grid grid-cols-1 items-center row-gap-4 pr-4 mt-4;
+    }
+    .delete {
+      @apply text-gray-700;
+    }
+    .category {
+      @apply text-left text-lg font-bold;
     }
     .group {
       @apply grid my-8 grid-cols-1 row-gap-8;
       grid-template-rows: repeat(3, minmax(125px, max-content));
     }
-    .meetings-wrapper {
-      @apply py-4 px-8 rounded-md bg-blue-100;
-      max-width: 80%;
-    }
-    .meetings-container {
-      @apply grid grid-cols-3 row-gap-4 col-gap-6 mt-4;
-    }
     .container-tasks {
-      @apply w-full h-full px-8 py-6 border rounded-md grid grid-cols-1 row-gap-6;
-    }
-    .category {
-      @apply text-left text-lg font-bold;
-    }
-    .task:hover {
-      @apply cursor-pointer;
+      @apply w-full h-full px-2 py-4 grid grid-cols-1 row-gap-12;
     }
     .add-task {
       @apply ml-2 p-1 px-2 text-sm rounded-md text-gray-500 font-normal cursor-pointer;
@@ -258,12 +257,14 @@
     .add-task:hover {
       @apply bg-gray-400 text-white shadow-md;
     }
-    .dragActive {
-      @apply absolute shadow-lg;
-      z-index: 999;
-      cursor: grabbing !important;
-      cursor: -moz-grabbing !important;
-      cursor: -webkit-grabbing !important;
+    .delete:hover {
+      @apply text-red-900 cursor-pointer;
+    }
+    .search-bar {
+      @apply text-left flex items-center ml-6 w-full;
+    }
+    .task:hover {
+      @apply cursor-pointer;
     }
     .no-select {
       -webkit-touch-callout: none;
@@ -273,14 +274,41 @@
       -ms-user-select: none;
       user-select: none;
     }
+    .dragActive {
+      @apply absolute shadow-lg;
+      z-index: 999;
+      cursor: grabbing !important;
+      cursor: -moz-grabbing !important;
+      cursor: -webkit-grabbing !important;
+    }
+  }
+  @screen sm {
     .search-bar {
-      @apply text-left flex items-center ml-6 w-full;
+      @apply w-1/3;
     }
-    .delete {
-      @apply text-gray-700;
+    .container-tasks {
+      @apply px-4 py-6 border rounded-md row-gap-8;
     }
-    .delete:hover {
-      @apply text-red-900 cursor-pointer;
+    .meetings-container {
+      @apply grid-cols-3 col-gap-6;
+    }
+  }
+  @screen lg {
+    .meetings-wrapper {
+      @apply mb-0;
+      max-width: 70%;
+    }
+    .head-container {
+      @apply flex-row justify-between;
+    }
+    .container-tasks {
+      @apply px-8 py-6;
+    }
+    .search-container {
+      @apply flex w-1/4 items-end;
+    }
+    .search-bar {
+      @apply w-full;
     }
   }
 </style>

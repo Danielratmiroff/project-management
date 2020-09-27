@@ -6,9 +6,6 @@
         :class="isTask() ? 'bg-orange-200' : 'bg-blue-200'"
       >
         <div>
-          <span class="popup-title-icon">
-            <i :class="this.isEditMode ? 'fas fa-edit' : 'fas fa-plus'"></i>
-          </span>
           {{ title }}
         </div>
         <div class="kind-field">
@@ -117,11 +114,11 @@
           <button
             v-if="isEditMode"
             @click="removeTask"
-            class="btn-secondary w-1/4"
+            class="btn-secondary create-btn"
           >
             Delete
           </button>
-          <button @click="storeTask" class="btn-main w-1/4">
+          <button @click="storeTask" class="btn-main create-btn">
             {{ createText }}
           </button>
         </div>
@@ -229,7 +226,7 @@
       @apply absolute inset-0 w-full h-full bg-dark-opacity flex justify-start items-start;
     }
     .popup-container {
-      @apply w-1/2 mx-auto mt-16 bg-white rounded-lg shadow-xl translate-y-16;
+      @apply w-full mx-auto mt-6 bg-white rounded-lg shadow-xl border;
     }
     .popup-field {
       @apply mt-6;
@@ -237,15 +234,12 @@
     .popup-field:first-of-type {
       @apply mt-0;
     }
-    .popup-title-icon {
-      @apply text-blue-800 mr-2 text-sm;
-    }
     .popup-title {
-      @apply text-dark-900 font-bold rounded-t-lg grid relative items-center py-4 px-8 text-lg;
-      grid-template-columns: 1fr 1fr 1fr;
+      @apply text-dark-900 font-bold rounded-t-lg grid relative items-center py-4 px-4 text-lg row-gap-4;
+      grid-template-columns: 1fr;
     }
     .popup-close {
-      @apply absolute right-0 mr-8 text-gray-600 cursor-pointer;
+      @apply absolute right-0 top-0 mt-4 mr-4 text-gray-600 cursor-pointer;
     }
     .popup-close:hover {
       @apply text-gray-900;
@@ -267,8 +261,8 @@
       @apply grid grid-cols-2 col-gap-8 mt-6;
     }
     .top-container {
-      @apply grid col-gap-8;
-      grid-template-columns: 3fr 1fr;
+      @apply grid col-gap-8 row-gap-6;
+      grid-template-columns: 1fr;
     }
     .content-container {
       @apply my-8;
@@ -306,6 +300,29 @@
     }
     .kind-button:focus {
       @apply outline-none;
+    }
+    .create-btn {
+      @apply w-1/2 px-4;
+    }
+  }
+  @screen md {
+    .popup-container {
+      @apply w-1/2 mt-16 border-none translate-y-16;
+    }
+    .popup-close {
+      @apply right-0 mr-8 mt-6;
+    }
+    .create-btn {
+      @apply w-1/4;
+    }
+  }
+  @screen lg {
+    .popup-title {
+      @apply px-8 col-gap-4;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    .top-container {
+      grid-template-columns: 2fr 1fr;
     }
   }
 </style>

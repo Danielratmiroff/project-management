@@ -100,19 +100,16 @@
 <style lang="css" scoped>
   @layer components {
     .fullscreen {
-      @apply absolute inset-0 p-8 w-full h-full bg-dark-opacity;
+      @apply absolute inset-0 w-full h-full bg-dark-opacity;
     }
     .dc-container {
-      @apply p-4 px-12 h-full items-start shadow-lg rounded-lg bg-white grid col-gap-16 relative row-gap-4;
-      grid-template-rows: 55px 1fr;
+      @apply p-2 px-6 h-full items-start border bg-white grid relative row-gap-4;
     }
     .dc-head {
-      @apply bg-white grid col-gap-16;
-      grid-template-columns: 8fr 1fr;
-      grid-template-rows: 55px 8fr;
+      @apply bg-white grid col-gap-8 grid-cols-1 row-gap-6;
     }
     .dc-editor {
-      @apply py-2;
+      @apply py-2 max-w-full;
     }
     .dc-title {
       @apply w-full;
@@ -125,6 +122,19 @@
     }
     .dc-editor {
       @apply bg-white p-0 h-full relative;
+    }
+  }
+  @screen md {
+    .fullscreen {
+      @apply p-8;
+    }
+    .dc-container {
+      @apply p-4 px-12 shadow-lg rounded-lg  col-gap-16;
+      grid-template-rows: 55px 1fr;
+    }
+    .dc-head {
+      grid-template-columns: 8fr 1fr;
+      grid-template-rows: 55px 8fr;
     }
   }
 </style>
