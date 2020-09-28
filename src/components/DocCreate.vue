@@ -100,7 +100,7 @@
 <style lang="css" scoped>
   @layer components {
     .fullscreen {
-      @apply absolute inset-0 w-full h-full bg-dark-opacity;
+      @apply absolute inset-0 bg-dark-opacity;
     }
     .dc-container {
       @apply p-2 px-6 h-full items-start border bg-white grid relative row-gap-4;
@@ -129,12 +129,17 @@
       @apply p-8;
     }
     .dc-container {
-      @apply p-4 px-12 shadow-lg rounded-lg  col-gap-16;
+      @apply p-4 px-6 shadow-lg rounded-lg  col-gap-16;
       grid-template-rows: 55px 1fr;
     }
     .dc-head {
       grid-template-columns: 8fr 1fr;
       grid-template-rows: 55px 8fr;
+    }
+  }
+  @screen lg {
+    .dc-container {
+      @apply px-12;
     }
   }
 </style>

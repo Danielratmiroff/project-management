@@ -1,5 +1,5 @@
 <template>
-  <div class="editor">
+  <div class="editor transition-smooth">
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
       <div class="editor-menubar">
         <button
@@ -156,11 +156,33 @@
   function editorResponsiveHeight() {
     // set a default height for Editor's content based on its responsive parent
     const editorHeight = document.querySelector(".dc-editor").offsetHeight;
+    // text container
     const content = document.querySelector(".ProseMirror");
     // Editor's container minus header
     const remainHeight = editorHeight - 80;
     content.style.height = remainHeight + "px";
-    content.style.wordBreak = "break-all";
+    content.style.wordBreak = "break-word";
+  }
+
+  function editorResponsiveWidth() {
+    // Programmactly adjust editor's width since it isn't responsive
+    const editor = document.querySelector(".dc-editor");
+    // Responsive parent container
+    const containerWidth = document.querySelector(".dc-container").offsetWidth;
+    // Update editor's width to match it's parent container, which is scaling relative to window's size
+    editor.style.width = containerWidth - 70 + "px";
+  }
+
+  function resizeEditor() {
+    editorResponsiveHeight();
+    editorResponsiveWidth();
+  }
+
+  // Adjust editor on resize only when creating a document
+  if (window.location.href.includes("doc-create")) {
+    window.addEventListener("resize", resizeEditor);
+  } else {
+    window.removeEventListener("resize", resizeEditor);
   }
 
   import Vue from "vue";
@@ -219,7 +241,7 @@
             new History(),
           ],
           onInit: () => {
-            // send to parent the starting content for it's storage in Doc's object
+            setTimeout(editorResponsiveWidth, 200);
           },
 
           onUpdate: ({ getJSON, getHTML }) => {
@@ -241,10 +263,9 @@
       const editableHTML = this.docContent.html;
       this.editor.setContent(editableHTML);
     },
+
     mounted() {
-      setTimeout(() => {
-        editorResponsiveHeight();
-      }, 20);
+      setTimeout(editorResponsiveHeight, 20);
     },
 
     beforeDestroy() {
@@ -255,10 +276,7 @@
 
 <style lang="scss">
   .editor-menubar {
-    height: 40px;
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--gray-light);
+    display: none;
   }
   .editor-button {
     border-radius: 8px;
@@ -288,5 +306,17 @@
     margin-top: 1.75rem;
     overflow: hidden;
     overflow-y: scroll;
+  }
+  @media screen and (min-width: 468px) {
+    .editor-menubar {
+      height: 40px;
+      display: flex;
+      align-items: center;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    .editor-menubar {
+      border: 1px solid var(--gray-light);
+    }
   }
 </style>

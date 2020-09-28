@@ -1,8 +1,6 @@
 <template>
-  <div class="fixed bottom-0 right-0 flex items-center justify-center">
-    <div
-      class="grid grid-cols-1 text-center justify-center row-gap-4 mb-6 mr-6"
-    >
+  <div class="fab-wrapper">
+    <div class="fab-container">
       <router-link
         to="doc-create"
         content="Create document"
@@ -82,6 +80,12 @@
 
 <style lang="css" scoped>
   @layer components {
+    .fab-wrapper {
+      @apply fixed right-0 bottom-0 flex items-center justify-center mb-4 mr-4;
+    }
+    .fab-container {
+      @apply grid grid-cols-1 text-center justify-center row-gap-4;
+    }
     .fab-btn {
       @apply text-white flex items-center justify-center m-auto cursor-pointer rounded-full;
     }
@@ -89,13 +93,21 @@
       @apply outline-none;
     }
     .fab-btn-primary {
-      @apply h-20 w-20 bg-blue-500;
+      @apply h-16 w-16 bg-blue-500;
     }
     .fab-btn-primary:hover {
       @apply bg-dark-900 shadow-lg;
     }
     .fab-btn-secondary {
       @apply h-10 w-10;
+    }
+  }
+  @screen sm {
+    .fab-wrapper {
+      @apply mb-6 mr-6;
+    }
+    .fab-btn-primary {
+      @apply h-20 w-20;
     }
   }
 
