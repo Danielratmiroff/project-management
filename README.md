@@ -1,4 +1,4 @@
-# Project Management
+# Project Manage
 
 ## Project setup
 
