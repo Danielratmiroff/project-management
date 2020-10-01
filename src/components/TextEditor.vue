@@ -242,6 +242,7 @@
           ],
           onInit: () => {
             setTimeout(editorResponsiveWidth, 200);
+            setTimeout(editorResponsiveHeight, 200);
           },
 
           onUpdate: ({ getJSON, getHTML }) => {

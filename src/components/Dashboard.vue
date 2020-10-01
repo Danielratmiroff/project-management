@@ -37,6 +37,7 @@
         :key="item"
         :id="item"
         class="container-tasks dropZone"
+        @click="taskAdd(idx)"
       >
         <p class="category text-dark-600">
           {{ item }}
@@ -121,6 +122,17 @@
         return kinds;
       },
 
+      taskAdd(idx: number) {
+        // Get category's existing tasks
+        const category = this.filterKinds(this.taskList[idx], "Task").length;
+
+        if (category) {
+          return;
+        } else {
+          this.taskCreate();
+        }
+      },
+
       taskCreate() {
         this.$emit("taskCreate");
       },
@@ -176,11 +188,34 @@
         // Listen to the cursor's movement
         document.addEventListener("mousemove", onMouseMove);
 
+        // Reset to non dragging state
+        const resetState = (
+          node: HTMLDivElement,
+          parent: HTMLDivElement,
+          clone: HTMLDivElement
+        ) => {
+          // Remove big listeners
+          document.removeEventListener("mousemove", onMouseMove);
+          window.removeEventListener("mouseout", mouseLeaveScreen);
+          // Reset document to previous state
+          node.onmouseup = null;
+          node.classList.remove("dragActive");
+          parent.removeChild(clone);
+          parent.append(node);
+          this.isDragging = false;
+        };
+
+        // Mouse leaving screen function
+        const mouseLeaveScreen = () => {
+          resetState(elNode, elParent, clone);
+        };
+
+        //Listen if mouse leaves the window
+        window.addEventListener("mouseout", mouseLeaveScreen);
+
         // Finalise event and remove listeners
         elNode.onmouseup = () => {
           const taskInstance = { ...element.task };
-          // Remove listeners on document
-          document.removeEventListener("mousemove", onMouseMove);
 
           if (!this.isDragging) {
             // If its single click, open edit mode
@@ -194,12 +229,7 @@
             // Else return to parent
             elParent.append(elNode);
           }
-
-          // Reset document to previous state
-          elNode.onmouseup = null;
-          elNode.classList.remove("dragActive");
-          elParent.removeChild(clone);
-          this.isDragging = false;
+          resetState(elNode, elParent, clone);
         };
       },
 
@@ -242,7 +272,7 @@
       @apply text-gray-700;
     }
     .category {
-      @apply text-left text-lg font-bold;
+      @apply text-left text-lg font-bold cursor-pointer;
     }
     .group {
       @apply grid my-8 grid-cols-1 row-gap-8;

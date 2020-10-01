@@ -33,8 +33,6 @@
           placement: 'left',
           arrow: true,
           theme: 'light',
-          showOnInit: true,
-          delay: [1000, 0],
         }"
         class="transition-smooth fab-btn fab-btn-primary"
         style=""

@@ -281,13 +281,13 @@
       @apply flex items-center justify-center;
     }
     .kind-button {
-      @apply border border-blue-500 text-blue-600 px-4 py-1 rounded-r-md;
+      @apply border  text-blue-600 px-4 py-1 rounded-r-md;
     }
     .priority-button {
-      @apply border border-blue-500 text-blue-600 py-1 rounded-full;
+      @apply border border-blue-500 py-1 rounded-full;
     }
     .kind-button:first-of-type {
-      @apply rounded-l-md rounded-r-none border-r-0;
+      @apply rounded-l-md text-white rounded-r-none border-r-0;
     }
     .kind-active-task {
       @apply bg-yellow-600 text-white;
