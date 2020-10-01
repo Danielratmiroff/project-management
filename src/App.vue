@@ -146,6 +146,12 @@
   }
   .screen-container {
     display: grid;
+    grid-column: 1/12;
     grid-template-rows: 55px 1fr;
+  }
+  @media screen and (min-width: 640px) {
+    .screen-container {
+      grid-column: auto;
+    }
   }
 </style>

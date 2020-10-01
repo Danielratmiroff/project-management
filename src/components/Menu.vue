@@ -1,5 +1,5 @@
 <template>
-  <div class="menu flex flex-col justify-start items-center mt-2">
+  <div class="menu-bar">
     <img src="../assets/logo.svg" class="mx-auto" width="32" height="32" />
     <router-link
       content="Tasks"
@@ -44,11 +44,13 @@
 
 <style lang="css" scoped>
   @layer components {
-    .menu {
-      @apply px-2 shadow-lg;
+    .menu-bar {
+      @apply px-2 shadow-lg grid py-2;
+      grid-template-columns: 55px repeat(3, 1fr);
+      grid-column: 1/12;
     }
     .menu-btn {
-      @apply mt-6 p-2 w-full rounded-md text-center;
+      @apply p-2 w-1/2 place-self-center rounded-md text-center;
     }
     .menu-icon {
       @apply text-dark-900;
@@ -58,6 +60,15 @@
     }
     .menu-active {
       @apply bg-blue-900 text-white shadow-md;
+    }
+  }
+  @screen sm {
+    .menu-bar {
+      @apply flex flex-col pb-0 justify-start;
+      grid-column: 1;
+    }
+    .menu-btn {
+      @apply mt-6 w-full;
     }
   }
 </style>
