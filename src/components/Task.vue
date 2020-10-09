@@ -6,15 +6,9 @@
           <i class="far fa-star"></i>
           {{ task.priority }}
         </p>
-        <p v-else class="task-status bg-blue-300">
-          {{ task.priority }}
-        </p>
       </div>
       <div>
         CATEGORY
-      </div>
-      <div class="task-date-label">
-        CREATED
       </div>
       <div>
         DUE DATE
@@ -26,9 +20,6 @@
       </div>
       <div class="task-category">
         {{ task.category }}
-      </div>
-      <div class="task-date">
-        {{ date }}
       </div>
       <div class="task-due-date">
         {{ dueDate }}
@@ -57,9 +48,6 @@
     computed: {
       dueDate(): string {
         return dateFormater(this.task.dueDate, "US")!;
-      },
-      date(): string {
-        return dateFormater(this.task.date, "US")!;
       },
     },
     watch: {

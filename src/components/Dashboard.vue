@@ -8,9 +8,9 @@
         <div class="meetings-container">
           <Meeting
             :meeting="item"
-            v-for="item in filterKinds(tasks, 'Meeting')"
+            v-for="item in filterMeetings()"
             :key="item.id"
-            @click.native="goToCalendar"
+            @click.native="taskEdit(item)"
           />
           <span
             v-if="meetingsText"
@@ -37,10 +37,13 @@
         :key="item"
         :id="item"
         class="container-tasks dropZone"
-        @click="taskAdd(idx)"
       >
-        <p class="category text-dark-600">
-          {{ item }}
+        <p class="category  text-dark-600">
+          <ClickToEdit
+            class="update-category transition-smooth"
+            @input="updateCategory"
+            :value="item"
+          />
           <span @click="taskCreate" class="add-task transition-smooth">
             + Add task
           </span>
@@ -67,7 +70,9 @@
   import Meeting from "@/components/Meeting.vue";
   import TaskCreate from "@/components/TaskCreate.vue";
   import TaskModel from "@/models/TaskModel";
+  import ClickToEdit from "@/components/helpers/ClicktoEdit.vue";
   import Search from "@/components/Search.vue";
+  import moment from "moment";
 
   export default Vue.extend({
     name: "Dashboard",
@@ -76,6 +81,7 @@
       TaskCreate,
       Meeting,
       Search,
+      ClickToEdit,
     },
     data() {
       return {
@@ -122,15 +128,14 @@
         return kinds;
       },
 
-      taskAdd(idx: number) {
-        // Get category's existing tasks
-        const category = this.filterKinds(this.taskList[idx], "Task").length;
-
-        if (category) {
-          return;
-        } else {
-          this.taskCreate();
-        }
+      filterMeetings() {
+        // Do not display outdated meetings
+        const meetings = this.filterKinds(this.tasks, "Meeting");
+        const today = new Date();
+        const filterOutDated = meetings.filter((elm: TaskModel) => {
+          return moment(today).isSameOrBefore(elm.dueDate, "day");
+        });
+        return filterOutDated;
       },
 
       taskCreate() {
@@ -245,6 +250,13 @@
         this.taskList = list;
       },
 
+      updateCategory(value: string) {
+        if (/^[a-zA-Z]+$/.test(value)) {
+          alert("Please only english alphabet letters 😅");
+          return;
+        }
+        // I am here, missing functionality to update vuex
+      },
       updateTaskCategory(newCategory: string, task: TaskModel) {
         const updateTask = { ...task };
         updateTask.category = newCategory;
@@ -272,7 +284,7 @@
       @apply text-gray-700;
     }
     .category {
-      @apply text-left text-lg font-bold cursor-pointer;
+      @apply flex text-left text-lg font-bold;
     }
     .group {
       @apply grid my-8 grid-cols-1 row-gap-8;
@@ -286,6 +298,9 @@
     }
     .add-task:hover {
       @apply bg-gray-400 text-white shadow-md;
+    }
+    .update-category:hover {
+      @apply cursor-text;
     }
     .delete:hover {
       @apply text-red-900 cursor-pointer;

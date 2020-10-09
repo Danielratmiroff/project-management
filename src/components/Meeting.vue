@@ -21,7 +21,7 @@
   export default Vue.extend({
     name: "Meeting",
     props: {
-      meeting: TaskModel,
+      meeting: Object,
     },
     computed: {
       date(): string {

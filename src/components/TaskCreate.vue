@@ -1,6 +1,6 @@
 <template>
   <div class="backplane" @mousedown.self="closeModal" @keyup.esc="closeModal">
-    <div class="popup-container" @keyup.enter="storeTask">
+    <div class="popup-container">
       <div
         class="popup-title transition-smooth"
         :class="isTask() ? 'bg-orange-200' : 'bg-blue-200'"
@@ -172,8 +172,10 @@
       },
     },
     mounted() {
-      const title = document.getElementById("title")!;
-      title.focus();
+      if (!this.isEditMode) {
+        const title = document.getElementById("title")!;
+        title.focus();
+      }
       this.isTask();
     },
     watch: {
