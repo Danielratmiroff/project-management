@@ -38,7 +38,7 @@
         :id="item"
         class="container-tasks dropZone"
       >
-        <p class="category  text-dark-600">
+        <p class="category text-dark-600">
           <ClickToEdit
             class="update-category transition-smooth"
             @input="updateCategory"
@@ -250,12 +250,15 @@
         this.taskList = list;
       },
 
-      updateCategory(value: string) {
-        if (/^[a-zA-Z]+$/.test(value)) {
-          alert("Please only english alphabet letters 😅");
+      updateCategory<T extends { newValue: string; oldValue: string }>(
+        values: T
+      ) {
+        const RegExpression = /^[a-zA-Z\s]*$/;
+        if (!RegExpression.test(values.newValue)) {
+          alert("Please use only english alphabet letters 😅");
           return;
         }
-        // I am here, missing functionality to update vuex
+        this.$store.dispatch("editCategory", values);
       },
       updateTaskCategory(newCategory: string, task: TaskModel) {
         const updateTask = { ...task };
@@ -284,7 +287,7 @@
       @apply text-gray-700;
     }
     .category {
-      @apply flex text-left text-lg font-bold;
+      @apply text-left text-lg font-bold;
     }
     .group {
       @apply grid my-8 grid-cols-1 row-gap-8;
@@ -294,13 +297,16 @@
       @apply w-full h-full px-2 py-4 grid grid-cols-1 row-gap-12;
     }
     .add-task {
-      @apply ml-2 p-1 px-2 text-sm rounded-md text-gray-500 font-normal cursor-pointer;
+      @apply ml-2 p-1 px-2 text-sm rounded-md text-gray-500 font-normal cursor-pointer inline-block;
     }
     .add-task:hover {
       @apply bg-gray-400 text-white shadow-md;
     }
     .update-category:hover {
       @apply cursor-text;
+    }
+    .update-category {
+      @apply inline-block;
     }
     .delete:hover {
       @apply text-red-900 cursor-pointer;

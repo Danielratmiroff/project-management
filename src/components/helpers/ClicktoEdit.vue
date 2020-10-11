@@ -36,9 +36,13 @@
 
     methods: {
       inputChange(target) {
+        const stateValue = {
+          newValue: target,
+          oldValue: this.valueLocal,
+        };
         this.valueLocal = target;
         this.edit = false;
-        this.$emit("input", this.valueLocal);
+        this.$emit("input", stateValue);
       },
     },
 

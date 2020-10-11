@@ -14,6 +14,7 @@ export default new Vuex.Store({
     categorisedTasks: Array<any>(),
     documents: Array<DocModel>(),
   },
+
   mutations: {
     initialiseStore(state) {
       //Load tasks
@@ -33,6 +34,7 @@ export default new Vuex.Store({
         });
         state.tasks = taskInstances;
       }
+
       //Load documents
       if (localStorage.getItem("documents")) {
         const localDocs = JSON.parse(localStorage.getItem("documents")!);
@@ -47,13 +49,25 @@ export default new Vuex.Store({
         });
         state.documents = documentInstances;
       }
+
+      //Load categories
+      if (localStorage.getItem("categories")) {
+        const localCategories = JSON.parse(localStorage.getItem("categories")!);
+        const categoryInstances = localCategories.map((elm: Array<string>) => {
+          return elm
+        });
+        state.categories = categoryInstances;
+      }
     },
+
     storeTasks(state) {
       localStorage.setItem("tasks", JSON.stringify(state.tasks));
     },
+
     saveTask(state, task: TaskModel) {
       state.tasks.push(task);
     },
+
     editTask(state, task: TaskModel) {
       // refactor this. This function duplicated with editDoc function. create a unique one
       const list = state.tasks.reduce(
@@ -73,6 +87,7 @@ export default new Vuex.Store({
       );
       state.tasks = list;
     },
+
     removeTask(state, id: string) {
       const list = state.tasks;
       const task = list.filter((elm: TaskModel) => {
@@ -80,13 +95,14 @@ export default new Vuex.Store({
       });
       state.tasks = task;
     },
+
     categorizeTasks(state) {
       const lists = state.categories.map((elm: string) => {
         // run for every category on the list
         return categoryList(elm);
       });
-
       state.categorisedTasks = lists;
+
       function categoryList(elm: string) {
         const list = state.tasks.reduce(
           (acc: Array<TaskModel>, curr: TaskModel) => {
@@ -101,9 +117,11 @@ export default new Vuex.Store({
         return list;
       }
     },
+    
     storeDocs(state) {
       localStorage.setItem("documents", JSON.stringify(state.documents));
     },
+
     saveDoc(state, doc: DocModel) {
       state.documents.push(doc);
     },
@@ -126,6 +144,7 @@ export default new Vuex.Store({
       );
       state.documents = editedDoc;
     },
+
     removeDoc(state, id: string) {
       const list = state.documents;
       const docs = list.filter((elm) => {
@@ -133,8 +152,32 @@ export default new Vuex.Store({
       });
       state.documents = docs;
     },
+
+    editCategory(state, { newValue, oldValue } : { newValue : string, oldValue : string }) {
+      // Find old category and replace it with new one
+      const findCategory = state.categories.map((elm : string) => { 
+        return elm === oldValue ? newValue : elm
+      })
+      state.categories = findCategory
+    },
+
+    updateTasksCategory(state, { newValue, oldValue } : { newValue : string, oldValue : string }) {
+      // Find tasks with old category and update to new one
+      const updateTasks = state.tasks.map((elm : TaskModel) => {
+        if (elm.category === oldValue) {
+          elm.category = newValue
+        }  
+        return elm
+      })
+      state.tasks = updateTasks
+    },
+
+    storeCategories(state) {
+      localStorage.setItem("categories", JSON.stringify(state.categories));
+    },
   },
   actions: {
+    // Run store mutations to maintain local storage updated
     saveTask({ commit }, task: TaskModel) {
       commit("saveTask", task);
       commit("storeTasks");
@@ -161,6 +204,12 @@ export default new Vuex.Store({
     removeDoc({ commit }, docId: string) {
       commit("removeDoc", docId);
       commit("storeDocs");
+    },
+    editCategory({ commit }, values: object) {
+      commit("editCategory", values);
+      commit("updateTasksCategory", values);
+      commit("storeCategories");
+      commit("storeTasks");
     },
   },
 });
