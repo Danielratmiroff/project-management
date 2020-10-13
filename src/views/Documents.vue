@@ -8,7 +8,7 @@
       >
         <div @click="docEdit(doc.id)" class="doc-content">
           <p class="doc-title">
-            <span class="text-blue-900 mr-2">
+            <span class="text-brand mr-2">
               <i class="fas fa-bookmark"></i>
             </span>
             {{ doc.title }}

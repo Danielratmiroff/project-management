@@ -9,7 +9,7 @@
           arrow: true,
         }"
         v-show="toggleIcons"
-        class="transition-smooth fab-btn fab-btn-secondary bg-orange-600 hover:bg-orange-400 hover:shadow-md"
+        class="transition-smooth fab-btn fab-btn-secondary bg-orange-400 hover:bg-orange-600 hover:shadow-md"
         :class="toggleIcons ? 'taskAnimationIn' : 'taskAnimationOut'"
       >
         <i class="fas fa-file-alt"></i>
@@ -22,13 +22,13 @@
         }"
         v-show="toggleIcons"
         @click="openTaskCreateModal"
-        class="transition-smooth fab-btn fab-btn-secondary bg-dark-800 hover:bg-blue-200 hover:shadow-md "
+        class="transition-smooth fab-btn fab-btn-secondary bg-darkblue-400 hover:bg-darkblue-600 hover:shadow-md "
         :class="toggleIcons ? 'taskAnimationIn' : 'taskAnimationOut'"
       >
         <i class="fas fa-list-ul "></i>
       </span>
       <button
-        content="Get on your wave here 🏄🏻‍♂️"
+        content="Start here 🏄🏻‍♂️"
         v-tippy="{
           placement: 'left',
           arrow: true,
@@ -91,10 +91,10 @@
       @apply outline-none;
     }
     .fab-btn-primary {
-      @apply h-16 w-16 bg-blue-500;
+      @apply h-16 w-16 bg-brand;
     }
     .fab-btn-primary:hover {
-      @apply bg-dark-900 shadow-lg;
+      @apply bg-blue-300 shadow-lg;
     }
     .fab-btn-secondary {
       @apply h-10 w-10;

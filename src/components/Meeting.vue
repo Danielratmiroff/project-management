@@ -53,11 +53,11 @@
       @apply flex items-center;
     }
     .meetings:hover {
-      @apply cursor-pointer text-blue-400;
+      @apply cursor-pointer text-purple-400;
     }
     .meetings-dot {
       border-radius: 50%;
-      background-color: #63b3ed;
+      background-color: #a38cf9;
       height: 8px;
       width: 8px;
       margin-right: 0.5rem;

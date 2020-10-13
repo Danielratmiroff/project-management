@@ -110,16 +110,16 @@
       @apply transition duration-300 ease-in-out;
     }
     .btn-main {
-      @apply transition-smooth p-2 text-lg bg-blue-900 text-white flex items-center justify-center rounded-md;
+      @apply transition-smooth p-2 text-lg bg-brand text-white flex items-center justify-center rounded-md;
     }
     .btn-main:hover {
       @apply shadow-lg bg-blue-300;
     }
     .btn-secondary {
-      @apply transition-smooth p-2 text-lg text-red-900 flex items-center justify-center rounded-md;
+      @apply transition-smooth p-2 border border-red-300 text-lg text-red-400 flex items-center justify-center rounded-md;
     }
     .btn-secondary:hover {
-      @apply shadow-lg bg-orange-900 text-white border-orange-900;
+      @apply shadow-lg bg-red-300 text-white border-red-300;
     }
   }
   @screen md {

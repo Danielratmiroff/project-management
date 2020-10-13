@@ -92,7 +92,7 @@
       @apply text-dark-900;
     }
     .task-category {
-      @apply bg-blue-900 h-full text-white justify-center;
+      @apply bg-brand h-full text-white justify-center;
     }
     .task-status {
       @apply w-full text-sm text-white rounded-t-md text-center;
@@ -138,7 +138,7 @@
   }
   @screen md {
     .task-grid {
-      grid-template-columns: minmax(50%, 300px) repeat(3, 2fr);
+      grid-template-columns: minmax(60%, 300px) repeat(2, 2fr);
     }
     .task-date {
       @apply block !important;

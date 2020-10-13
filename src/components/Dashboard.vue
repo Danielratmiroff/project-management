@@ -2,7 +2,7 @@
   <div>
     <div class="head-container">
       <div class="meetings-wrapper">
-        <p class="category text-blue-600">
+        <p class="category meetings">
           Meetings
         </p>
         <div class="meetings-container">
@@ -38,7 +38,7 @@
         :id="item"
         class="container-tasks dropZone"
       >
-        <p class="category text-dark-600">
+        <p class="category">
           <ClickToEdit
             class="update-category transition-smooth"
             @input="updateCategory"
@@ -275,7 +275,7 @@
       @apply flex flex-col justify-between mb-4;
     }
     .meetings-wrapper {
-      @apply mb-4 py-4 px-8 rounded-md bg-blue-100 w-full;
+      @apply mb-4 py-4 px-8 rounded-md w-full;
     }
     .search-container {
       @apply flex items-end;
@@ -287,7 +287,10 @@
       @apply text-gray-700;
     }
     .category {
-      @apply text-left text-lg font-bold;
+      @apply text-left text-gray-500 text-lg font-bold;
+    }
+    .meetings {
+      @apply text-purple-400;
     }
     .group {
       @apply grid my-8 grid-cols-1 row-gap-8;

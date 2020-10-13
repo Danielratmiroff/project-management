@@ -3,9 +3,9 @@
     <div class="popup-container">
       <div
         class="popup-title transition-smooth"
-        :class="isTask() ? 'bg-orange-200' : 'bg-blue-200'"
+        :class="isTask() ? 'bg-darkblue-400' : 'bg-purple-400'"
       >
-        <div>
+        <div class="text-white">
           {{ title }}
         </div>
         <div class="kind-field">
@@ -43,7 +43,7 @@
             <label><i class="fas fa-heading label-icon"></i>Title</label>
             <input
               id="title"
-              class="input-name"
+              class="input-name bg-gray-200"
               type="text"
               placeholder="Add title here"
               v-model="currTask.name"
@@ -102,8 +102,7 @@
           >
           <textarea
             v-model="currTask.content"
-            :class="currTask.content ? null : 'bg-gray-200'"
-            class="text-area"
+            class="text-area bg-gray-200"
             placeholder="Write a description here"
           />
         </div>
@@ -241,7 +240,7 @@
       grid-template-columns: 1fr;
     }
     .popup-close {
-      @apply absolute right-0 top-0 mt-4 mr-4 text-gray-600 cursor-pointer;
+      @apply absolute right-0 top-0 mt-4 mr-4 text-gray-100 cursor-pointer;
     }
     .popup-close:hover {
       @apply text-gray-900;
@@ -274,28 +273,25 @@
       max-height: 175px;
     }
     input:focus {
-      @apply border-blue-500;
+      @apply border-darkblue-400 bg-white;
     }
     textarea:focus {
-      @apply border-blue-500 bg-white;
+      @apply border-darkblue-400 bg-white;
     }
     .kind-field {
       @apply flex items-center justify-center;
     }
     .kind-button {
-      @apply border  text-blue-600 px-4 py-1 rounded-r-md;
-    }
-    .priority-button {
-      @apply border border-blue-500 py-1 rounded-full;
+      @apply border text-white px-4 py-1 rounded-r-md;
     }
     .kind-button:first-of-type {
       @apply rounded-l-md text-white rounded-r-none border-r-0;
     }
     .kind-active-task {
-      @apply bg-yellow-600 text-white;
+      @apply bg-darkblue-700 text-white;
     }
     .kind-active-meeting {
-      @apply bg-blue-800 text-white;
+      @apply bg-purple-700 text-white;
     }
     .kind-button:active {
       @apply outline-none;

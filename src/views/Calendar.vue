@@ -60,7 +60,7 @@
       };
     },
     computed: {
-      ...mapState(["tasks"]),
+      ...mapState(["tasks", "categories"]),
     },
     watch: {
       tasks: {
@@ -73,7 +73,7 @@
     methods: {
       loadTasks() {
         const tasks = this.tasks.map((elm: TaskModel) => {
-          const color = elm.kind === "Task" ? "#ecc94b" : "#4299e1";
+          const color = elm.kind === "Meeting" ? "#a38cf9" : "#72a0f9";
           return {
             id: elm.id,
             title: elm.name,

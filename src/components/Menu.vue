@@ -59,7 +59,7 @@
       @apply bg-gray-200 shadow-md;
     }
     .menu-active {
-      @apply bg-blue-900 text-white shadow-md;
+      @apply bg-brand text-white shadow-md;
     }
   }
   @screen sm {
