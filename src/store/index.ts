@@ -29,7 +29,8 @@ export default new Vuex.Store({
             elm.content,
             elm.priority,
             new Date(elm.date),
-            new Date(elm.dueDate)
+            new Date(elm.dueDate),
+            elm.color
           );
         });
         state.tasks = taskInstances;

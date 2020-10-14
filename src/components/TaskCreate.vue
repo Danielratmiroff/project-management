@@ -3,7 +3,7 @@
     <div class="popup-container">
       <div
         class="popup-title transition-smooth"
-        :class="isTask() ? 'bg-darkblue-400' : 'bg-purple-400'"
+        :class="isTask() ? 'bg-purple-400' : 'bg-darkblue-400'"
       >
         <div class="text-white">
           {{ title }}
@@ -158,7 +158,7 @@
       };
     },
     computed: {
-      ...mapState(["categories", "kinds"]),
+      ...mapState(["categories"]),
       createText(): string {
         return this.isEditMode ? "Save" : "Create";
       },
@@ -183,6 +183,12 @@
           this.isTask();
         },
       },
+      "currTask.category": {
+        handler(category) {
+          // Update task's color to match its category
+          this.currTask.color = this.colorizeByCategory(category);
+        },
+      },
     },
     methods: {
       closeModal() {
@@ -190,6 +196,7 @@
         this.$destroy();
       },
       storeTask() {
+        // Check all inputs are filled
         if (this.missingRequired()) {
           return;
         } else if (this.isEditMode) {
@@ -213,6 +220,17 @@
       },
       isTask() {
         return this.currTask.kind == "Task" ? true : false;
+      },
+      colorizeByCategory(category: string): string {
+        if (category === this.categories[0]) {
+          return "#72a0f9";
+        } else if (category === this.categories[1]) {
+          return "#d6be28";
+        } else if (category === this.categories[2]) {
+          return "#efa926";
+        } else {
+          return "#f69051";
+        }
       },
     },
   });
@@ -288,10 +306,10 @@
       @apply rounded-l-md text-white rounded-r-none border-r-0;
     }
     .kind-active-task {
-      @apply bg-darkblue-700 text-white;
+      @apply text-white bg-purple-700;
     }
     .kind-active-meeting {
-      @apply bg-purple-700 text-white;
+      @apply bg-darkblue-700 text-white;
     }
     .kind-button:active {
       @apply outline-none;

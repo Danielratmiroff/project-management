@@ -253,9 +253,9 @@
       updateCategory<T extends { newValue: string; oldValue: string }>(
         values: T
       ) {
-        const RegExpression = /^[a-zA-Z\s]*$/;
+        const RegExpression = /^[a-zA-Z0-9\s]*$/;
         if (!RegExpression.test(values.newValue)) {
-          alert("Please use only english alphabet letters 😅");
+          alert("Please use only english alphabet letters or numbers 😅");
           return;
         }
         this.$store.dispatch("editCategory", values);
@@ -263,7 +263,20 @@
       updateTaskCategory(newCategory: string, task: TaskModel) {
         const updateTask = { ...task };
         updateTask.category = newCategory;
+        // Update task's color to match its category
+        updateTask.color = this.colorizeByCategory(newCategory);
         this.$store.dispatch("editTask", updateTask);
+      },
+      colorizeByCategory(category: string): string {
+        if (category === this.categories[0]) {
+          return "#72a0f9";
+        } else if (category === this.categories[1]) {
+          return "#d6be28";
+        } else if (category === this.categories[2]) {
+          return "#efa926";
+        } else {
+          return "#f69051";
+        }
       },
     },
   });
@@ -290,7 +303,7 @@
       @apply text-left text-gray-500 text-lg font-bold;
     }
     .meetings {
-      @apply text-purple-400;
+      @apply text-darkblue-400;
     }
     .group {
       @apply grid my-8 grid-cols-1 row-gap-8;

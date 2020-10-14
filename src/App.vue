@@ -89,7 +89,8 @@
     --gray-normal: #718096;
     --gray-light: #edf2f7;
     --main-dark: #131e43;
-    --main-blue: #99e1e5;
+    --meetings: #72a0f9;
+    --tasks: a38cf9;
   }
 
   * {

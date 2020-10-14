@@ -18,7 +18,7 @@
       <div class="task-title">
         {{ task.name }}
       </div>
-      <div class="task-category">
+      <div class="task-category" :style="color">
         {{ task.category }}
       </div>
       <div class="task-due-date">
@@ -48,6 +48,9 @@
     computed: {
       dueDate(): string {
         return dateFormater(this.task.dueDate, "US")!;
+      },
+      color(): string {
+        return "background-color:" + this.task.color;
       },
     },
     watch: {
@@ -92,7 +95,7 @@
       @apply text-dark-900;
     }
     .task-category {
-      @apply bg-brand h-full text-white justify-center;
+      @apply h-full text-white justify-center;
     }
     .task-status {
       @apply w-full text-sm text-white rounded-t-md text-center;

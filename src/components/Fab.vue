@@ -60,15 +60,16 @@
 
     methods: {
       openTaskCreateModal() {
-        // check if we are not in "home"
+        // if we are not on "home"
         if (this.$route.path !== "/") {
+          // TaskCreate should be called from the dashboard for better UX
           this.$router.push({
             name: `Home`,
             // store task create on parameters (emit doesn't work while loading the page)
             params: { taskCreate: "create" },
           });
         } else {
-          // otherwise, open task create modal directly
+          // if we are on "home", open task create modal directly
           this.$emit("taskCreate");
         }
       },

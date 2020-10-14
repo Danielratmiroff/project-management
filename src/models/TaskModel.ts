@@ -9,7 +9,8 @@ export default class TaskModel {
     public content: string = "",
     public priority: string | null = "Normal",
     public date: Date | string = new Date(),
-    public dueDate: Date | string = new Date()
+    public dueDate: Date | string = new Date(),
+    public color: string = '#2dc9e2'
   ) {
     this.id = id;
     this.name = name;
@@ -19,5 +20,6 @@ export default class TaskModel {
     this.priority = priority;
     this.date = date;
     this.dueDate = dueDate;
+    this.color = color;
   }
 }

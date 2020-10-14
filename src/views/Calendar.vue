@@ -55,7 +55,7 @@
             center: "title",
             left: "dayGridMonth,dayGridWeek",
           },
-          // select: this.handleDateClick,
+          select: this.handleDateClick,
         },
       };
     },
@@ -73,13 +73,12 @@
     methods: {
       loadTasks() {
         const tasks = this.tasks.map((elm: TaskModel) => {
-          const color = elm.kind === "Meeting" ? "#a38cf9" : "#72a0f9";
           return {
             id: elm.id,
             title: elm.name,
             start: elm.date,
             end: elm.dueDate,
-            color: color,
+            color: elm.color,
             allDay: true,
           };
         });
@@ -99,7 +98,7 @@
           // set due date to starting date
           this.task.dueDate = e.start;
         } else {
-          // else multiple dates are selected, set last date as due date
+          // else multiple dates are selected, set last selected date as duedate
           this.task.dueDate = e.end;
         }
         this.taskModal = true;
