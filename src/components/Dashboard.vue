@@ -93,7 +93,7 @@
     computed: {
       ...mapState(["tasks", "categories", "categorisedTasks"]),
       meetingsText(): string | null {
-        const totalMeetings = this.filterKinds(this.tasks, "Meeting");
+        const totalMeetings = this.filterMeetings();
         return totalMeetings.length
           ? null
           : "You have no meetings for now... lucky you! 😋";
@@ -234,6 +234,8 @@
             // Else return to parent
             elParent.append(elNode);
           }
+          // reorder build lists, to apply sorting
+          this.buildLists();
           resetState(elNode, elParent, clone);
         };
       },
@@ -269,7 +271,7 @@
       },
       colorizeByCategory(category: string): string {
         if (category === this.categories[0]) {
-          return "#72a0f9";
+          return "#2dc9e2";
         } else if (category === this.categories[1]) {
           return "#d6be28";
         } else if (category === this.categories[2]) {
@@ -313,13 +315,13 @@
       @apply w-full h-full px-2 py-4 grid grid-cols-1 row-gap-12;
     }
     .add-task {
-      @apply ml-2 p-1 px-2 text-sm rounded-md text-gray-500 font-normal cursor-pointer inline-block;
+      @apply ml-4 p-1 px-2 text-sm rounded-md text-gray-500 font-normal cursor-pointer inline-block;
     }
     .add-task:hover {
       @apply bg-gray-400 text-white shadow-md;
     }
     .update-category:hover {
-      @apply cursor-text;
+      @apply text-dark-600 cursor-text;
     }
     .update-category {
       @apply inline-block;

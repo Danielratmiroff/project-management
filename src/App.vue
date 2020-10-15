@@ -38,10 +38,13 @@
         const newTask = new TaskModel(
           uuid.v4(),
           "Create your first meeting",
-          "On Progress",
+          this.categories[0],
           "Task",
           "You very first task is to explore the calendar view & create a meeting 😃",
-          "High"
+          "High",
+          new Date(),
+          new Date(),
+          "#2dc9e2"
         );
         this.$store.commit("saveTask", newTask);
       }
@@ -51,7 +54,7 @@
       }
     },
     computed: {
-      ...mapState(["tasks", "documents"]),
+      ...mapState(["tasks", "documents", "categories"]),
     },
     watch: {
       "$route.path": {

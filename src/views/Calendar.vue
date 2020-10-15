@@ -9,6 +9,15 @@
       @closeModal="taskModalHandler"
     />
     <FullCalendar class="calendar-container" :options="calendarOptions" />
+    <div class="legend">
+      <div v-for="item in categories" :key="item">
+        <div
+          class="legend-dot"
+          :style="`background-color:${colorizeByCategory(item)}`"
+        />
+        {{ item }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -71,11 +80,22 @@
       },
     },
     methods: {
+      colorizeByCategory(category: string): string {
+        if (category === this.categories[0]) {
+          return "#2dc9e2";
+        } else if (category === this.categories[1]) {
+          return "#d6be28";
+        } else if (category === this.categories[2]) {
+          return "#efa926";
+        } else {
+          return "#f69051";
+        }
+      },
       loadTasks() {
         const tasks = this.tasks.map((elm: TaskModel) => {
           return {
             id: elm.id,
-            title: elm.name,
+            title: elm.priority === "High" ? elm.name + " ⭐" : elm.name,
             start: elm.date,
             end: elm.dueDate,
             color: elm.color,
@@ -145,5 +165,26 @@
     .calendar-item {
       @apply bg-yellow-600;
     }
+    .legend {
+      @apply flex flex-col items-start;
+    }
+    .legend > div {
+      @apply flex items-center mt-2;
+    }
+  }
+  @screen sm {
+    .legend {
+      @apply flex-row items-center;
+    }
+    .legend > div:not(:first-child) {
+      @apply ml-6;
+    }
+  }
+  .legend-dot {
+    border-radius: 50%;
+    background-color: #72a0f9;
+    height: 10px;
+    width: 10px;
+    margin-right: 0.5rem;
   }
 </style>

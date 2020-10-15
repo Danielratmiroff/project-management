@@ -105,6 +105,7 @@ export default new Vuex.Store({
       state.categorisedTasks = lists;
 
       function categoryList(elm: string) {
+        // yeah yeah, reduce is overkill but it's fun to implement!
         const list = state.tasks.reduce(
           (acc: Array<TaskModel>, curr: TaskModel) => {
             if (curr.category === elm) {
@@ -115,7 +116,10 @@ export default new Vuex.Store({
           },
           []
         );
-        return list;
+        const sortByDueDate = list.sort((a,b) => {
+          return a.dueDate.getTime() - b.dueDate.getTime()
+        })
+        return sortByDueDate;
       }
     },
     

@@ -21,7 +21,7 @@
       <div class="task-category" :style="color">
         {{ task.category }}
       </div>
-      <div class="task-due-date">
+      <div :class="isDue" class="task-due-date">
         {{ dueDate }}
       </div>
     </div>
@@ -31,6 +31,7 @@
 <script lang="ts">
   import Vue from "vue";
   import { mapState } from "vuex";
+  import moment from "moment";
   import { dateFormater } from "@/components/helpers/date-formarter";
   import TaskModel from "@/models/TaskModel";
 
@@ -48,6 +49,15 @@
     computed: {
       dueDate(): string {
         return dateFormater(this.task.dueDate, "US")!;
+      },
+      isDue(): string {
+        if (this.task.category === "Done") {
+          return "text-dark-900";
+        }
+        const today = new Date();
+        return moment(today).isSameOrAfter(this.task.dueDate, "day")
+          ? "text-red-500"
+          : "text-dark-900";
       },
       color(): string {
         return "background-color:" + this.task.color;
@@ -110,7 +120,7 @@
       @apply hidden;
     }
     .task-due-date {
-      @apply justify-center text-dark-900;
+      @apply justify-center;
     }
     .task-close {
       @apply text-right mr-8 text-gray-600;
@@ -130,7 +140,7 @@
       @apply justify-self-start text-left;
     }
     .task-status {
-      @apply w-1/2;
+      @apply w-1/3;
     }
     .task-labels > div:not(.task-date-label) {
       @apply block;

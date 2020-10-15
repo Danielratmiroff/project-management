@@ -8,9 +8,9 @@ export default class TaskModel {
     public kind: string = "Task",
     public content: string = "",
     public priority: string | null = "Normal",
-    public date: Date | string = new Date(),
-    public dueDate: Date | string = new Date(),
-    public color: string = '#2dc9e2'
+    public date: Date = new Date(),
+    public dueDate: Date = new Date(),
+    public color: string = '#72a0f9'
   ) {
     this.id = id;
     this.name = name;

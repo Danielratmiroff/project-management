@@ -75,8 +75,11 @@
           />
         </div>
 
-        <div class="dates-container">
-          <div>
+        <div
+          class="dates-container"
+          :class="isTask() ? 'grid-cols-1' : 'grid-cols-2'"
+        >
+          <div v-if="!isTask()">
             <label
               ><i class="fas fa-calendar-plus label-icon"></i> Starts</label
             >
@@ -223,7 +226,7 @@
       },
       colorizeByCategory(category: string): string {
         if (category === this.categories[0]) {
-          return "#72a0f9";
+          return "#2dc9e2";
         } else if (category === this.categories[1]) {
           return "#d6be28";
         } else if (category === this.categories[2]) {
@@ -277,7 +280,7 @@
       @apply text-sm mr-2 text-gray-500;
     }
     .dates-container {
-      @apply grid grid-cols-2 col-gap-8 mt-6;
+      @apply grid col-gap-8 mt-6;
     }
     .top-container {
       @apply grid col-gap-8 row-gap-6;

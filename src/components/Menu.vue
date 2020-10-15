@@ -1,6 +1,7 @@
 <template>
   <div class="menu-bar">
     <img src="../assets/logo.svg" class="mx-auto" width="32" height="32" />
+    <!-- refactor this to not repeat -->
     <router-link
       content="Tasks"
       v-tippy="{ placement: 'right', arrow: true }"
