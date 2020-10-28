@@ -1,10 +1,11 @@
 import { uuid } from "vue-uuid";
+import store from '../store'
 
 export default class TaskModel {
   constructor(
     readonly id: string = uuid.v4(),
     public name: string = "",
-    public category: string = "Ideas",
+    public category: string = store.state.categories[0],
     public kind: string = "Task",
     public content: string = "",
     public priority: string | null = "Normal",

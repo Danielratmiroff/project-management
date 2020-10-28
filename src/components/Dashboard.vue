@@ -201,7 +201,7 @@
         ) => {
           // Remove big listeners
           document.removeEventListener("mousemove", onMouseMove);
-          window.removeEventListener("mouseout", mouseLeaveScreen);
+          document.removeEventListener("mouseleave", mouseLeaveScreen);
           // Reset document to previous state
           node.onmouseup = null;
           node.classList.remove("dragActive");
@@ -215,8 +215,8 @@
           resetState(elNode, elParent, clone);
         };
 
-        //Listen if mouse leaves the window
-        window.addEventListener("mouseout", mouseLeaveScreen);
+        //Listen if mouse leaves the document
+        document.addEventListener("mouseleave", mouseLeaveScreen);
 
         // Finalise event and remove listeners
         elNode.onmouseup = () => {
