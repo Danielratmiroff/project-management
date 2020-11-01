@@ -51,6 +51,7 @@
     },
     methods: {
       taskHandler(item?: TaskModel) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
         if (item) {
           // if we receive a parameter when calling this function, we are editing an existing task.
           this.task = { ...item };
@@ -59,6 +60,7 @@
           this.task = new TaskModel();
           this.isEditMode = false;
         }
+        console.log("a");
         this.taskModalHandler();
       },
       taskModalHandler() {
