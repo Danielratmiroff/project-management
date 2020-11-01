@@ -204,9 +204,13 @@
           document.removeEventListener("mouseleave", mouseLeaveScreen);
           // Reset document to previous state
           node.onmouseup = null;
-          node.classList.remove("dragActive");
-          parent.removeChild(clone);
-          parent.append(node);
+          if (node.classList.contains("dragActive")) {
+            node.classList.remove("dragActive");
+          }
+          if (parent.contains(clone)) {
+            parent.removeChild(clone);
+            parent.append(node);
+          }
           this.isDragging = false;
         };
 
@@ -225,6 +229,7 @@
           if (!this.isDragging) {
             // If its single click, open edit mode
             this.taskEdit(taskInstance);
+            resetState(elNode, elParent, clone);
             return;
           } else if (dropZone) {
             // If dragging & dropzone, append node and update category
