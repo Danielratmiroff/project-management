@@ -145,7 +145,7 @@
     grid-auto-rows: initial;
     grid-auto-columns: initial;
     width: 100vw;
-    height: 100%;
+    height: 100vh;
     overflow-x: hidden;
   }
   .screen-container {
