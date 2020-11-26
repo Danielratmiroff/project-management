@@ -49,6 +49,7 @@
       @apply px-2 shadow-lg grid py-2;
       grid-template-columns: 55px repeat(3, 1fr);
       grid-column: 1/12;
+      max-height: 56px;
     }
     .menu-btn {
       @apply p-2 w-1/2 place-self-center rounded-md text-center;
@@ -67,6 +68,7 @@
     .menu-bar {
       @apply flex flex-col pb-0 justify-start;
       grid-column: 1;
+      max-height: auto;
     }
     .menu-btn {
       @apply mt-6 w-full;
