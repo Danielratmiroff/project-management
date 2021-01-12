@@ -9,9 +9,5 @@ keep track of my classes and schedule meetings, all in the same place. 🧑‍�
 
 ### Link
 
-```
 [Project Management Application](https://danielratmiroff.github.io/project-management/) 
-
-![Alt text](./controllers_brief.svg)
-<img src="./controllers_brief.svg">
-```
+![alt text](https://q-static.ninox.com/images/redesign-2020/icon-link.svg "Project Manager")
