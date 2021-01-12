@@ -11,5 +11,5 @@ keep track of my classes and schedule meetings, all in the same place. 🧑‍�
 
 ```
 [Project Management Application](https://danielratmiroff.github.io/project-management/) 
-![alt text](https://q-static.ninox.com/images/redesign-2020/icon-link.svg "Project Manager)
+![alt text](https://q-static.ninox.com/images/redesign-2020/icon-link.svg "Project Manager")
 ```
