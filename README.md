@@ -1,29 +1,13 @@
-# Project Manage
+# Project Manager
 
-## Project setup
-
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
+## About
 
 ```
-npm run serve
+I created this application to help me keep all my study materials, classes & notes organised in one place. 🧑‍🏫
 ```
 
-### Compiles and minifies for production
+### Link
 
 ```
-npm run build
+https://danielratmiroff.github.io/project-management/
 ```
-
-### Lints and fixes files
-
-```
-npm run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
