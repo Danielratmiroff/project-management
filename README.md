@@ -3,7 +3,7 @@
 ## About
 
 I created this application because I needed a place were I can work on my university projects,<br />
-keep track of my classes and schedule meetings, <br />all in the same place. 🧑‍🏫
+keep track of my classes and schedule meetings. 🧑‍🏫 <br />All in the same place. 
 
 ### Link
 
