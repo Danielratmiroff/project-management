@@ -46,7 +46,7 @@
 <style lang="css" scoped>
   @layer components {
     .menu-bar {
-      @apply px-2 shadow-lg grid py-2;
+      @apply px-2 grid py-2;
       grid-template-columns: 55px repeat(3, 1fr);
       grid-column: 1/12;
       max-height: 56px;
