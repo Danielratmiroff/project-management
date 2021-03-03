@@ -109,7 +109,7 @@ export default new Vuex.Store({
         const list = state.tasks.reduce(
           (acc: Array<TaskModel>, curr: TaskModel) => {
             if (curr.category === elm) {
-              // push to array if task's category matches current category beeing iterated on
+              // push to array if task's category matches current category being iterated on
               acc.push(curr);
             }
             return acc;
