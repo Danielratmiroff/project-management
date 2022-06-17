@@ -1,6 +1,5 @@
 # Project Manager
 
-
 I created this application in a time when I needed a single app where I was able keep track of my university classes and personal projects as well,
 
 I wanted to ideally know the state of different projects,
@@ -25,14 +24,20 @@ It needed to have a nice UI, since I wanted to have a pleasent experience while 
 
 ### UI Design:
 
-![Dashboard](https://raw.githubusercontent.com/Danielratmiroff/myblog/master/images/projectmanager/dashboard.jpg)
+![Dashboard](https://raw.githubusercontent.com/Danielratmiroff/myblog/master/images/projectmanager/dashboard.jpg)\
 
-![Documents](https://raw.githubusercontent.com/Danielratmiroff/myblog/master/images/projectmanager/documents.jpg)
+---
 
-![Documents](https://raw.githubusercontent.com/Danielratmiroff/myblog/master/images/projectmanager/documents.jpg)
+![Documents](https://raw.githubusercontent.com/Danielratmiroff/myblog/master/images/projectmanager/documents.jpg)\
 
-![Calendar](https://raw.githubusercontent.com/Danielratmiroff/myblog/master/images/projectmanager/calendar.jpg)
+---
 
-![New task](https://raw.githubusercontent.com/Danielratmiroff/myblog/master/images/projectmanager/newtask.jpg)
+![Calendar](https://raw.githubusercontent.com/Danielratmiroff/myblog/master/images/projectmanager/calendar.jpg)\
 
-![New meeting](https://raw.githubusercontent.com/Danielratmiroff/myblog/master/images/projectmanager/newmeeting.jpg)
+---
+
+![New task](https://raw.githubusercontent.com/Danielratmiroff/myblog/master/images/projectmanager/newtask.jpg)\
+
+---
+
+![New meeting](https://raw.githubusercontent.com/Danielratmiroff/myblog/master/images/projectmanager/newmeeting.jpg)\
